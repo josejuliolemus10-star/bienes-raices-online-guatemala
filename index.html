@@ -847,113 +847,115 @@
         <!-- Carousel Container -->
         <div class="relative bg-surface-container-lowest rounded-3xl border border-surface-container-high p-8 lg:p-12 shadow-sm overflow-hidden" onmouseenter="pauseReviewAuto()" onmouseleave="resumeReviewAuto()">
           
-          <!-- Slider Track -->
-          <div id="reviews-slider" class="relative min-h-[220px] flex items-center">
-            
-            <!-- Slide 1 -->
-            <div class="review-slide absolute inset-0 opacity-100 flex flex-col justify-between transition-opacity duration-500">
-              <div class="mb-6">
-                <div class="flex items-center gap-1 text-amber-500 mb-3">
-                  <span class="material-symbols-outlined text-[18px]">star</span>
-                  <span class="material-symbols-outlined text-[18px]">star</span>
-                  <span class="material-symbols-outlined text-[18px]">star</span>
-                  <span class="material-symbols-outlined text-[18px]">star</span>
-                  <span class="material-symbols-outlined text-[18px]">star</span>
-                  <span class="text-xs text-outline font-semibold ml-2">Hace 2 semanas · Google Maps</span>
+          <!-- Slider Track (Horizontal Flex) -->
+          <div class="overflow-hidden w-full">
+            <div id="reviews-track" class="flex transition-transform duration-500 ease-out" style="transform: translateX(0%);">
+              
+              <!-- Slide 1 -->
+              <div class="w-full flex-shrink-0 flex flex-col justify-between pr-4 sm:pr-8">
+                <div class="mb-6">
+                  <div class="flex items-center gap-1 text-amber-500 mb-3">
+                    <span class="material-symbols-outlined text-[18px]">star</span>
+                    <span class="material-symbols-outlined text-[18px]">star</span>
+                    <span class="material-symbols-outlined text-[18px]">star</span>
+                    <span class="material-symbols-outlined text-[18px]">star</span>
+                    <span class="material-symbols-outlined text-[18px]">star</span>
+                    <span class="text-xs text-outline font-semibold ml-2">Hace 2 semanas · Google Maps</span>
+                  </div>
+                  <blockquote class="text-headline-sm lg:text-xl font-medium text-primary leading-snug">
+                    “Excelente gestión y total transparencia. Compré mi casa en Condominio Difiori y todo el proceso de escrituración en el Segundo Registro de la Propiedad fue impecable. La claridad en los precios y medidas me dio total tranquilidad.”
+                  </blockquote>
                 </div>
-                <blockquote class="text-headline-sm lg:text-xl font-medium text-primary leading-snug">
-                  “Excelente gestión y total transparencia. Compré mi casa en Condominio Difiori y todo el proceso de escrituración en el Segundo Registro de la Propiedad fue impecable. La claridad en los precios y medidas me dio total tranquilidad.”
-                </blockquote>
+                <div class="flex items-center gap-3">
+                  <div class="w-10 h-10 rounded-full bg-primary text-on-primary font-bold flex items-center justify-center text-sm shadow-sm">
+                    CM
+                  </div>
+                  <div>
+                    <h4 class="text-sm font-bold text-primary">Ing. Carlos E. Morales</h4>
+                    <p class="text-xs text-outline">Comprador Residencial · Quetzaltenango</p>
+                  </div>
+                </div>
               </div>
-              <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-full bg-primary text-on-primary font-bold flex items-center justify-center text-sm">
-                  CM
-                </div>
-                <div>
-                  <h4 class="text-sm font-bold text-primary">Ing. Carlos E. Morales</h4>
-                  <p class="text-xs text-outline">Comprador Residencial · Quetzaltenango</p>
-                </div>
-              </div>
-            </div>
 
-            <!-- Slide 2 -->
-            <div class="review-slide absolute inset-0 opacity-0 pointer-events-none flex flex-col justify-between transition-opacity duration-500">
-              <div class="mb-6">
-                <div class="flex items-center gap-1 text-amber-500 mb-3">
-                  <span class="material-symbols-outlined text-[18px]">star</span>
-                  <span class="material-symbols-outlined text-[18px]">star</span>
-                  <span class="material-symbols-outlined text-[18px]">star</span>
-                  <span class="material-symbols-outlined text-[18px]">star</span>
-                  <span class="material-symbols-outlined text-[18px]">star</span>
-                  <span class="text-xs text-outline font-semibold ml-2">Hace 1 mes · Google Maps</span>
+              <!-- Slide 2 -->
+              <div class="w-full flex-shrink-0 flex flex-col justify-between pr-4 sm:pr-8">
+                <div class="mb-6">
+                  <div class="flex items-center gap-1 text-amber-500 mb-3">
+                    <span class="material-symbols-outlined text-[18px]">star</span>
+                    <span class="material-symbols-outlined text-[18px]">star</span>
+                    <span class="material-symbols-outlined text-[18px]">star</span>
+                    <span class="material-symbols-outlined text-[18px]">star</span>
+                    <span class="material-symbols-outlined text-[18px]">star</span>
+                    <span class="text-xs text-outline font-semibold ml-2">Hace 1 mes · Google Maps</span>
+                  </div>
+                  <blockquote class="text-headline-sm lg:text-xl font-medium text-primary leading-snug">
+                    “Nos asesoraron de principio a fin para la adquisición de nuestra propiedad en Retalhuleu. La gestión del crédito bancario con Banco Industrial fue rapidísima y nos explicaron cada paso con honestidad. Muy recomendados.”
+                  </blockquote>
                 </div>
-                <blockquote class="text-headline-sm lg:text-xl font-medium text-primary leading-snug">
-                  “Nos asesoraron de principio a fin para la adquisición de nuestra propiedad en Retalhuleu. La gestión del crédito bancario con Banco Industrial fue rapidísima y nos explicaron cada paso con honestidad. Muy recomendados.”
-                </blockquote>
+                <div class="flex items-center gap-3">
+                  <div class="w-10 h-10 rounded-full bg-neutral-800 text-white font-bold flex items-center justify-center text-sm shadow-sm">
+                    SM
+                  </div>
+                  <div>
+                    <h4 class="text-sm font-bold text-primary">Dra. Sofía Maldonado</h4>
+                    <p class="text-xs text-outline">Inversionista en Retalhuleu</p>
+                  </div>
+                </div>
               </div>
-              <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-full bg-emerald-700 text-white font-bold flex items-center justify-center text-sm">
-                  SM
-                </div>
-                <div>
-                  <h4 class="text-sm font-bold text-primary">Dra. Sofía Maldonado</h4>
-                  <p class="text-xs text-outline">Inversionista en Retalhuleu</p>
-                </div>
-              </div>
-            </div>
 
-            <!-- Slide 3 -->
-            <div class="review-slide absolute inset-0 opacity-0 pointer-events-none flex flex-col justify-between transition-opacity duration-500">
-              <div class="mb-6">
-                <div class="flex items-center gap-1 text-amber-500 mb-3">
-                  <span class="material-symbols-outlined text-[18px]">star</span>
-                  <span class="material-symbols-outlined text-[18px]">star</span>
-                  <span class="material-symbols-outlined text-[18px]">star</span>
-                  <span class="material-symbols-outlined text-[18px]">star</span>
-                  <span class="material-symbols-outlined text-[18px]">star</span>
-                  <span class="text-xs text-outline font-semibold ml-2">Hace 3 semanas · Google Maps</span>
+              <!-- Slide 3 -->
+              <div class="w-full flex-shrink-0 flex flex-col justify-between pr-4 sm:pr-8">
+                <div class="mb-6">
+                  <div class="flex items-center gap-1 text-amber-500 mb-3">
+                    <span class="material-symbols-outlined text-[18px]">star</span>
+                    <span class="material-symbols-outlined text-[18px]">star</span>
+                    <span class="material-symbols-outlined text-[18px]">star</span>
+                    <span class="material-symbols-outlined text-[18px]">star</span>
+                    <span class="material-symbols-outlined text-[18px]">star</span>
+                    <span class="text-xs text-outline font-semibold ml-2">Hace 3 semanas · Google Maps</span>
+                  </div>
+                  <blockquote class="text-headline-sm lg:text-xl font-medium text-primary leading-snug">
+                    “Bienes Raíces Online es la referencia seria en Occidente. El conocimiento de las zonas con mayor proyección en Xela como Las Américas y Zona 8 te permite invertir con datos y plusvalía real comprobada.”
+                  </blockquote>
                 </div>
-                <blockquote class="text-headline-sm lg:text-xl font-medium text-primary leading-snug">
-                  “Bienes Raíces Online es la referencia seria en Occidente. El conocimiento de las zonas con mayor proyección en Xela como Las Américas y Zona 8 te permite invertir con datos y plusvalía real.”
-                </blockquote>
+                <div class="flex items-center gap-3">
+                  <div class="w-10 h-10 rounded-full bg-neutral-800 text-white font-bold flex items-center justify-center text-sm shadow-sm">
+                    FC
+                  </div>
+                  <div>
+                    <h4 class="text-sm font-bold text-primary">Lic. Fernando Cifuentes</h4>
+                    <p class="text-xs text-outline">Desarrollo Comercial · Zona 9 Xela</p>
+                  </div>
+                </div>
               </div>
-              <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-full bg-neutral-800 text-white font-bold flex items-center justify-center text-sm">
-                  FC
-                </div>
-                <div>
-                  <h4 class="text-sm font-bold text-primary">Lic. Fernando Cifuentes</h4>
-                  <p class="text-xs text-outline">Desarrollo Comercial · Zona 9 Xela</p>
-                </div>
-              </div>
-            </div>
 
-            <!-- Slide 4 -->
-            <div class="review-slide absolute inset-0 opacity-0 pointer-events-none flex flex-col justify-between transition-opacity duration-500">
-              <div class="mb-6">
-                <div class="flex items-center gap-1 text-amber-500 mb-3">
-                  <span class="material-symbols-outlined text-[18px]">star</span>
-                  <span class="material-symbols-outlined text-[18px]">star</span>
-                  <span class="material-symbols-outlined text-[18px]">star</span>
-                  <span class="material-symbols-outlined text-[18px]">star</span>
-                  <span class="material-symbols-outlined text-[18px]">star</span>
-                  <span class="text-xs text-outline font-semibold ml-2">Hace 1 mes · Google Maps</span>
+              <!-- Slide 4 -->
+              <div class="w-full flex-shrink-0 flex flex-col justify-between pr-4 sm:pr-8">
+                <div class="mb-6">
+                  <div class="flex items-center gap-1 text-amber-500 mb-3">
+                    <span class="material-symbols-outlined text-[18px]">star</span>
+                    <span class="material-symbols-outlined text-[18px]">star</span>
+                    <span class="material-symbols-outlined text-[18px]">star</span>
+                    <span class="material-symbols-outlined text-[18px]">star</span>
+                    <span class="material-symbols-outlined text-[18px]">star</span>
+                    <span class="text-xs text-outline font-semibold ml-2">Hace 1 mes · Google Maps</span>
+                  </div>
+                  <blockquote class="text-headline-sm lg:text-xl font-medium text-primary leading-snug">
+                    “Encontramos nuestro apartamento en Zona 2 en cuestión de días. La atención por WhatsApp fue inmediata y nos acompañaron a visitar la propiedad con puntualidad. Excelente servicio profesional.”
+                  </blockquote>
                 </div>
-                <blockquote class="text-headline-sm lg:text-xl font-medium text-primary leading-snug">
-                  “Encontramos nuestro apartamento en Zona 2 en cuestión de días. La atención por WhatsApp fue inmediata y nos acompañaron a visitar la propiedad con puntualidad. Excelente servicio profesional.”
-                </blockquote>
+                <div class="flex items-center gap-3">
+                  <div class="w-10 h-10 rounded-full bg-neutral-800 text-white font-bold flex items-center justify-center text-sm shadow-sm">
+                    AG
+                  </div>
+                  <div>
+                    <h4 class="text-sm font-bold text-primary">Familia Arrivillaga Gómez</h4>
+                    <p class="text-xs text-outline">Residencial Zona 2 · Quetzaltenango</p>
+                  </div>
+                </div>
               </div>
-              <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-full bg-slate-700 text-white font-bold flex items-center justify-center text-sm">
-                  AG
-                </div>
-                <div>
-                  <h4 class="text-sm font-bold text-primary">Familia Arrivillaga Gómez</h4>
-                  <p class="text-xs text-outline">Residencial Zona 2 · Quetzaltenango</p>
-                </div>
-              </div>
-            </div>
 
+            </div>
           </div>
 
           <!-- Carousel Controls -->
@@ -969,10 +971,10 @@
 
             <!-- Dots Indicator -->
             <div class="flex items-center gap-2">
-              <button onclick="goToReview(0)" class="review-dot w-2.5 h-2.5 rounded-full bg-primary transition-all duration-300" aria-label="Ir a opinión 1"></button>
-              <button onclick="goToReview(1)" class="review-dot w-2.5 h-2.5 rounded-full bg-surface-container-highest transition-all duration-300" aria-label="Ir a opinión 2"></button>
-              <button onclick="goToReview(2)" class="review-dot w-2.5 h-2.5 rounded-full bg-surface-container-highest transition-all duration-300" aria-label="Ir a opinión 3"></button>
-              <button onclick="goToReview(3)" class="review-dot w-2.5 h-2.5 rounded-full bg-surface-container-highest transition-all duration-300" aria-label="Ir a opinión 4"></button>
+              <button onclick="goToReview(0)" class="review-dot w-6 h-2.5 rounded-full bg-primary transition-all duration-300" aria-label="Ir a opinión 1"></button>
+              <button onclick="goToReview(1)" class="review-dot w-2.5 h-2.5 rounded-full bg-surface-container-highest hover:bg-neutral-400 transition-all duration-300" aria-label="Ir a opinión 2"></button>
+              <button onclick="goToReview(2)" class="review-dot w-2.5 h-2.5 rounded-full bg-surface-container-highest hover:bg-neutral-400 transition-all duration-300" aria-label="Ir a opinión 3"></button>
+              <button onclick="goToReview(3)" class="review-dot w-2.5 h-2.5 rounded-full bg-surface-container-highest hover:bg-neutral-400 transition-all duration-300" aria-label="Ir a opinión 4"></button>
             </div>
           </div>
 
@@ -1954,38 +1956,27 @@
       if (e.key === 'Escape') closePropertyModal();
     });
 
-    // CARRUSEL DE CLIENTES / RESEÑAS GOOGLE MAPS
+    // CARRUSEL DE CLIENTES / RESEÑAS GOOGLE MAPS (Horizontal Flex Slide - Zero Overlap)
     let currentReviewIndex = 0;
-    const reviewSlides = document.querySelectorAll('.review-slide');
-    const reviewDots = document.querySelectorAll('.review-dot');
+    const totalReviews = 4;
     let reviewTimer = null;
 
     function showReview(index) {
-      if (index < 0) index = reviewSlides.length - 1;
-      if (index >= reviewSlides.length) index = 0;
+      if (index < 0) index = totalReviews - 1;
+      if (index >= totalReviews) index = 0;
       currentReviewIndex = index;
 
-      reviewSlides.forEach((slide, idx) => {
-        if (idx === index) {
-          slide.classList.remove('opacity-0', 'pointer-events-none');
-          slide.classList.add('opacity-100');
-          if (typeof gsap !== 'undefined') {
-            gsap.fromTo(slide, 
-              { opacity: 0, x: 20 }, 
-              { opacity: 1, x: 0, duration: 0.45, ease: "power2.out" }
-            );
-          }
-        } else {
-          slide.classList.remove('opacity-100');
-          slide.classList.add('opacity-0', 'pointer-events-none');
-        }
-      });
+      const track = document.getElementById('reviews-track');
+      if (track) {
+        track.style.transform = `translateX(-${index * 100}%)`;
+      }
 
+      const reviewDots = document.querySelectorAll('.review-dot');
       reviewDots.forEach((dot, idx) => {
         if (idx === index) {
           dot.className = "review-dot w-6 h-2.5 rounded-full bg-primary transition-all duration-300";
         } else {
-          dot.className = "review-dot w-2.5 h-2.5 rounded-full bg-surface-container-highest transition-all duration-300";
+          dot.className = "review-dot w-2.5 h-2.5 rounded-full bg-surface-container-highest hover:bg-neutral-400 transition-all duration-300";
         }
       });
     }
@@ -2001,7 +1992,8 @@
     }
 
     function startReviewAuto() {
-      reviewTimer = setInterval(nextReview, 5500);
+      if (reviewTimer) clearInterval(reviewTimer);
+      reviewTimer = setInterval(nextReview, 5000);
     }
     function pauseReviewAuto() {
       if (reviewTimer) clearInterval(reviewTimer);
