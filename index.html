@@ -279,7 +279,7 @@
           <div class="lg:col-span-8 overflow-hidden rounded-2xl border border-surface-container-high bg-surface-container-lowest relative group aspect-[16/9] shadow-sm cursor-pointer" onclick="openPropertyModal(2)">
             <img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="Residencia Valle Real Quetzaltenango" decoding="async" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDX9ICFKIZhMbWGoxYCgvhJjABKnkN1h3mwz7WeNfZCJEDkvVALA4pfES2y_O4GBMvXSe8d6D2GeGWW1TMKh_QEnD-cu33XhnFkxBKEIBqUILmEtGxrlMvNjTSv_8vOUTuSlu_Pljbk_7tgDVp-v4Qk4YJrbR-XvAyXSGJPWT2sQNxlYwJNevUA3PW414-hlWbwLbBRq1u65yZOg2c7Jb3xwJ8IQ5CCvB5z72IPkRzl">
             <div class="absolute bottom-6 left-6 right-6 sm:right-auto bg-surface-container-lowest px-5 py-3.5 rounded-xl border border-outline-variant/50 max-w-sm shadow-md">
-              <span class="text-[11px] font-semibold text-emerald-700 uppercase tracking-wider block">Proyecto Destacado</span>
+              <span class="text-[11px] font-semibold text-outline uppercase tracking-wider block">Proyecto Destacado</span>
               <h2 class="text-headline-sm font-headline-sm font-bold text-primary">Residencia Valle Real</h2>
               <p class="text-body-sm text-on-surface-variant mt-0.5">Zona 9 Quetzaltenango · 340 m² · Q 2,450,000</p>
               <span class="text-xs text-primary font-bold inline-flex items-center gap-1 mt-2 group-hover:underline">
@@ -469,7 +469,7 @@
                   <span class="text-[11px] text-outline uppercase block font-medium">Precio</span>
                   <div class="flex items-baseline gap-1.5">
                     <span id="map-card-price" class="text-headline-sm font-headline-sm font-bold text-primary">Q 1,850,000</span>
-                    <span id="map-card-usd" class="text-xs font-semibold text-emerald-600">(~$238K)</span>
+                    <span id="map-card-usd" class="text-xs font-semibold text-outline">(~$238K)</span>
                   </div>
                 </div>
                 <button id="map-card-btn" onclick="openPropertyModal(currentActivePropertyId)" class="btn-luxury bg-primary text-on-primary px-3.5 py-2 rounded-full text-xs font-semibold shadow-sm">
@@ -523,93 +523,134 @@
       </div>
     </section>
 
-    <!-- NOSOTROS / SERVICIOS ESPECIALIZADOS SECTION (Based on User's 4th Image) -->
+    <!-- SECCIÓN NOSOTROS (Cuadros Horizontales, Estilo Fiel a la Página, Sin Verde) -->
     <section class="py-20 lg:py-28 bg-surface border-b border-surface-container-high" id="nosotros">
       <div class="max-w-7xl mx-auto px-6 lg:px-12">
-        <div class="flex flex-col lg:flex-row lg:items-end justify-between mb-16 gap-6">
+        
+        <!-- Header de Sección -->
+        <div class="flex flex-col lg:flex-row lg:items-end justify-between mb-14 gap-6">
           <div class="max-w-2xl">
-            <span class="text-label-eyebrow font-label-eyebrow text-emerald-700 font-bold uppercase tracking-wider block mb-2">SERVICIOS ESPECIALIZADOS</span>
+            <span class="text-label-eyebrow font-label-eyebrow text-outline uppercase tracking-wider block mb-2">NUESTRA FIRMA INMOBILIARIA</span>
             <h2 class="text-headline-lg-mobile lg:text-headline-lg font-headline-lg text-primary tracking-tight">
-              Consultoría &amp; Gestión Patrimonial
+              Quiénes Somos &amp; Por Qué Elegirnos
             </h2>
           </div>
           <p class="text-body-md font-body-md text-on-surface-variant max-w-md lg:text-right">
-            Atención a la medida para adquisiciones estratégicas, arrendamientos corporativos y peritaje inmobiliario con certeza notarial en el Suroccidente guatemalteco.
+            Más de 15 años conectando a familias e inversionistas con las mejores residencias, apartamentos y terrenos de alta plusvalía en Quetzaltenango y Retalhuleu.
           </p>
         </div>
 
-        <!-- 3 Editorial Cards Grid (Exact Style from Image 4) -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Stack de Cuadros Horizontales -->
+        <div class="flex flex-col gap-8 max-w-5xl mx-auto">
           
-          <!-- Card 01: Adquisiciones -->
-          <div class="group relative rounded-3xl overflow-hidden min-h-[460px] flex flex-col justify-between p-8 border border-surface-container-high shadow-md transition-all duration-500 hover:-translate-y-2 hover:shadow-xl">
-            <img class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="Adquisiciones Inmobiliarias" loading="lazy" decoding="async" src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1000&q=80">
-            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/55 to-black/30"></div>
-            
-            <div class="relative z-10 flex items-start justify-between">
-              <span class="text-5xl lg:text-6xl font-light text-white/90 tracking-tighter">01</span>
-              <a href="#propiedades" class="w-12 h-12 rounded-full bg-white/20 hover:bg-white text-white hover:text-black backdrop-blur-md flex items-center justify-center transition-all duration-300 group-hover:rotate-45">
-                <span class="material-symbols-outlined text-[20px]">arrow_outward</span>
-              </a>
+          <!-- Cuadro Horizontal 1: Trayectoria y Liderazgo -->
+          <div class="grid grid-cols-1 md:grid-cols-12 rounded-3xl overflow-hidden bg-surface-container-lowest border border-surface-container-high shadow-sm hover:shadow-md transition-shadow group">
+            <div class="md:col-span-5 h-64 md:h-auto min-h-[260px] relative overflow-hidden bg-surface-container">
+              <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80" alt="Residencia en Quetzaltenango" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" decoding="async">
+              <span class="absolute top-4 left-4 bg-primary text-on-primary text-[11px] font-semibold tracking-wider uppercase px-3 py-1 rounded-full shadow">
+                01 · Trayectoria
+              </span>
             </div>
+            <div class="md:col-span-7 p-6 sm:p-8 lg:p-10 flex flex-col justify-between">
+              <div>
+                <span class="text-label-eyebrow font-label-eyebrow text-outline uppercase tracking-wider block mb-2">EXPERIENCIA COMPROBADA EN OCCIDENTE</span>
+                <h3 class="text-headline-sm font-headline-sm font-bold text-primary mb-3">Liderazgo y Asesoría Inmobiliaria Regional</h3>
+                <p class="text-body-sm font-body-sm text-on-surface-variant leading-relaxed mb-6">
+                  Somos la firma de intermediación con mayor arraigo en Quetzaltenango y la Costa Sur. Asesoramos en la adquisición estratégica de residencias familiares, lotes urbanizados y quintas campestres con análisis real de plusvalía y retorno de inversión.
+                </p>
+                
+                <div class="grid grid-cols-2 gap-3 mb-6">
+                  <div class="p-3 rounded-xl bg-surface-container-low border border-surface-container">
+                    <span class="text-xs text-outline block">Transacciones</span>
+                    <span class="text-base font-bold text-primary">+4,500 Familias</span>
+                  </div>
+                  <div class="p-3 rounded-xl bg-surface-container-low border border-surface-container">
+                    <span class="text-xs text-outline block">Presencia Local</span>
+                    <span class="text-base font-bold text-primary">15+ Años en Xela</span>
+                  </div>
+                </div>
+              </div>
 
-            <div class="relative z-10">
-              <span class="text-[11px] font-bold text-emerald-400 uppercase tracking-widest block mb-2">INVERSIÓN RESIDENCIAL &amp; COMERCIAL</span>
-              <h3 class="text-2xl font-bold text-white mb-3 tracking-tight">Adquisiciones</h3>
-              <p class="text-white/80 text-sm leading-relaxed mb-6 font-light">
-                Acceso prioritario a propiedades exclusivas y residencias off-market en las zonas de mayor plusvalía de Quetzaltenango y Retalhuleu, con acompañamiento legal y financiero blindado.
-              </p>
-              <a href="#propiedades" class="inline-flex items-center gap-1.5 text-xs font-bold text-white uppercase tracking-wider group-hover:text-emerald-400 transition-colors">
-                Explorar Propiedades <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
-              </a>
-            </div>
-          </div>
-
-          <!-- Card 02: Rentas Exclusivas -->
-          <div class="group relative rounded-3xl overflow-hidden min-h-[460px] flex flex-col justify-between p-8 border border-surface-container-high shadow-md transition-all duration-500 hover:-translate-y-2 hover:shadow-xl">
-            <img class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="Rentas Exclusivas" loading="lazy" decoding="async" src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1000&q=80">
-            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/55 to-black/30"></div>
-            
-            <div class="relative z-10 flex items-start justify-between">
-              <span class="text-5xl lg:text-6xl font-light text-white/90 tracking-tighter">02</span>
-              <a href="#propiedades" onclick="setTabFilter('Renta')" class="w-12 h-12 rounded-full bg-white/20 hover:bg-white text-white hover:text-black backdrop-blur-md flex items-center justify-center transition-all duration-300 group-hover:rotate-45">
-                <span class="material-symbols-outlined text-[20px]">arrow_outward</span>
-              </a>
-            </div>
-
-            <div class="relative z-10">
-              <span class="text-[11px] font-bold text-emerald-400 uppercase tracking-widest block mb-2">ARRENDAMIENTO PRIME</span>
-              <h3 class="text-2xl font-bold text-white mb-3 tracking-tight">Rentas Exclusivas</h3>
-              <p class="text-white/80 text-sm leading-relaxed mb-6 font-light">
-                Penthouses ejecutivos, villas y residencias familiares para directivos, médicos especialistas, organismos internacionales y estancias corporativas de primer nivel en Occidente.
-              </p>
-              <a href="#propiedades" onclick="setTabFilter('Renta')" class="inline-flex items-center gap-1.5 text-xs font-bold text-white uppercase tracking-wider group-hover:text-emerald-400 transition-colors">
-                Ver Unidades en Renta <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
-              </a>
+              <div class="pt-4 border-t border-surface-container flex items-center justify-between">
+                <a href="#propiedades" class="btn-luxury inline-flex items-center gap-2 text-xs font-bold text-primary hover:underline">
+                  <span>Explorar Catálogo Disponible</span>
+                  <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+                </a>
+              </div>
             </div>
           </div>
 
-          <!-- Card 03: Valuación -->
-          <div class="group relative rounded-3xl overflow-hidden min-h-[460px] flex flex-col justify-between p-8 border border-surface-container-high shadow-md transition-all duration-500 hover:-translate-y-2 hover:shadow-xl">
-            <img class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="Valuación y Certeza Notarial" loading="lazy" decoding="async" src="https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=1000&q=80">
-            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/55 to-black/30"></div>
-            
-            <div class="relative z-10 flex items-start justify-between">
-              <span class="text-5xl lg:text-6xl font-light text-white/90 tracking-tighter">03</span>
-              <a href="https://wa.link/baubcc" target="_blank" class="w-12 h-12 rounded-full bg-white/20 hover:bg-white text-white hover:text-black backdrop-blur-md flex items-center justify-center transition-all duration-300 group-hover:rotate-45">
-                <span class="material-symbols-outlined text-[20px]">arrow_outward</span>
-              </a>
+          <!-- Cuadro Horizontal 2: Certeza Jurídica y Notarial -->
+          <div class="grid grid-cols-1 md:grid-cols-12 rounded-3xl overflow-hidden bg-surface-container-lowest border border-surface-container-high shadow-sm hover:shadow-md transition-shadow group">
+            <div class="md:col-span-5 h-64 md:h-auto min-h-[260px] relative overflow-hidden bg-surface-container">
+              <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=80" alt="Residencia Segura en Guatemala" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" decoding="async">
+              <span class="absolute top-4 left-4 bg-primary text-on-primary text-[11px] font-semibold tracking-wider uppercase px-3 py-1 rounded-full shadow">
+                02 · Certeza Notarial
+              </span>
             </div>
+            <div class="md:col-span-7 p-6 sm:p-8 lg:p-10 flex flex-col justify-between">
+              <div>
+                <span class="text-label-eyebrow font-label-eyebrow text-outline uppercase tracking-wider block mb-2">SEGURIDAD LEGAL GARANTIZADA</span>
+                <h3 class="text-headline-sm font-headline-sm font-bold text-primary mb-3">Blindaje y Validación en el Registro de la Propiedad</h3>
+                <p class="text-body-sm font-body-sm text-on-surface-variant leading-relaxed mb-6">
+                  Protegemos su patrimonio familiar auditando previamente cada título ante el Segundo Registro de la Propiedad en Quetzaltenango. Verificamos que los inmuebles estén libres de gravámenes, anotaciones de demanda o hipotecas ocultas antes de cualquier pago.
+                </p>
 
-            <div class="relative z-10">
-              <span class="text-[11px] font-bold text-emerald-400 uppercase tracking-widest block mb-2">PERITAJE &amp; CERTEZA NOTARIAL</span>
-              <h3 class="text-2xl font-bold text-white mb-3 tracking-tight">Valuación Certificada</h3>
-              <p class="text-white/80 text-sm leading-relaxed mb-6 font-light">
-                Dictámenes periciales técnicos para fijar el valor real de mercado con rigor metodológico, estudio de plusvalía y verificación registral inmediata ante el Segundo Registro de la Propiedad.
-              </p>
-              <a href="https://wa.link/baubcc" target="_blank" class="inline-flex items-center gap-1.5 text-xs font-bold text-white uppercase tracking-wider group-hover:text-emerald-400 transition-colors">
-                Solicitar Dictamen <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
-              </a>
+                <div class="space-y-2 mb-6 text-xs text-on-surface-variant">
+                  <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-[16px] text-primary">verified</span>
+                    <span>Revisión de tracto sucesivo y personería legal sin sorpresas</span>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-[16px] text-primary">description</span>
+                    <span>Acompañamiento presencial completo hasta la firma de escrituras</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="pt-4 border-t border-surface-container flex items-center justify-between">
+                <a href="https://wa.link/baubcc" target="_blank" class="btn-luxury inline-flex items-center gap-2 text-xs font-bold text-primary hover:underline">
+                  <span>Consultar con Asesor Notarial</span>
+                  <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Cuadro Horizontal 3: Alianzas Bancarias y Financiamiento -->
+          <div class="grid grid-cols-1 md:grid-cols-12 rounded-3xl overflow-hidden bg-surface-container-lowest border border-surface-container-high shadow-sm hover:shadow-md transition-shadow group">
+            <div class="md:col-span-5 h-64 md:h-auto min-h-[260px] relative overflow-hidden bg-surface-container">
+              <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80" alt="Residencia Campestre en Retalhuleu" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" decoding="async">
+              <span class="absolute top-4 left-4 bg-primary text-on-primary text-[11px] font-semibold tracking-wider uppercase px-3 py-1 rounded-full shadow">
+                03 · Banca
+              </span>
+            </div>
+            <div class="md:col-span-7 p-6 sm:p-8 lg:p-10 flex flex-col justify-between">
+              <div>
+                <span class="text-label-eyebrow font-label-eyebrow text-outline uppercase tracking-wider block mb-2">GESTIÓN HIPOTECARIA ÁGIL</span>
+                <h3 class="text-headline-sm font-headline-sm font-bold text-primary mb-3">Convenios con los Principales Bancos de Guatemala</h3>
+                <p class="text-body-sm font-body-sm text-on-surface-variant leading-relaxed mb-6">
+                  Facilitamos su trámite de crédito con el sistema bancario nacional (Banco Industrial, Banrural, G&amp;T Continental y BAC). Calculamos cuotas mensuales a su medida, optimizamos tasas de interés y gestionamos peritajes oficiales con rapidez.
+                </p>
+
+                <div class="space-y-2 mb-6 text-xs text-on-surface-variant">
+                  <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-[16px] text-primary">account_balance</span>
+                    <span>Alianzas activas: BI, Banrural, G&amp;T Continental y BAC</span>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-[16px] text-primary">percent</span>
+                    <span>Precalificación bancaria y cálculo de cuotas sin costo extra</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="pt-4 border-t border-surface-container flex items-center justify-between">
+                <a href="https://wa.link/baubcc" target="_blank" class="btn-luxury inline-flex items-center gap-2 text-xs font-bold text-primary hover:underline">
+                  <span>Solicitar Simulación de Crédito</span>
+                  <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+                </a>
+              </div>
             </div>
           </div>
 
@@ -644,7 +685,7 @@
               <div class="aspect-square rounded-xl overflow-hidden mb-4 bg-surface-container">
                 <img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" alt="Pablo Ramírez" loading="lazy" decoding="async" src="https://lh3.googleusercontent.com/aida-public/AB6AXuANMrtwtHc09a2pZFCNA2IIhTDxAjbPvq1kjQj1gs3OASFObfrl1oA9X8AnHpm-6BgkIPM3ZEKezHhUajuwMr5PplHuIQX0lrym3-BtSw47kAv5HWMFqvrPM3w4kR1na0WAOXGXjJPiYcxoOuxkG88oI3FjMkfXijLSbdjLy1ruOmgATPB1FFqNZKb7jzPdiaPmVRLb0T0COfwESYXwi2BL6hsNZQEvnaEU7ehD1-tp">
               </div>
-              <span class="text-[10px] font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full inline-block mb-1">Broker Titular</span>
+              <span class="text-[10px] font-bold uppercase tracking-wider text-primary bg-surface-container px-2.5 py-0.5 rounded-full inline-block mb-1">Broker Titular</span>
               <h3 class="text-lg font-bold text-primary">Pablo Ramírez</h3>
               <p class="text-xs text-outline mb-3">Especialista en Residencias &amp; Banca Xela</p>
               
@@ -677,7 +718,7 @@
               <div class="aspect-square rounded-xl overflow-hidden mb-4 bg-surface-container">
                 <img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" alt="Carmen López" loading="lazy" decoding="async" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBkuwv6WIAr4cI-kyWWNeMUK34Wu3u_o-FZfGmZSzwceXts-AsVDPG6x4Xim6VnZSJUh1uoVNmgS6Ol1J2aIRdoymEljiWciJPq62pfwvVLPTTSbHGdg7dK-J3qseY5Ho0Lo5A6rt3RqHCvqany1GjguFpYBZ4ElqL1upJcR2DaFeJNrFU3pUDuDxQ5d4AZeIRnYsmEGG4dw2aq4ZRppjmQC1yO-jR8G33ClOZnfyCG">
               </div>
-              <span class="text-[10px] font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full inline-block mb-1">Consultora Registral</span>
+              <span class="text-[10px] font-bold uppercase tracking-wider text-primary bg-surface-container px-2.5 py-0.5 rounded-full inline-block mb-1">Consultora Registral</span>
               <h3 class="text-lg font-bold text-primary">Carmen López</h3>
               <p class="text-xs text-outline mb-3">Valuaciones &amp; Certeza Notarial</p>
               
@@ -781,8 +822,8 @@
       <div class="max-w-7xl mx-auto px-6 lg:px-12">
         <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
           <div>
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 text-xs font-semibold mb-3">
-              <span class="material-symbols-outlined text-[16px] text-emerald-600">verified</span>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface-container text-primary text-xs font-semibold mb-3">
+              <span class="material-symbols-outlined text-[16px] text-primary">verified</span>
               <span>Reseñas Reales en Google Maps</span>
             </div>
             <h2 class="text-headline-lg-mobile lg:text-headline-lg font-headline-lg text-primary tracking-tight">
@@ -996,7 +1037,7 @@
         </button>
 
         <!-- Status Tag -->
-        <span id="modal-tag" class="absolute top-4 left-4 bg-emerald-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow z-20">
+        <span id="modal-tag" class="absolute top-4 left-4 bg-primary text-on-primary text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow z-20">
           Disponible
         </span>
 
@@ -1036,7 +1077,7 @@
             <span class="text-xs font-semibold text-outline uppercase block">Precio Oficial</span>
             <div class="flex items-baseline gap-2">
               <span id="modal-price" class="text-3xl font-bold text-primary">Q 1,850,000</span>
-              <span id="modal-usd" class="text-sm font-semibold text-emerald-600">(~$238,000 USD)</span>
+              <span id="modal-usd" class="text-sm font-semibold text-outline">(~$238,000 USD)</span>
             </div>
           </div>
           <div class="flex items-center gap-2">
@@ -1827,7 +1868,7 @@
       prop.nearby.forEach(item => {
         const el = document.createElement('div');
         el.className = "flex items-center gap-2 p-2 rounded-lg bg-surface border border-surface-container";
-        el.innerHTML = `<span class="material-symbols-outlined text-[16px] text-emerald-600">check_circle</span> <span class="text-on-surface">${item}</span>`;
+        el.innerHTML = `<span class="material-symbols-outlined text-[16px] text-primary">check_circle</span> <span class="text-on-surface">${item}</span>`;
         nearbyContainer.appendChild(el);
       });
 
