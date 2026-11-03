@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="scroll-smooth" lang="es">
+<html lang="es">
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
@@ -111,10 +111,9 @@
     }
   </script>
 
-  <!-- GSAP & Lenis CDN -->
+  <!-- GSAP CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
-
+  
   <style>
     .material-symbols-outlined {
       font-family: 'Material Symbols Outlined';
@@ -180,12 +179,12 @@
     /* Button Micro-Animations */
     .btn-luxury {
       position: relative;
-      overflow: hidden;
-      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+      will-change: transform;
     }
     .btn-luxury:hover {
       transform: translateY(-2px);
-      box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 6px 16px -2px rgba(0, 0, 0, 0.12);
     }
     .btn-luxury:active {
       transform: scale(0.97);
@@ -214,7 +213,7 @@
 <body class="bg-surface text-on-surface antialiased selection:bg-primary selection:text-on-primary min-h-screen flex flex-col font-body-md">
 
   <!-- TOP APP BAR -->
-  <header class="bg-surface/95 text-primary docked full-width top-0 sticky z-40 backdrop-blur-md border-b border-surface-container-high transition-all duration-200">
+  <header class="bg-[#f9f9f9] text-primary docked full-width top-0 sticky z-40 border-b border-surface-container-high shadow-sm transition-all duration-200">
     <div class="flex justify-between items-center w-full px-6 lg:px-12 py-4 max-w-7xl mx-auto">
       <!-- Brand Anchor -->
       <a class="flex items-center gap-2 group" href="#">
@@ -278,8 +277,8 @@
         <!-- Architectural Hero Gallery Frame -->
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
           <div class="lg:col-span-8 overflow-hidden rounded-2xl border border-surface-container-high bg-surface-container-lowest relative group aspect-[16/9] shadow-sm cursor-pointer" onclick="openPropertyModal(2)">
-            <img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="Residencia Valle Real Quetzaltenango" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDX9ICFKIZhMbWGoxYCgvhJjABKnkN1h3mwz7WeNfZCJEDkvVALA4pfES2y_O4GBMvXSe8d6D2GeGWW1TMKh_QEnD-cu33XhnFkxBKEIBqUILmEtGxrlMvNjTSv_8vOUTuSlu_Pljbk_7tgDVp-v4Qk4YJrbR-XvAyXSGJPWT2sQNxlYwJNevUA3PW414-hlWbwLbBRq1u65yZOg2c7Jb3xwJ8IQ5CCvB5z72IPkRzl">
-            <div class="absolute bottom-6 left-6 right-6 sm:right-auto bg-surface-container-lowest/90 backdrop-blur-md px-5 py-3.5 rounded-xl border border-outline-variant/50 max-w-sm shadow-md">
+            <img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="Residencia Valle Real Quetzaltenango" decoding="async" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDX9ICFKIZhMbWGoxYCgvhJjABKnkN1h3mwz7WeNfZCJEDkvVALA4pfES2y_O4GBMvXSe8d6D2GeGWW1TMKh_QEnD-cu33XhnFkxBKEIBqUILmEtGxrlMvNjTSv_8vOUTuSlu_Pljbk_7tgDVp-v4Qk4YJrbR-XvAyXSGJPWT2sQNxlYwJNevUA3PW414-hlWbwLbBRq1u65yZOg2c7Jb3xwJ8IQ5CCvB5z72IPkRzl">
+            <div class="absolute bottom-6 left-6 right-6 sm:right-auto bg-surface-container-lowest px-5 py-3.5 rounded-xl border border-outline-variant/50 max-w-sm shadow-md">
               <span class="text-[11px] font-semibold text-emerald-700 uppercase tracking-wider block">Proyecto Destacado</span>
               <h2 class="text-headline-sm font-headline-sm font-bold text-primary">Residencia Valle Real</h2>
               <p class="text-body-sm text-on-surface-variant mt-0.5">Zona 9 Quetzaltenango · 340 m² · Q 2,450,000</p>
@@ -290,11 +289,11 @@
           </div>
           <div class="lg:col-span-4 flex flex-col gap-6">
             <div class="overflow-hidden rounded-2xl border border-surface-container-high bg-surface-container-lowest relative group aspect-[4/3] shadow-sm cursor-pointer" onclick="openPropertyModal(1)">
-              <img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="Condominio Difiori Quetzaltenango" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBwSQYQ1wjrN5CfgNHkDi7cq5s4zWdHfB9kgFrDdVO_XuVq570JneYfEGBUc8eYTySaKPZQiqJRVjcQCkx4P90Jza5nXjDrmMkqQz8JDOfVL7TGyc4JvQKjpjEYvYEp16ZhfYn61-VsGom_V9wajidb490s2xBRkGWdMj5IOeLSf_UlyDE6XVC6mEXkbrToCKswtC59GKKX7k3zTMqW5SzglCLQi2sGdda3ysx5ZL6Q">
+              <img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="Condominio Difiori Quetzaltenango" decoding="async" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBwSQYQ1wjrN5CfgNHkDi7cq5s4zWdHfB9kgFrDdVO_XuVq570JneYfEGBUc8eYTySaKPZQiqJRVjcQCkx4P90Jza5nXjDrmMkqQz8JDOfVL7TGyc4JvQKjpjEYvYEp16ZhfYn61-VsGom_V9wajidb490s2xBRkGWdMj5IOeLSf_UlyDE6XVC6mEXkbrToCKswtC59GKKX7k3zTMqW5SzglCLQi2sGdda3ysx5ZL6Q">
               <div class="absolute top-4 right-4 bg-primary text-on-primary text-label-sm font-label-sm px-3 py-1 rounded-full shadow">
                 En Venta
               </div>
-              <div class="absolute bottom-4 left-4 right-4 bg-surface-container-lowest/90 backdrop-blur-md px-4 py-2 rounded-lg border border-outline-variant/40">
+              <div class="absolute bottom-4 left-4 right-4 bg-surface-container-lowest px-4 py-2 rounded-lg border border-outline-variant/40">
                 <p class="text-xs text-outline font-medium">Condominio Difiori · Zona 8 Xela</p>
                 <p class="text-sm font-bold text-primary">Q 1,850,000 (~$238K)</p>
               </div>
@@ -442,7 +441,7 @@
           <div id="property-map"></div>
 
           <!-- FLOATING ACTIVE PROPERTY BALLOON CARD -->
-          <div id="map-property-card" class="absolute bottom-6 right-6 z-20 w-[320px] sm:w-[360px] bg-surface-container-lowest/95 backdrop-blur-md rounded-2xl border border-surface-container-high shadow-2xl p-4 transition-all duration-300">
+          <div id="map-property-card" class="absolute bottom-6 right-6 z-20 w-[320px] sm:w-[360px] bg-surface-container-lowest rounded-2xl border border-surface-container-high shadow-2xl p-4 transition-all duration-300">
             <div class="relative w-full aspect-[16/10] rounded-xl overflow-hidden mb-3 bg-surface-container">
               <img id="map-card-img" class="w-full h-full object-cover" alt="Propiedad Seleccionada" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBwSQYQ1wjrN5CfgNHkDi7cq5s4zWdHfB9kgFrDdVO_XuVq570JneYfEGBUc8eYTySaKPZQiqJRVjcQCkx4P90Jza5nXjDrmMkqQz8JDOfVL7TGyc4JvQKjpjEYvYEp16ZhfYn61-VsGom_V9wajidb490s2xBRkGWdMj5IOeLSf_UlyDE6XVC6mEXkbrToCKswtC59GKKX7k3zTMqW5SzglCLQi2sGdda3ysx5ZL6Q">
               <span id="map-card-tag" class="absolute top-2.5 right-2.5 bg-primary text-on-primary text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider shadow-sm">
@@ -544,7 +543,7 @@
           
           <!-- Card 01: Adquisiciones -->
           <div class="group relative rounded-3xl overflow-hidden min-h-[460px] flex flex-col justify-between p-8 border border-surface-container-high shadow-md transition-all duration-500 hover:-translate-y-2 hover:shadow-xl">
-            <img class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="Adquisiciones Inmobiliarias" src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1000&q=80">
+            <img class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="Adquisiciones Inmobiliarias" loading="lazy" decoding="async" src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1000&q=80">
             <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/55 to-black/30"></div>
             
             <div class="relative z-10 flex items-start justify-between">
@@ -568,7 +567,7 @@
 
           <!-- Card 02: Rentas Exclusivas -->
           <div class="group relative rounded-3xl overflow-hidden min-h-[460px] flex flex-col justify-between p-8 border border-surface-container-high shadow-md transition-all duration-500 hover:-translate-y-2 hover:shadow-xl">
-            <img class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="Rentas Exclusivas" src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1000&q=80">
+            <img class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="Rentas Exclusivas" loading="lazy" decoding="async" src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1000&q=80">
             <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/55 to-black/30"></div>
             
             <div class="relative z-10 flex items-start justify-between">
@@ -592,7 +591,7 @@
 
           <!-- Card 03: Valuación -->
           <div class="group relative rounded-3xl overflow-hidden min-h-[460px] flex flex-col justify-between p-8 border border-surface-container-high shadow-md transition-all duration-500 hover:-translate-y-2 hover:shadow-xl">
-            <img class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="Valuación y Certeza Notarial" src="https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=1000&q=80">
+            <img class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="Valuación y Certeza Notarial" loading="lazy" decoding="async" src="https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=1000&q=80">
             <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/55 to-black/30"></div>
             
             <div class="relative z-10 flex items-start justify-between">
@@ -643,7 +642,7 @@
           <div class="bg-surface rounded-2xl border border-surface-container-high p-5 flex flex-col justify-between shadow-sm hover:shadow-md transition-shadow group">
             <div>
               <div class="aspect-square rounded-xl overflow-hidden mb-4 bg-surface-container">
-                <img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" alt="Pablo Ramírez" src="https://lh3.googleusercontent.com/aida-public/AB6AXuANMrtwtHc09a2pZFCNA2IIhTDxAjbPvq1kjQj1gs3OASFObfrl1oA9X8AnHpm-6BgkIPM3ZEKezHhUajuwMr5PplHuIQX0lrym3-BtSw47kAv5HWMFqvrPM3w4kR1na0WAOXGXjJPiYcxoOuxkG88oI3FjMkfXijLSbdjLy1ruOmgATPB1FFqNZKb7jzPdiaPmVRLb0T0COfwESYXwi2BL6hsNZQEvnaEU7ehD1-tp">
+                <img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" alt="Pablo Ramírez" loading="lazy" decoding="async" src="https://lh3.googleusercontent.com/aida-public/AB6AXuANMrtwtHc09a2pZFCNA2IIhTDxAjbPvq1kjQj1gs3OASFObfrl1oA9X8AnHpm-6BgkIPM3ZEKezHhUajuwMr5PplHuIQX0lrym3-BtSw47kAv5HWMFqvrPM3w4kR1na0WAOXGXjJPiYcxoOuxkG88oI3FjMkfXijLSbdjLy1ruOmgATPB1FFqNZKb7jzPdiaPmVRLb0T0COfwESYXwi2BL6hsNZQEvnaEU7ehD1-tp">
               </div>
               <span class="text-[10px] font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full inline-block mb-1">Broker Titular</span>
               <h3 class="text-lg font-bold text-primary">Pablo Ramírez</h3>
@@ -676,7 +675,7 @@
           <div class="bg-surface rounded-2xl border border-surface-container-high p-5 flex flex-col justify-between shadow-sm hover:shadow-md transition-shadow group">
             <div>
               <div class="aspect-square rounded-xl overflow-hidden mb-4 bg-surface-container">
-                <img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" alt="Carmen López" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBkuwv6WIAr4cI-kyWWNeMUK34Wu3u_o-FZfGmZSzwceXts-AsVDPG6x4Xim6VnZSJUh1uoVNmgS6Ol1J2aIRdoymEljiWciJPq62pfwvVLPTTSbHGdg7dK-J3qseY5Ho0Lo5A6rt3RqHCvqany1GjguFpYBZ4ElqL1upJcR2DaFeJNrFU3pUDuDxQ5d4AZeIRnYsmEGG4dw2aq4ZRppjmQC1yO-jR8G33ClOZnfyCG">
+                <img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" alt="Carmen López" loading="lazy" decoding="async" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBkuwv6WIAr4cI-kyWWNeMUK34Wu3u_o-FZfGmZSzwceXts-AsVDPG6x4Xim6VnZSJUh1uoVNmgS6Ol1J2aIRdoymEljiWciJPq62pfwvVLPTTSbHGdg7dK-J3qseY5Ho0Lo5A6rt3RqHCvqany1GjguFpYBZ4ElqL1upJcR2DaFeJNrFU3pUDuDxQ5d4AZeIRnYsmEGG4dw2aq4ZRppjmQC1yO-jR8G33ClOZnfyCG">
               </div>
               <span class="text-[10px] font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full inline-block mb-1">Consultora Registral</span>
               <h3 class="text-lg font-bold text-primary">Carmen López</h3>
@@ -1403,23 +1402,6 @@
     let markersLayer = null;
     let activeMarkerPin = null;
 
-    // INICIALIZACIÓN DE LENIS (Smooth Scroll)
-    try {
-      const lenis = new Lenis({
-        duration: 1.2,
-        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        orientation: 'vertical',
-        smoothWheel: true
-      });
-      function raf(time) {
-        lenis.raf(time);
-        requestAnimationFrame(raf);
-      }
-      requestAnimationFrame(raf);
-    } catch(e) {
-      console.log('Lenis smooth scroll ready');
-    }
-
     // INICIALIZACIÓN DE LEAFLET MAP
     function initMap() {
       // Coordenadas centrales entre Quetzaltenango y Retalhuleu
@@ -1561,10 +1543,10 @@
 
       props.forEach(p => {
         const card = document.createElement('div');
-        card.className = "bg-surface rounded-2xl border border-surface-container-high overflow-hidden shadow-sm hover:shadow-md transition-all group flex flex-col";
+        card.className = "bg-surface rounded-2xl border border-surface-container-high overflow-hidden shadow-sm hover:shadow-md transition-shadow group flex flex-col";
         card.innerHTML = `
           <div class="relative aspect-[4/3] overflow-hidden bg-surface-container cursor-pointer" onclick="openPropertyModal(${p.id})">
-            <img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" alt="${p.title}" src="${p.img}">
+            <img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" alt="${p.title}" src="${p.img}" loading="lazy" decoding="async">
             <span class="absolute top-3 left-3 ${p.deal === 'Renta' ? 'bg-amber-600' : 'bg-primary'} text-on-primary text-[10px] font-semibold tracking-wider uppercase px-2.5 py-1 rounded-full shadow">
               ${p.tag}
             </span>
