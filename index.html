@@ -143,6 +143,60 @@
       z-index: 20 !important;
     }
 
+    /* Custom Budget Slider in Dark Panel */
+    .budget-range-input {
+      position: absolute;
+      width: 100%;
+      height: 28px;
+      background: none;
+      pointer-events: none;
+      -webkit-appearance: none;
+      appearance: none;
+      margin: 0;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    .budget-range-input::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #ffffff;
+      border: 2px solid #121214;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
+      cursor: pointer;
+      pointer-events: auto;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    .budget-range-input::-webkit-slider-thumb:hover {
+      transform: scale(1.18);
+      box-shadow: 0 4px 12px rgba(255, 255, 255, 0.35);
+    }
+    .budget-range-input::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #ffffff;
+      border: 2px solid #121214;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
+      cursor: pointer;
+      pointer-events: auto;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    .budget-range-input::-moz-range-thumb:hover {
+      transform: scale(1.18);
+      box-shadow: 0 4px 12px rgba(255, 255, 255, 0.35);
+    }
+    .budget-range-input::-webkit-slider-runnable-track {
+      background: transparent;
+      border: none;
+    }
+    .budget-range-input::-moz-range-track {
+      background: transparent;
+      border: none;
+    }
+
     /* Leaflet Layer Control Styling */
     .leaflet-control-layers {
       border-radius: 1rem !important;
@@ -372,63 +426,109 @@
     <section class="py-16 lg:py-24 bg-surface border-b border-surface-container-high relative" id="mapa">
       <div class="max-w-7xl mx-auto px-6 lg:px-12">
 
-        <!-- SEARCH FILTER CONSOLE (Moved directly above the Map as requested) -->
-        <div class="mb-12 relative z-30">
-          <div class="text-center md:text-left mb-4">
-            <span class="text-label-eyebrow font-label-eyebrow text-outline uppercase tracking-wider block mb-1">Filtro Inteligente de Búsqueda</span>
-            <h3 class="text-headline-md font-headline-md font-bold text-primary">Encuentra tu propiedad en el mapa o catálogo</h3>
-          </div>
-
-          <div class="bg-surface-container-lowest border border-outline-variant/60 rounded-3xl md:rounded-full p-3 lg:p-4 shadow-[0_12px_32px_-4px_rgba(0,0,0,0.06),0_4px_12px_-2px_rgba(0,0,0,0.03)] flex flex-col md:flex-row items-stretch md:items-center divide-y md:divide-y-0 md:divide-x divide-surface-container-high transition-shadow hover:shadow-[0_18px_40px_-6px_rgba(0,0,0,0.09)]">
+        <!-- SEARCH FILTER PANEL (Diseño Premium en Panel Oscuro como Imagen 3) -->
+        <div class="mb-14 relative z-30 max-w-xl lg:max-w-2xl mx-auto">
+          <div class="bg-[#121214] border border-neutral-800 rounded-3xl p-6 sm:p-8 shadow-[0_24px_50px_rgba(0,0,0,0.35)] text-white">
             
-            <!-- Ubicación -->
-            <div class="flex-1 px-5 py-2.5 hover:bg-surface-container-low/60 rounded-2xl md:rounded-full transition-colors group">
-              <label for="filter-location" class="block text-label-eyebrow font-label-eyebrow text-outline uppercase tracking-wider mb-0.5 cursor-pointer">Ubicación</label>
-              <div class="flex items-center justify-between">
-                <select id="filter-location" onchange="applyFilters()" class="w-full bg-transparent border-0 p-0 text-body-md font-body-md font-semibold text-primary focus:ring-0 cursor-pointer">
-                  <option value="all">Todas las Ubicaciones (10)</option>
-                  <option value="Quetzaltenango">Quetzaltenango (8)</option>
-                  <option value="Retalhuleu">Retalhuleu (2)</option>
-                </select>
-                <span class="material-symbols-outlined text-outline text-[18px] pointer-events-none">expand_more</span>
-              </div>
+            <!-- Encabezado del Panel -->
+            <div class="mb-6">
+              <span class="text-[11px] font-bold text-neutral-400 uppercase tracking-widest block mb-1.5">Filtro Inteligente de Búsqueda</span>
+              <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight leading-tight">
+                Encuentra tu propiedad en el mapa o catálogo
+              </h2>
             </div>
 
-            <!-- Tipo de Inmueble -->
-            <div class="flex-1 px-5 py-2.5 hover:bg-surface-container-low/60 rounded-2xl md:rounded-full transition-colors group">
-              <label for="filter-type" class="block text-label-eyebrow font-label-eyebrow text-outline uppercase tracking-wider mb-0.5 cursor-pointer">Tipo de Inmueble</label>
-              <div class="flex items-center justify-between">
-                <select id="filter-type" onchange="applyFilters()" class="w-full bg-transparent border-0 p-0 text-body-md font-body-md font-semibold text-primary focus:ring-0 cursor-pointer">
-                  <option value="all">Todos los Tipos</option>
-                  <option value="Casa">Casas &amp; Residencias (5)</option>
-                  <option value="Apartamento">Apartamentos (2)</option>
-                  <option value="Terreno">Terrenos &amp; Lotes (3)</option>
-                </select>
-                <span class="material-symbols-outlined text-outline text-[18px] pointer-events-none">expand_more</span>
+            <div class="space-y-5">
+              
+              <!-- UBICACIÓN (Custom Dropdown Sin Menús Nativos Feos) -->
+              <div class="relative">
+                <label class="block text-xs font-bold text-neutral-400 uppercase tracking-wider mb-2">Ubicación</label>
+                <button type="button" id="btn-dropdown-location" onclick="toggleFilterDropdown('menu-dropdown-location', 'chevron-location')" class="w-full bg-[#1c1c1f] hover:bg-[#252529] border border-neutral-700/70 text-white rounded-2xl px-4 py-3.5 flex items-center justify-between text-sm font-semibold transition-all">
+                  <span id="label-selected-location">Todas las Ubicaciones (10)</span>
+                  <span id="chevron-location" class="material-symbols-outlined text-[20px] text-neutral-400 transition-transform duration-200">expand_more</span>
+                </button>
+                <div id="menu-dropdown-location" class="hidden absolute left-0 right-0 top-full mt-2 bg-[#1c1c1f] border border-neutral-700 rounded-2xl p-2 shadow-2xl z-50 space-y-1">
+                  <button type="button" onclick="selectFilterLocation('all', 'Todas las Ubicaciones (10)')" class="w-full text-left px-3.5 py-2.5 rounded-xl text-sm font-medium text-white hover:bg-neutral-800 transition-colors flex items-center justify-between">
+                    <span>Todas las Ubicaciones (10)</span>
+                    <span class="material-symbols-outlined text-[18px] text-white opt-check-loc" data-val="all">check</span>
+                  </button>
+                  <button type="button" onclick="selectFilterLocation('Quetzaltenango', 'Quetzaltenango (8)')" class="w-full text-left px-3.5 py-2.5 rounded-xl text-sm font-medium text-neutral-300 hover:text-white hover:bg-neutral-800 transition-colors flex items-center justify-between">
+                    <span>Quetzaltenango (8)</span>
+                    <span class="material-symbols-outlined text-[18px] text-white hidden opt-check-loc" data-val="Quetzaltenango">check</span>
+                  </button>
+                  <button type="button" onclick="selectFilterLocation('Retalhuleu', 'Retalhuleu (2)')" class="w-full text-left px-3.5 py-2.5 rounded-xl text-sm font-medium text-neutral-300 hover:text-white hover:bg-neutral-800 transition-colors flex items-center justify-between">
+                    <span>Retalhuleu (2)</span>
+                    <span class="material-symbols-outlined text-[18px] text-white hidden opt-check-loc" data-val="Retalhuleu">check</span>
+                  </button>
+                </div>
               </div>
-            </div>
 
-            <!-- Rango de Presupuesto -->
-            <div class="flex-1 px-5 py-2.5 hover:bg-surface-container-low/60 rounded-2xl md:rounded-full transition-colors group">
-              <label for="filter-price" class="block text-label-eyebrow font-label-eyebrow text-outline uppercase tracking-wider mb-0.5 cursor-pointer">Presupuesto Estimado</label>
-              <div class="flex items-center justify-between">
-                <select id="filter-price" onchange="applyFilters()" class="w-full bg-transparent border-0 p-0 text-body-md font-body-md font-semibold text-primary focus:ring-0 cursor-pointer">
-                  <option value="all">Cualquier Presupuesto</option>
-                  <option value="under1m">Hasta Q 1,000,000</option>
-                  <option value="1m-2m">Q 1,000,000 – Q 2,000,000</option>
-                  <option value="over2m">Más de Q 2,000,000</option>
-                  <option value="renta">Solo en Renta</option>
-                </select>
-                <span class="material-symbols-outlined text-outline text-[18px] pointer-events-none">tune</span>
+              <!-- TIPO DE INMUEBLE (Custom Dropdown) -->
+              <div class="relative">
+                <label class="block text-xs font-bold text-neutral-400 uppercase tracking-wider mb-2">Tipo de Inmueble</label>
+                <button type="button" id="btn-dropdown-type" onclick="toggleFilterDropdown('menu-dropdown-type', 'chevron-type')" class="w-full bg-[#1c1c1f] hover:bg-[#252529] border border-neutral-700/70 text-white rounded-2xl px-4 py-3.5 flex items-center justify-between text-sm font-semibold transition-all">
+                  <span id="label-selected-type">Todos los Tipos</span>
+                  <span id="chevron-type" class="material-symbols-outlined text-[20px] text-neutral-400 transition-transform duration-200">expand_more</span>
+                </button>
+                <div id="menu-dropdown-type" class="hidden absolute left-0 right-0 top-full mt-2 bg-[#1c1c1f] border border-neutral-700 rounded-2xl p-2 shadow-2xl z-50 space-y-1">
+                  <button type="button" onclick="selectFilterType('all', 'Todos los Tipos')" class="w-full text-left px-3.5 py-2.5 rounded-xl text-sm font-medium text-white hover:bg-neutral-800 transition-colors flex items-center justify-between">
+                    <span>Todos los Tipos</span>
+                    <span class="material-symbols-outlined text-[18px] text-white opt-check-type" data-val="all">check</span>
+                  </button>
+                  <button type="button" onclick="selectFilterType('Casa', 'Casas & Residencias (5)')" class="w-full text-left px-3.5 py-2.5 rounded-xl text-sm font-medium text-neutral-300 hover:text-white hover:bg-neutral-800 transition-colors flex items-center justify-between">
+                    <span>Casas & Residencias (5)</span>
+                    <span class="material-symbols-outlined text-[18px] text-white hidden opt-check-type" data-val="Casa">check</span>
+                  </button>
+                  <button type="button" onclick="selectFilterType('Apartamento', 'Apartamentos (2)')" class="w-full text-left px-3.5 py-2.5 rounded-xl text-sm font-medium text-neutral-300 hover:text-white hover:bg-neutral-800 transition-colors flex items-center justify-between">
+                    <span>Apartamentos (2)</span>
+                    <span class="material-symbols-outlined text-[18px] text-white hidden opt-check-type" data-val="Apartamento">check</span>
+                  </button>
+                  <button type="button" onclick="selectFilterType('Terreno', 'Terrenos & Lotes (3)')" class="w-full text-left px-3.5 py-2.5 rounded-xl text-sm font-medium text-neutral-300 hover:text-white hover:bg-neutral-800 transition-colors flex items-center justify-between">
+                    <span>Terrenos & Lotes (3)</span>
+                    <span class="material-symbols-outlined text-[18px] text-white hidden opt-check-type" data-val="Terreno">check</span>
+                  </button>
+                </div>
               </div>
-            </div>
 
-            <!-- Botón Buscar Ahora -->
-            <div class="p-1 md:pl-2 flex items-center justify-center">
-              <button onclick="applyFilters(); document.getElementById('propiedades').scrollIntoView({behavior: 'smooth'})" class="btn-luxury w-full md:w-auto bg-primary text-on-primary px-7 py-3.5 rounded-full flex items-center justify-center gap-2 shadow-sm font-semibold text-label-md">
-                <span class="material-symbols-outlined text-[20px]">search</span>
-                <span>Buscar Ahora</span>
-              </button>
+              <!-- PRESUPUESTO ESTIMADO (Raya Blanca & Sliders Interactivos) -->
+              <div>
+                <label class="block text-xs font-bold text-neutral-400 uppercase tracking-wider mb-2">Presupuesto Estimado</label>
+                <div class="bg-[#1a1a1d] border border-neutral-700/60 rounded-2xl p-4 sm:p-5">
+                  <!-- Header row: PRESUPUESTO y valor dinámico -->
+                  <div class="flex items-center justify-between mb-4">
+                    <span class="text-xs font-bold text-white uppercase tracking-wider">Presupuesto</span>
+                    <span id="budget-display-value" class="text-sm sm:text-base font-bold text-white tracking-tight">Q 0 - Q 5,000,000+</span>
+                  </div>
+
+                  <!-- Slider Track Container -->
+                  <div class="relative w-full h-8 flex items-center">
+                    <!-- Background Track Inactivo -->
+                    <div class="absolute w-full h-1.5 bg-neutral-700/80 rounded-full"></div>
+                    
+                    <!-- Raya Blanca Activa ("y que la raya del presupuesto sea blanca") -->
+                    <div id="slider-range-line" class="absolute h-1.5 bg-white rounded-full pointer-events-none transition-all duration-75" style="left: 0%; width: 100%;"></div>
+
+                    <!-- Dual Range Inputs -->
+                    <input type="range" id="slider-min" min="0" max="5000000" step="50000" value="0" class="budget-range-input z-20" aria-label="Presupuesto Mínimo">
+                    <input type="range" id="slider-max" min="0" max="5000000" step="50000" value="5000000" class="budget-range-input z-20" aria-label="Presupuesto Máximo">
+                  </div>
+
+                  <!-- Fila Inferior: Etiquetas Mínimo y Máximo -->
+                  <div class="flex items-center justify-between text-xs text-neutral-400 font-medium mt-2">
+                    <span id="budget-label-min">Mínimo</span>
+                    <span id="budget-label-max">Máximo</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Botón Buscar Ahora (Blanco Destacado como en Imagen 3) -->
+              <div class="pt-2">
+                <button type="button" onclick="executeSearchNow()" class="btn-luxury w-full py-4 px-6 rounded-2xl bg-white hover:bg-neutral-100 text-black font-bold text-base flex items-center justify-center gap-2.5 shadow-xl transition-all hover:scale-[1.01] active:scale-95">
+                  <span class="material-symbols-outlined text-[20px] text-black">search</span>
+                  <span>Buscar Ahora</span>
+                </button>
+              </div>
+
             </div>
           </div>
         </div>
@@ -1826,29 +1926,154 @@
       }, 400);
     }
 
-    // FILTRADO INTELIGENTE (Ubicación, Tipo, Presupuesto)
-    function applyFilters() {
-      const locVal = document.getElementById('filter-location').value;
-      const typeVal = document.getElementById('filter-type').value;
-      const priceVal = document.getElementById('filter-price').value;
+    // ESTADO DE FILTROS INTELIGENTES (Panel Oscuro)
+    let selectedFilterCity = 'all';
+    let selectedFilterType = 'all';
+    let budgetMinVal = 0;
+    let budgetMaxVal = 5000000;
 
+    function toggleFilterDropdown(menuId, chevronId) {
+      const menu = document.getElementById(menuId);
+      const chevron = document.getElementById(chevronId);
+      if (!menu) return;
+
+      const isHidden = menu.classList.contains('hidden');
+
+      // Cerrar otros dropdowns abiertos
+      document.querySelectorAll('[id^="menu-dropdown-"]').forEach(m => m.classList.add('hidden'));
+      document.querySelectorAll('[id^="chevron-"]').forEach(c => c.style.transform = 'rotate(0deg)');
+
+      if (isHidden) {
+        menu.classList.remove('hidden');
+        if (chevron) chevron.style.transform = 'rotate(180deg)';
+      }
+    }
+
+    function selectFilterLocation(val, label) {
+      selectedFilterCity = val;
+      const labelEl = document.getElementById('label-selected-location');
+      if (labelEl) labelEl.innerText = label;
+
+      // Actualizar checkmarks
+      document.querySelectorAll('.opt-check-loc').forEach(el => {
+        if (el.dataset.val === val) {
+          el.classList.remove('hidden');
+        } else {
+          el.classList.add('hidden');
+        }
+      });
+
+      // Cerrar menú
+      const menu = document.getElementById('menu-dropdown-location');
+      if (menu) menu.classList.add('hidden');
+      const chevron = document.getElementById('chevron-location');
+      if (chevron) chevron.style.transform = 'rotate(0deg)';
+
+      applyFilters();
+    }
+
+    function selectFilterType(val, label) {
+      selectedFilterType = val;
+      const labelEl = document.getElementById('label-selected-type');
+      if (labelEl) labelEl.innerText = label;
+
+      // Actualizar checkmarks
+      document.querySelectorAll('.opt-check-type').forEach(el => {
+        if (el.dataset.val === val) {
+          el.classList.remove('hidden');
+        } else {
+          el.classList.add('hidden');
+        }
+      });
+
+      // Cerrar menú
+      const menu = document.getElementById('menu-dropdown-type');
+      if (menu) menu.classList.add('hidden');
+      const chevron = document.getElementById('chevron-type');
+      if (chevron) chevron.style.transform = 'rotate(0deg)';
+
+      applyFilters();
+    }
+
+    function initBudgetSlider() {
+      const minInput = document.getElementById('slider-min');
+      const maxInput = document.getElementById('slider-max');
+      if (!minInput || !maxInput) return;
+
+      const updateSlider = function(e) {
+        let min = parseInt(minInput.value);
+        let max = parseInt(maxInput.value);
+
+        if (min > max - 100000) {
+          if (e && e.target === minInput) {
+            minInput.value = max - 100000;
+            min = max - 100000;
+          } else {
+            maxInput.value = min + 100000;
+            max = min + 100000;
+          }
+        }
+
+        budgetMinVal = min;
+        budgetMaxVal = max;
+
+        const minPercent = (min / 5000000) * 100;
+        const maxPercent = (max / 5000000) * 100;
+
+        const line = document.getElementById('slider-range-line');
+        if (line) {
+          line.style.left = `${minPercent}%`;
+          line.style.width = `${maxPercent - minPercent}%`;
+        }
+
+        const displayLabel = document.getElementById('budget-display-value');
+        if (displayLabel) {
+          if (min === 0 && max >= 5000000) {
+            displayLabel.innerText = "Q 0 - Q 5,000,000+";
+          } else if (min === 0) {
+            displayLabel.innerText = `Hasta Q ${max.toLocaleString('en-US')}`;
+          } else if (max >= 5000000) {
+            displayLabel.innerText = `Desde Q ${min.toLocaleString('en-US')}+`;
+          } else {
+            displayLabel.innerText = `Q ${min.toLocaleString('en-US')} - Q ${max.toLocaleString('en-US')}`;
+          }
+        }
+
+        applyFilters();
+      };
+
+      minInput.addEventListener('input', updateSlider);
+      maxInput.addEventListener('input', updateSlider);
+    }
+
+    // Cerrar dropdowns si se hace clic fuera del botón y menú
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('#btn-dropdown-location') && !e.target.closest('#menu-dropdown-location')) {
+        const m = document.getElementById('menu-dropdown-location');
+        if (m) m.classList.add('hidden');
+        const c = document.getElementById('chevron-location');
+        if (c) c.style.transform = 'rotate(0deg)';
+      }
+      if (!e.target.closest('#btn-dropdown-type') && !e.target.closest('#menu-dropdown-type')) {
+        const m = document.getElementById('menu-dropdown-type');
+        if (m) m.classList.add('hidden');
+        const c = document.getElementById('chevron-type');
+        if (c) c.style.transform = 'rotate(0deg)';
+      }
+    });
+
+    // FILTRADO INTELIGENTE (Ubicación, Tipo, Presupuesto Funcional)
+    function applyFilters() {
       let filtered = propertiesData.filter(p => {
         // Filtro Ubicación
-        if (locVal !== 'all' && p.city !== locVal) return false;
-        
-        // Filtro Tipo
-        if (typeVal !== 'all' && p.type !== typeVal) return false;
+        if (selectedFilterCity !== 'all' && p.city !== selectedFilterCity) return false;
 
-        // Filtro Presupuesto
-        if (priceVal === 'under1m') {
-          if (p.price_val > 1000000 || p.deal === 'Renta') return false;
-        } else if (priceVal === '1m-2m') {
-          if (p.price_val < 1000000 || p.price_val > 2000000 || p.deal === 'Renta') return false;
-        } else if (priceVal === 'over2m') {
-          if (p.price_val < 2000000 || p.deal === 'Renta') return false;
-        } else if (priceVal === 'renta') {
-          if (p.deal !== 'Renta') return false;
-        }
+        // Filtro Tipo
+        if (selectedFilterType !== 'all' && p.type !== selectedFilterType) return false;
+
+        // Filtro Presupuesto con la Raya Blanca Interactiva
+        if (p.price_val < budgetMinVal) return false;
+        if (budgetMaxVal < 5000000 && p.price_val > budgetMaxVal) return false;
 
         return true;
       });
@@ -1857,7 +2082,15 @@
       renderMapPins(filtered);
 
       if (filtered.length > 0) {
-        selectPropertyOnMap(filtered[0].id, true);
+        selectPropertyOnMap(filtered[0].id, false);
+      }
+    }
+
+    function executeSearchNow() {
+      applyFilters();
+      const el = document.getElementById('propiedades');
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
       }
     }
 
@@ -1886,10 +2119,27 @@
     }
 
     function resetFilters() {
-      document.getElementById('filter-location').value = 'all';
-      document.getElementById('filter-type').value = 'all';
-      document.getElementById('filter-price').value = 'all';
+      selectedFilterCity = 'all';
+      selectedFilterType = 'all';
+      budgetMinVal = 0;
+      budgetMaxVal = 5000000;
+      const minInput = document.getElementById('slider-min');
+      const maxInput = document.getElementById('slider-max');
+      if (minInput) minInput.value = 0;
+      if (maxInput) maxInput.value = 5000000;
+      const line = document.getElementById('slider-range-line');
+      if (line) {
+        line.style.left = '0%';
+        line.style.width = '100%';
+      }
+      const displayLabel = document.getElementById('budget-display-value');
+      if (displayLabel) displayLabel.innerText = "Q 0 - Q 5,000,000+";
+      const locLabel = document.getElementById('label-selected-location');
+      if (locLabel) locLabel.innerText = "Todas las Ubicaciones (10)";
+      const typeLabel = document.getElementById('label-selected-type');
+      if (typeLabel) typeLabel.innerText = "Todos los Tipos";
       setTabFilter('all');
+      applyFilters();
     }
 
     // ABRIR MODAL CON GALERÍA DE FOTOS INTERIORES & EXTERIORES
@@ -2083,6 +2333,7 @@
     // ARRANQUE GENERAL DEL DOM
     document.addEventListener('DOMContentLoaded', () => {
       initMap();
+      initBudgetSlider();
       renderPropertiesGrid(propertiesData);
       showReview(0);
       startReviewAuto();
