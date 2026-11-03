@@ -164,16 +164,18 @@
       cursor: pointer;
       transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    .pin-pill:hover, .pin-pill.active-pin {
-      background: #111827;
+    .pin-pill:hover {
+      background: #000000;
+      color: #ffffff;
       transform: scale(1.15) translateY(-3px);
       box-shadow: 0 8px 20px rgba(0,0,0,0.35);
-      border-color: #10b981;
+      border-color: #000000;
     }
     .pin-pill.active-pin {
-      border-color: #10b981;
-      background: #052e16;
-      color: #6ee7b7;
+      border-color: #000000;
+      background: #000000;
+      color: #ffffff;
+      box-shadow: 0 0 0 4px rgba(0,0,0,0.25), 0 8px 20px rgba(0,0,0,0.4);
     }
 
     /* Button Micro-Animations */
@@ -257,7 +259,7 @@
         <!-- Eyebrow Pill -->
         <div class="flex justify-center mb-6">
           <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-surface-container-lowest border border-surface-container-highest shadow-sm">
-            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span class="w-2 h-2 rounded-full bg-black animate-pulse"></span>
             <span class="text-label-sm font-label-sm text-on-surface-variant font-medium tracking-wide">
               Portafolio Inmobiliario Premium 2026
             </span>
@@ -1025,12 +1027,12 @@
   </footer>
 
   <!-- FULL DETAILED PROPERTY MODAL / DRAWER -->
-  <div id="property-modal" class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/75 modal-backdrop opacity-0 pointer-events-none transition-opacity duration-300">
-    <div id="property-modal-content" class="bg-surface-container-lowest max-w-3xl w-full max-h-[92vh] rounded-3xl overflow-hidden shadow-2xl flex flex-col relative transform scale-95 transition-transform duration-300">
+  <div id="property-modal" class="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 md:p-6 bg-black/80 modal-backdrop opacity-0 pointer-events-none transition-opacity duration-300">
+    <div id="property-modal-content" class="bg-surface-container-lowest max-w-5xl w-full max-h-[94vh] rounded-3xl overflow-hidden shadow-2xl flex flex-col relative transform scale-95 transition-transform duration-300 border border-neutral-800/10">
       
-      <!-- Modal Main Image View with Navigation -->
-      <div class="relative h-64 sm:h-80 w-full bg-neutral-900 overflow-hidden flex-shrink-0 group">
-        <img id="modal-img" class="w-full h-full object-cover transition-opacity duration-300" alt="Detalle Propiedad" src="" decoding="async">
+      <!-- Modal Main Image View with Navigation (Vista Previa Ampliada) -->
+      <div class="relative h-72 sm:h-96 md:h-[460px] lg:h-[520px] w-full bg-neutral-950 overflow-hidden flex-shrink-0 group cursor-pointer" onclick="changeModalPhoto(1)" title="Haz clic para ver la siguiente foto">
+        <img id="modal-img" class="w-full h-full object-cover transition-all duration-500 group-hover:scale-105" alt="Detalle Propiedad" src="" decoding="async">
         <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent pointer-events-none"></div>
         
         <!-- Close Button -->
@@ -1044,16 +1046,19 @@
         </span>
 
         <!-- Image Navigation Prev / Next Arrows -->
-        <button onclick="changeModalPhoto(-1)" class="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/60 hover:bg-black text-white flex items-center justify-center transition-transform hover:scale-110 z-20" aria-label="Foto anterior">
-          <span class="material-symbols-outlined text-[20px]">chevron_left</span>
+        <button onclick="event.stopPropagation(); changeModalPhoto(-1)" class="btn-luxury absolute left-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-black/70 hover:bg-black text-white flex items-center justify-center transition-all hover:scale-110 z-20 shadow-lg border border-white/20" aria-label="Foto anterior">
+          <span class="material-symbols-outlined text-[24px]">chevron_left</span>
         </button>
-        <button onclick="changeModalPhoto(1)" class="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/60 hover:bg-black text-white flex items-center justify-center transition-transform hover:scale-110 z-20" aria-label="Foto siguiente">
-          <span class="material-symbols-outlined text-[20px]">chevron_right</span>
+        <button onclick="event.stopPropagation(); changeModalPhoto(1)" class="btn-luxury absolute right-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-black/70 hover:bg-black text-white flex items-center justify-center transition-all hover:scale-110 z-20 shadow-lg border border-white/20" aria-label="Foto siguiente">
+          <span class="material-symbols-outlined text-[24px]">chevron_right</span>
         </button>
 
         <!-- Current Photo Label Badge -->
-        <div class="absolute top-4 left-1/2 -translate-x-1/2 bg-black/60 text-white text-[11px] font-semibold px-3 py-1 rounded-full z-20 shadow">
-          <span id="modal-photo-counter">Foto 1 de 5</span>: <span id="modal-photo-label" class="font-normal text-white/90">Fachada Exterior</span>
+        <div class="absolute top-4 left-1/2 -translate-x-1/2 bg-black/70 backdrop-blur-md text-white text-xs font-semibold px-4 py-1.5 rounded-full z-20 shadow border border-white/10 flex items-center gap-2">
+          <span class="material-symbols-outlined text-[14px] text-white/80">photo_camera</span>
+          <span id="modal-photo-counter">Foto 1 de 5</span>
+          <span class="text-white/40">•</span>
+          <span id="modal-photo-label" class="font-medium text-white">Fachada Exterior</span>
         </div>
 
         <!-- Property Title Overlay -->
@@ -1063,10 +1068,17 @@
         </div>
       </div>
 
-      <!-- Gallery Thumbnail Strip -->
-      <div class="bg-surface-container px-4 py-3 border-b border-surface-container-high overflow-x-auto flex-shrink-0">
-        <div class="flex items-center gap-2.5" id="modal-thumbnails-container">
-          <!-- Dynamically populated with thumbnails of exterior and interior photos -->
+      <!-- Gallery Thumbnail Strip (Fotos de Referencia con Vista Previa Ampliada) -->
+      <div class="bg-surface-container-low px-4 sm:px-6 py-4 border-b border-surface-container-high overflow-x-auto flex-shrink-0 custom-scroll">
+        <div class="flex items-center justify-between mb-2.5">
+          <span class="text-[11px] font-bold text-outline uppercase tracking-wider flex items-center gap-1.5">
+            <span class="material-symbols-outlined text-[15px]">collections</span>
+            <span>Fotos de Referencia del Inmueble (Haz clic para ampliar)</span>
+          </span>
+          <span class="text-[11px] text-outline font-medium hidden sm:inline-block">Desliza para explorar todos los ambientes</span>
+        </div>
+        <div class="flex items-center gap-3 sm:gap-4 pb-1" id="modal-thumbnails-container">
+          <!-- Dynamically populated with large preview cards -->
         </div>
       </div>
 
@@ -1082,11 +1094,15 @@
               <span id="modal-usd" class="text-sm font-semibold text-outline">(~$238,000 USD)</span>
             </div>
           </div>
-          <div class="flex items-center gap-2">
-            <button id="modal-locate-btn" class="btn-luxury px-4 py-2.5 rounded-full border border-outline-variant hover:border-primary text-xs font-semibold text-primary flex items-center gap-1.5">
+          <div class="flex flex-wrap items-center gap-2.5">
+            <button id="modal-locate-btn" class="btn-luxury px-4 py-2.5 rounded-full border border-outline-variant hover:border-primary text-xs font-semibold text-primary flex items-center gap-1.5 bg-surface-container-lowest">
               <span class="material-symbols-outlined text-[16px]">map</span>
               <span>Ubicar en Mapa</span>
             </button>
+            <a id="modal-wa-top-btn" href="#" target="_blank" rel="noopener noreferrer" class="btn-luxury px-4 py-2.5 rounded-full bg-black hover:bg-neutral-800 text-white text-xs font-semibold flex items-center gap-2 shadow-sm">
+              <svg class="w-3.5 h-3.5 fill-current text-white" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+              <span>Contactar WhatsApp</span>
+            </a>
           </div>
         </div>
 
@@ -1145,11 +1161,11 @@
           </div>
         </div>
 
-        <!-- BOTÓN NEGRO DESTACADO: AGENDAR CITA A WSP -->
+        <!-- BOTÓN NEGRO DESTACADO: AGENDAR CITA POR WHATSAPP -->
         <div class="pt-6 border-t border-surface-container">
-          <a id="modal-wa-btn-bottom" href="#" target="_blank" class="w-full bg-black hover:bg-neutral-800 text-white py-4 px-6 rounded-2xl flex items-center justify-center gap-3 font-bold text-base shadow-xl transition-transform active:scale-95">
-            <span class="material-symbols-outlined text-[24px]">chat</span>
-            <span>Agendar cita a WSP</span>
+          <a id="modal-wa-btn-bottom" href="#" target="_blank" rel="noopener noreferrer" class="btn-luxury w-full py-4 px-6 rounded-2xl bg-black hover:bg-neutral-800 text-white font-bold text-base text-center flex items-center justify-center gap-3 shadow-xl transition-transform hover:-translate-y-0.5 active:scale-95">
+            <svg class="w-6 h-6 fill-current text-white flex-shrink-0" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+            <span>Agendar Cita por WhatsApp</span>
           </a>
         </div>
 
@@ -1850,16 +1866,19 @@
       // Mostrar foto 0
       showModalPhoto(0);
 
-      // Renderizar miniaturas
+      // Renderizar miniaturas amplias de referencia (Vista Previa Ampliada)
       const thumbsContainer = document.getElementById('modal-thumbnails-container');
       thumbsContainer.innerHTML = '';
       currentGalleryPhotos.forEach((item, idx) => {
         const thumb = document.createElement('button');
-        thumb.className = `modal-thumb relative flex-shrink-0 w-20 h-14 rounded-xl overflow-hidden border-2 transition-all ${idx === 0 ? 'border-primary ring-2 ring-primary/20 scale-105' : 'border-surface-container-high opacity-70 hover:opacity-100'}`;
+        thumb.className = `modal-thumb relative flex-shrink-0 w-36 sm:w-48 md:w-56 h-24 sm:h-32 md:h-36 rounded-2xl overflow-hidden border-2 transition-all duration-200 group text-left shadow-sm ${idx === 0 ? 'border-black ring-4 ring-black/15 scale-100' : 'border-surface-container-high opacity-70 hover:opacity-100 hover:border-neutral-400'}`;
         thumb.onclick = () => showModalPhoto(idx);
         thumb.innerHTML = `
-          <img src="${item.url}" class="w-full h-full object-cover" alt="${item.label}" loading="lazy">
-          <span class="absolute bottom-0 inset-x-0 bg-black/70 text-white text-[9px] font-medium py-0.5 text-center truncate px-1">${item.label}</span>
+          <img src="${item.url}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" alt="${item.label}" loading="lazy">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent flex flex-col justify-end p-2.5 sm:p-3 pointer-events-none">
+            <span class="text-[10px] font-semibold text-white/75 uppercase tracking-wider block">Foto ${idx + 1} de ${currentGalleryPhotos.length}</span>
+            <span class="text-xs sm:text-sm font-bold text-white truncate block">${item.label}</span>
+          </div>
         `;
         thumbsContainer.appendChild(thumb);
       });
@@ -1884,11 +1903,15 @@
         featContainer.appendChild(el);
       });
 
-      // Botón Negro Destacado al final: Agendar cita a WSP
-      const waMsg = encodeURIComponent(`Hola Bienes Raíces Online Guatemala, deseo agendar una cita por WhatsApp para visitar la propiedad: ${prop.title} ubicada en ${prop.zone} (Precio: ${prop.price_q}). ¿Qué horarios tienen disponibles?`);
+      // Botón Negro Destacado: Agendar Cita por WhatsApp (Bottom y Top)
+      const waMsg = encodeURIComponent(`Hola Bienes Raíces Online Guatemala, deseo agendar una cita por WhatsApp para visitar la propiedad: ${prop.title} ubicada en ${prop.zone} (Precio: ${prop.price_q}). ¿Qué días y horarios tienen disponibles para coordinar la visita?`);
       const bottomBtn = document.getElementById('modal-wa-btn-bottom');
       if (bottomBtn) {
         bottomBtn.href = `https://wa.me/50242728393?text=${waMsg}`;
+      }
+      const topBtn = document.getElementById('modal-wa-top-btn');
+      if (topBtn) {
+        topBtn.href = `https://wa.me/50242728393?text=${waMsg}`;
       }
 
       // Botón Ubicar en Mapa
@@ -1923,13 +1946,13 @@
       if (counterEl) counterEl.innerText = `Foto ${index + 1} de ${currentGalleryPhotos.length}`;
       if (labelEl) labelEl.innerText = photo.label;
 
-      // Actualizar borde de miniatura activa
+      // Actualizar borde y realce de miniatura activa (Vista Previa Ampliada)
       const thumbs = document.querySelectorAll('.modal-thumb');
       thumbs.forEach((t, i) => {
         if (i === index) {
-          t.className = "modal-thumb relative flex-shrink-0 w-20 h-14 rounded-xl overflow-hidden border-2 border-primary ring-2 ring-primary/20 scale-105 transition-all";
+          t.className = "modal-thumb relative flex-shrink-0 w-36 sm:w-48 md:w-56 h-24 sm:h-32 md:h-36 rounded-2xl overflow-hidden border-2 border-black ring-4 ring-black/15 scale-100 transition-all duration-200 group text-left shadow-md";
         } else {
-          t.className = "modal-thumb relative flex-shrink-0 w-20 h-14 rounded-xl overflow-hidden border-2 border-surface-container-high opacity-70 hover:opacity-100 transition-all";
+          t.className = "modal-thumb relative flex-shrink-0 w-36 sm:w-48 md:w-56 h-24 sm:h-32 md:h-36 rounded-2xl overflow-hidden border-2 border-surface-container-high opacity-70 hover:opacity-100 hover:border-neutral-400 transition-all duration-200 group text-left";
         }
       });
     }
