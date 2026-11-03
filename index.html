@@ -291,35 +291,35 @@
 
 <body class="bg-surface text-on-surface antialiased selection:bg-primary selection:text-on-primary min-h-screen flex flex-col font-body-md">
 
-  <!-- TOP APP BAR -->
-  <header class="bg-[#f9f9f9] text-primary docked full-width top-0 sticky z-40 border-b border-surface-container-high shadow-sm transition-all duration-200">
+  <!-- TOP APP BAR (Tema Oscuro de Alta Gama) -->
+  <header class="bg-[#121214]/90 backdrop-blur-md text-white docked full-width top-0 sticky z-40 border-b border-neutral-800 shadow-lg transition-all duration-200">
     <div class="flex justify-between items-center w-full px-6 lg:px-12 py-4 max-w-7xl mx-auto">
       <!-- Brand Anchor -->
-      <a class="flex items-center gap-2 group" href="#">
-        <div class="w-7 h-7 bg-primary text-on-primary rounded flex items-center justify-center font-bold text-xs tracking-tighter transition-transform group-hover:scale-105">
+      <a class="flex items-center gap-2.5 group" href="#">
+        <div class="w-7 h-7 bg-white text-black rounded flex items-center justify-center font-bold text-xs tracking-tighter transition-transform group-hover:scale-105">
           BR
         </div>
-        <span class="text-headline-sm font-headline-sm font-bold tracking-tight text-primary">
+        <span class="text-headline-sm font-headline-sm font-bold tracking-tight text-white">
           Bienes Raíces Online Guatemala
         </span>
       </a>
 
       <!-- Desktop Nav Links -->
       <nav class="hidden lg:flex items-center gap-7">
-        <a class="text-on-surface-variant hover:text-primary transition-colors text-label-md font-medium" href="#mapa">Mapa Interactivo</a>
-        <a class="text-on-surface-variant hover:text-primary transition-colors text-label-md font-medium" href="#propiedades">Propiedades</a>
-        <a class="text-on-surface-variant hover:text-primary transition-colors text-label-md font-medium" href="#nosotros">Servicios</a>
-        <a class="text-on-surface-variant hover:text-primary transition-colors text-label-md font-medium" href="#asesores">Asesores</a>
-        <a class="text-on-surface-variant hover:text-primary transition-colors text-label-md font-medium" href="#clientes">Opiniones</a>
+        <a class="text-neutral-300 hover:text-white transition-colors text-label-md font-medium" href="#mapa">Mapa Interactivo</a>
+        <a class="text-neutral-300 hover:text-white transition-colors text-label-md font-medium" href="#propiedades">Propiedades</a>
+        <a class="text-neutral-300 hover:text-white transition-colors text-label-md font-medium" href="#nosotros">Servicios</a>
+        <a class="text-neutral-300 hover:text-white transition-colors text-label-md font-medium" href="#asesores">Asesores</a>
+        <a class="text-neutral-300 hover:text-white transition-colors text-label-md font-medium" href="#clientes">Opiniones</a>
       </nav>
 
       <!-- Trailing Action Cluster -->
       <div class="flex items-center gap-3">
-        <a class="hidden sm:flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border border-outline-variant text-label-md font-medium text-on-surface hover:border-primary transition-colors" href="tel:+50242728393">
+        <a class="hidden sm:flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border border-neutral-700 text-label-md font-medium text-neutral-200 hover:text-white hover:border-white transition-colors" href="tel:+50242728393">
           <span class="material-symbols-outlined text-[16px]">call</span>
           +502 42728393
         </a>
-        <a class="btn-luxury bg-primary text-on-primary px-4 sm:px-5 py-2.5 rounded-full text-label-md font-medium flex items-center gap-1.5 shadow-sm" href="https://wa.link/baubcc" rel="noopener noreferrer" target="_blank">
+        <a class="btn-luxury bg-white text-black hover:bg-neutral-100 px-4 sm:px-5 py-2.5 rounded-full text-label-md font-bold flex items-center gap-1.5 shadow-sm" href="https://wa.link/baubcc" rel="noopener noreferrer" target="_blank">
           <span>Contactar Asesor</span>
           <span class="material-symbols-outlined text-[16px]">arrow_outward</span>
         </a>
@@ -330,67 +330,68 @@
   <!-- MAIN CANVAS -->
   <main class="flex-grow">
 
-    <!-- HERO SECTION -->
-    <section class="relative pt-12 pb-16 lg:pt-16 lg:pb-24 overflow-hidden border-b border-surface-container-high bg-surface">
-      <div class="max-w-7xl mx-auto px-6 lg:px-12">
+    <!-- HERO SECTION: FULL-BLEED ARCHITECTURAL MANSION CON DEGRADADO & TEMA OSCURO -->
+    <section class="relative min-h-[85vh] lg:min-h-[92vh] flex items-center justify-center overflow-hidden bg-neutral-950">
+      
+      <!-- Imagen de Fondo Arquitectónica de Alta Gama -->
+      <img class="absolute inset-0 w-full h-full object-cover object-center filter brightness-[0.88]" 
+           alt="Mansión Arquitectónica Contemporánea Suroccidente" 
+           src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=2000&q=80" 
+           decoding="async" 
+           fetchpriority="high">
+
+      <!-- Capas de Degradado Oscuro Superior y Central para Máxima Legibilidad -->
+      <div class="absolute inset-0 bg-gradient-to-b from-black/80 via-black/45 to-black/85 pointer-events-none z-10"></div>
+      <div class="absolute inset-0 bg-radial-gradient from-transparent via-black/25 to-black/60 pointer-events-none z-10"></div>
+
+      <!-- Degradado de Transición Suave Inferior (Idéntico a la imagen de referencia) -->
+      <div class="absolute bottom-0 inset-x-0 h-40 bg-gradient-to-t from-[#f9f9f9] via-[#f9f9f9]/70 to-transparent pointer-events-none z-10"></div>
+
+      <!-- Contenido Central del Hero -->
+      <div class="relative z-20 max-w-5xl mx-auto px-6 lg:px-12 py-24 text-center flex flex-col items-center justify-center">
+        
         <!-- Eyebrow Pill -->
-        <div class="flex justify-center mb-6">
-          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-surface-container-lowest border border-surface-container-highest shadow-sm">
-            <span class="w-2 h-2 rounded-full bg-black animate-pulse"></span>
-            <span class="text-label-sm font-label-sm text-on-surface-variant font-medium tracking-wide">
-              Portafolio Inmobiliario Premium 2026
-            </span>
-          </div>
+        <div class="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-white shadow-xl mb-6">
+          <span class="w-2 h-2 rounded-full bg-white animate-pulse"></span>
+          <span class="text-xs font-semibold uppercase tracking-wider text-white/90">
+            Portafolio Inmobiliario Premium 2026
+          </span>
         </div>
 
-        <!-- Headline & Value Prop -->
-        <div class="max-w-4xl mx-auto text-center mb-12">
-          <h1 class="text-display-hero-mobile lg:text-display-hero font-display-hero tracking-tight text-primary mb-6">
-            Encuentra la propiedad que define tu estilo de vida
-          </h1>
-          <p class="text-body-md lg:text-body-lg font-body-lg text-on-surface-variant max-w-2xl mx-auto leading-relaxed">
-            Venta y renta exclusiva de residencias de autor, apartamentos y terrenos de alta plusvalía en el Suroccidente de Guatemala: Quetzaltenango y Retalhuleu.
-          </p>
+        <!-- Headline Principal -->
+        <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold text-white tracking-tight leading-[1.1] mb-6 drop-shadow-xl max-w-4xl">
+          Encuentra la propiedad que define tu estilo de vida
+        </h1>
+
+        <!-- Subtítulo -->
+        <p class="text-base sm:text-lg lg:text-xl text-white/90 max-w-3xl leading-relaxed mb-10 drop-shadow-md">
+          Venta y renta exclusiva de residencias de autor, apartamentos y terrenos de alta plusvalía en el Suroccidente de Guatemala: Quetzaltenango y Retalhuleu.
+        </p>
+
+        <!-- Botones de Acción de Alta Gama -->
+        <div class="flex flex-wrap items-center justify-center gap-4 mb-10">
+          <a href="#mapa" class="btn-luxury px-8 py-4 rounded-full bg-white text-black font-bold text-sm flex items-center gap-2.5 shadow-2xl hover:bg-neutral-100 transition-all hover:scale-105">
+            <span class="material-symbols-outlined text-[18px]">explore</span>
+            <span>Explorar en el Mapa</span>
+          </a>
+          <a href="#propiedades" class="btn-luxury px-8 py-4 rounded-full bg-black/60 hover:bg-black/90 backdrop-blur-md text-white border border-white/30 font-semibold text-sm flex items-center gap-2.5 shadow-xl transition-all hover:scale-105">
+            <span>Ver Catálogo (10)</span>
+            <span class="material-symbols-outlined text-[18px]">arrow_downward</span>
+          </a>
         </div>
 
-        <!-- Architectural Hero Gallery Frame -->
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
-          <div class="lg:col-span-8 overflow-hidden rounded-2xl border border-surface-container-high bg-surface-container-lowest relative group aspect-[16/9] shadow-sm cursor-pointer" onclick="openPropertyModal(2)">
-            <img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="Residencia Valle Real Quetzaltenango" decoding="async" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDX9ICFKIZhMbWGoxYCgvhJjABKnkN1h3mwz7WeNfZCJEDkvVALA4pfES2y_O4GBMvXSe8d6D2GeGWW1TMKh_QEnD-cu33XhnFkxBKEIBqUILmEtGxrlMvNjTSv_8vOUTuSlu_Pljbk_7tgDVp-v4Qk4YJrbR-XvAyXSGJPWT2sQNxlYwJNevUA3PW414-hlWbwLbBRq1u65yZOg2c7Jb3xwJ8IQ5CCvB5z72IPkRzl">
-            <div class="absolute bottom-6 left-6 right-6 sm:right-auto bg-surface-container-lowest px-5 py-3.5 rounded-xl border border-outline-variant/50 max-w-sm shadow-md">
-              <span class="text-[11px] font-semibold text-outline uppercase tracking-wider block">Proyecto Destacado</span>
-              <h2 class="text-headline-sm font-headline-sm font-bold text-primary">Residencia Valle Real</h2>
-              <p class="text-body-sm text-on-surface-variant mt-0.5">Zona 9 Quetzaltenango · 340 m² · Q 2,450,000</p>
-              <span class="text-xs text-primary font-bold inline-flex items-center gap-1 mt-2 group-hover:underline">
-                Ver Ficha Completa <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
-              </span>
-            </div>
+        <!-- Tarjeta Flotante Interactiva de Proyecto Destacado (Residencia Valle Real) -->
+        <div class="inline-flex items-center gap-3.5 bg-black/70 backdrop-blur-md border border-white/20 px-5 py-3 rounded-2xl text-white shadow-2xl cursor-pointer hover:bg-black/90 transition-all hover:scale-[1.02] text-left" onclick="openPropertyModal(2)">
+          <div class="w-11 h-11 rounded-xl overflow-hidden bg-neutral-800 flex-shrink-0 border border-white/20">
+            <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDX9ICFKIZhMbWGoxYCgvhJjABKnkN1h3mwz7WeNfZCJEDkvVALA4pfES2y_O4GBMvXSe8d6D2GeGWW1TMKh_QEnD-cu33XhnFkxBKEIBqUILmEtGxrlMvNjTSv_8vOUTuSlu_Pljbk_7tgDVp-v4Qk4YJrbR-XvAyXSGJPWT2sQNxlYwJNevUA3PW414-hlWbwLbBRq1u65yZOg2c7Jb3xwJ8IQ5CCvB5z72IPkRzl" class="w-full h-full object-cover" alt="Valle Real">
           </div>
-          <div class="lg:col-span-4 flex flex-col gap-6">
-            <div class="overflow-hidden rounded-2xl border border-surface-container-high bg-surface-container-lowest relative group aspect-[4/3] shadow-sm cursor-pointer" onclick="openPropertyModal(1)">
-              <img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="Condominio Difiori Quetzaltenango" decoding="async" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBwSQYQ1wjrN5CfgNHkDi7cq5s4zWdHfB9kgFrDdVO_XuVq570JneYfEGBUc8eYTySaKPZQiqJRVjcQCkx4P90Jza5nXjDrmMkqQz8JDOfVL7TGyc4JvQKjpjEYvYEp16ZhfYn61-VsGom_V9wajidb490s2xBRkGWdMj5IOeLSf_UlyDE6XVC6mEXkbrToCKswtC59GKKX7k3zTMqW5SzglCLQi2sGdda3ysx5ZL6Q">
-              <div class="absolute top-4 right-4 bg-primary text-on-primary text-label-sm font-label-sm px-3 py-1 rounded-full shadow">
-                En Venta
-              </div>
-              <div class="absolute bottom-4 left-4 right-4 bg-surface-container-lowest px-4 py-2 rounded-lg border border-outline-variant/40">
-                <p class="text-xs text-outline font-medium">Condominio Difiori · Zona 8 Xela</p>
-                <p class="text-sm font-bold text-primary">Q 1,850,000 (~$238K)</p>
-              </div>
-            </div>
-            <!-- Value Highlight Pill Card -->
-            <div class="bg-surface-container-lowest p-6 rounded-2xl border border-surface-container-high shadow-sm">
-              <div class="flex items-center gap-3 mb-3">
-                <span class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-primary">
-                  <span class="material-symbols-outlined text-[18px]">verified_user</span>
-                </span>
-                <h3 class="text-headline-sm font-headline-sm font-semibold text-primary">Garantía Inmobiliaria</h3>
-              </div>
-              <p class="text-body-sm font-body-sm text-on-surface-variant leading-relaxed">
-                Títulos de propiedad validados y dictaminados ante el Segundo Registro de la Propiedad en Quetzaltenango. Certeza legal garantizada en cada compra.
-              </p>
-            </div>
+          <div class="text-xs">
+            <span class="text-white/60 text-[10px] uppercase font-bold tracking-wider block">Proyecto Destacado · Zona 9 Xela</span>
+            <span class="font-bold text-white text-sm block">Residencia Valle Real · Q 2,450,000</span>
           </div>
+          <span class="material-symbols-outlined text-white/90 text-[20px] ml-1">arrow_forward</span>
         </div>
+
       </div>
     </section>
 
