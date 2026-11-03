@@ -982,26 +982,48 @@
   </footer>
 
   <!-- FULL DETAILED PROPERTY MODAL / DRAWER -->
-  <div id="property-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/60 modal-backdrop opacity-0 pointer-events-none transition-opacity duration-300">
-    <div id="property-modal-content" class="bg-surface-container-lowest max-w-3xl w-full max-h-[90vh] rounded-3xl overflow-hidden shadow-2xl flex flex-col relative transform scale-95 transition-transform duration-300">
+  <div id="property-modal" class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/75 modal-backdrop opacity-0 pointer-events-none transition-opacity duration-300">
+    <div id="property-modal-content" class="bg-surface-container-lowest max-w-3xl w-full max-h-[92vh] rounded-3xl overflow-hidden shadow-2xl flex flex-col relative transform scale-95 transition-transform duration-300">
       
-      <!-- Modal Header Image -->
-      <div class="relative h-64 sm:h-72 w-full bg-surface-container overflow-hidden flex-shrink-0">
-        <img id="modal-img" class="w-full h-full object-cover" alt="Detalle Propiedad" src="">
-        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+      <!-- Modal Main Image View with Navigation -->
+      <div class="relative h-64 sm:h-80 w-full bg-neutral-900 overflow-hidden flex-shrink-0 group">
+        <img id="modal-img" class="w-full h-full object-cover transition-opacity duration-300" alt="Detalle Propiedad" src="" decoding="async">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent pointer-events-none"></div>
         
         <!-- Close Button -->
-        <button onclick="closePropertyModal()" class="btn-luxury absolute top-4 right-4 w-10 h-10 rounded-full bg-black/50 hover:bg-black text-white flex items-center justify-center backdrop-blur-md transition-colors z-20" aria-label="Cerrar ventana">
+        <button onclick="closePropertyModal()" class="btn-luxury absolute top-4 right-4 w-10 h-10 rounded-full bg-black/60 hover:bg-black text-white flex items-center justify-center transition-colors z-30" aria-label="Cerrar ventana">
           <span class="material-symbols-outlined text-[20px]">close</span>
         </button>
 
-        <span id="modal-tag" class="absolute top-4 left-4 bg-emerald-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow">
+        <!-- Status Tag -->
+        <span id="modal-tag" class="absolute top-4 left-4 bg-emerald-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow z-20">
           Disponible
         </span>
 
-        <div class="absolute bottom-4 left-6 right-6 text-white">
+        <!-- Image Navigation Prev / Next Arrows -->
+        <button onclick="changeModalPhoto(-1)" class="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/60 hover:bg-black text-white flex items-center justify-center transition-transform hover:scale-110 z-20" aria-label="Foto anterior">
+          <span class="material-symbols-outlined text-[20px]">chevron_left</span>
+        </button>
+        <button onclick="changeModalPhoto(1)" class="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/60 hover:bg-black text-white flex items-center justify-center transition-transform hover:scale-110 z-20" aria-label="Foto siguiente">
+          <span class="material-symbols-outlined text-[20px]">chevron_right</span>
+        </button>
+
+        <!-- Current Photo Label Badge -->
+        <div class="absolute top-4 left-1/2 -translate-x-1/2 bg-black/60 text-white text-[11px] font-semibold px-3 py-1 rounded-full z-20 shadow">
+          <span id="modal-photo-counter">Foto 1 de 5</span>: <span id="modal-photo-label" class="font-normal text-white/90">Fachada Exterior</span>
+        </div>
+
+        <!-- Property Title Overlay -->
+        <div class="absolute bottom-4 left-6 right-6 text-white z-10">
           <span id="modal-loc" class="text-xs uppercase tracking-wider text-white/80 block mb-0.5">Zona 8 · Quetzaltenango</span>
           <h2 id="modal-title" class="text-2xl sm:text-3xl font-bold tracking-tight">Condominio Difiori</h2>
+        </div>
+      </div>
+
+      <!-- Gallery Thumbnail Strip -->
+      <div class="bg-surface-container px-4 py-3 border-b border-surface-container-high overflow-x-auto flex-shrink-0">
+        <div class="flex items-center gap-2.5" id="modal-thumbnails-container">
+          <!-- Dynamically populated with thumbnails of exterior and interior photos -->
         </div>
       </div>
 
@@ -1022,10 +1044,6 @@
               <span class="material-symbols-outlined text-[16px]">map</span>
               <span>Ubicar en Mapa</span>
             </button>
-            <a id="modal-wa-btn" href="#" target="_blank" class="btn-luxury px-5 py-2.5 rounded-full bg-primary hover:bg-neutral-800 text-on-primary text-xs font-semibold flex items-center gap-1.5 shadow-sm">
-              <span class="material-symbols-outlined text-[16px]">chat</span>
-              <span>Agendar Visita WhatsApp</span>
-            </a>
           </div>
         </div>
 
@@ -1062,7 +1080,7 @@
 
         <!-- Description -->
         <div>
-          <h3 class="text-xs font-bold text-outline uppercase tracking-wider mb-2">Descripción General</h3>
+          <h3 class="text-xs font-bold text-outline uppercase tracking-wider mb-2">Descripción de la Propiedad</h3>
           <p id="modal-desc" class="text-sm text-on-surface-variant leading-relaxed">
             Residencia diseñada con arquitectura moderna y altos estándares de seguridad en Quetzaltenango.
           </p>
@@ -1082,6 +1100,14 @@
           <div id="modal-features" class="flex flex-wrap gap-2">
             <!-- Dynamically populated -->
           </div>
+        </div>
+
+        <!-- BOTÓN NEGRO DESTACADO: AGENDAR CITA A WSP -->
+        <div class="pt-6 border-t border-surface-container">
+          <a id="modal-wa-btn-bottom" href="#" target="_blank" class="w-full bg-black hover:bg-neutral-800 text-white py-4 px-6 rounded-2xl flex items-center justify-center gap-3 font-bold text-base shadow-xl transition-transform active:scale-95">
+            <span class="material-symbols-outlined text-[24px]">chat</span>
+            <span>Agendar cita a WSP</span>
+          </a>
         </div>
 
       </div>
@@ -1116,6 +1142,13 @@
         lng: -91.5320,
         tag: "Disponible",
         img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBwSQYQ1wjrN5CfgNHkDi7cq5s4zWdHfB9kgFrDdVO_XuVq570JneYfEGBUc8eYTySaKPZQiqJRVjcQCkx4P90Jza5nXjDrmMkqQz8JDOfVL7TGyc4JvQKjpjEYvYEp16ZhfYn61-VsGom_V9wajidb490s2xBRkGWdMj5IOeLSf_UlyDE6XVC6mEXkbrToCKswtC59GKKX7k3zTMqW5SzglCLQi2sGdda3ysx5ZL6Q",
+        gallery: [
+          { url: "https://lh3.googleusercontent.com/aida-public/AB6AXuBwSQYQ1wjrN5CfgNHkDi7cq5s4zWdHfB9kgFrDdVO_XuVq570JneYfEGBUc8eYTySaKPZQiqJRVjcQCkx4P90Jza5nXjDrmMkqQz8JDOfVL7TGyc4JvQKjpjEYvYEp16ZhfYn61-VsGom_V9wajidb490s2xBRkGWdMj5IOeLSf_UlyDE6XVC6mEXkbrToCKswtC59GKKX7k3zTMqW5SzglCLQi2sGdda3ysx5ZL6Q", label: "Fachada Exterior" },
+          { url: "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1200&q=80", label: "Sala Principal" },
+          { url: "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=1200&q=80", label: "Cocina con Isla" },
+          { url: "https://images.unsplash.com/photo-1616594039964-ae9021a400a0?auto=format&fit=crop&w=1200&q=80", label: "Dormitorio Master" },
+          { url: "https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?auto=format&fit=crop&w=1200&q=80", label: "Baño de Lujo" }
+        ],
         desc: "Exclusiva residencia en condominio cerrado con garita de seguridad 24 horas. Cuenta con amplia sala-comedor, cocina con gabinetes de cuarzo blanco, sala familiar en segundo nivel y jardín posterior privado.",
         nearby: [
           "Colegio Suizo Americano (3 min)",
@@ -1146,6 +1179,13 @@
         lng: -91.5150,
         tag: "Exclusivo",
         img: "https://lh3.googleusercontent.com/aida-public/AB6AXuDX9ICFKIZhMbWGoxYCgvhJjABKnkN1h3mwz7WeNfZCJEDkvVALA4pfES2y_O4GBMvXSe8d6D2GeGWW1TMKh_QEnD-cu33XhnFkxBKEIBqUILmEtGxrlMvNjTSv_8vOUTuSlu_Pljbk_7tgDVp-v4Qk4YJrbR-XvAyXSGJPWT2sQNxlYwJNevUA3PW414-hlWbwLbBRq1u65yZOg2c7Jb3xwJ8IQ5CCvB5z72IPkRzl",
+        gallery: [
+          { url: "https://lh3.googleusercontent.com/aida-public/AB6AXuDX9ICFKIZhMbWGoxYCgvhJjABKnkN1h3mwz7WeNfZCJEDkvVALA4pfES2y_O4GBMvXSe8d6D2GeGWW1TMKh_QEnD-cu33XhnFkxBKEIBqUILmEtGxrlMvNjTSv_8vOUTuSlu_Pljbk_7tgDVp-v4Qk4YJrbR-XvAyXSGJPWT2sQNxlYwJNevUA3PW414-hlWbwLbBRq1u65yZOg2c7Jb3xwJ8IQ5CCvB5z72IPkRzl", label: "Fachada Arquitectónica" },
+          { url: "https://lh3.googleusercontent.com/aida-public/AB6AXuDEBsyF3HfjOdry5uqdjf02QfeVgP2_Kp4u1Kfpo5DnMcA5gxyRqItcByipaCwt3VSnAxF3NhKLNMfOiyAPY_Gtnr4PUXxMS2_pboVDPZwGW_sGlMYsKujHACs6fzG_NvmSzIVpWsiX8I1YECBJkA1yeL76oavV_cV7k2-mzDTS1vgPvepj6-hIFfitghiuTyQa42mrPpzYtz8RLTp88X3zMoyJUmWclNWXZntwoREA", label: "Master Suite Panorámica" },
+          { url: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80", label: "Sala con Chimenea" },
+          { url: "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=1200&q=80", label: "Cocina Italiana" },
+          { url: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80", label: "Terraza Superior" }
+        ],
         desc: "Obra maestra de diseño bioclimático con doble acristalamiento para aislamiento térmico. Vista panorámica a los valles de Quetzaltenango, chimenea ecológica, master suite con walk-in closet y tina de hidromasaje.",
         nearby: [
           "Colegio El Sagrado Corazón (4 min)",
@@ -1176,6 +1216,13 @@
         lng: -91.5380,
         tag: "Oportunidad",
         img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBvJha5QE7Xez6y2TY8ZfaCGoFrc0InPYZcbSq3t1qDybEcYFbF-3Q9BF47nIVBpN-CueJkcBn1kBTOtr2JcdbGugo06Eyjpdj_kY96sMRs6kJ8KEwqbzJi7c06-rdVe2okJzN_8iTPrIuUeVtwAOQ4QxCnWU1OgW4MFfrcDvS_yCO_0I6WrgCqOYTI6m1Wkou5wVpOdSjoL1NRpqyYj_mNe_WqbicaL0bQthjJ9xjP",
+        gallery: [
+          { url: "https://lh3.googleusercontent.com/aida-public/AB6AXuBvJha5QE7Xez6y2TY8ZfaCGoFrc0InPYZcbSq3t1qDybEcYFbF-3Q9BF47nIVBpN-CueJkcBn1kBTOtr2JcdbGugo06Eyjpdj_kY96sMRs6kJ8KEwqbzJi7c06-rdVe2okJzN_8iTPrIuUeVtwAOQ4QxCnWU1OgW4MFfrcDvS_yCO_0I6WrgCqOYTI6m1Wkou5wVpOdSjoL1NRpqyYj_mNe_WqbicaL0bQthjJ9xjP", label: "Fachada Townhouse" },
+          { url: "https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=1200&q=80", label: "Sala de Estar" },
+          { url: "https://images.unsplash.com/photo-1507089947368-19c1da9775ae?auto=format&fit=crop&w=1200&q=80", label: "Cocina Lineal" },
+          { url: "https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?auto=format&fit=crop&w=1200&q=80", label: "Habitación Secundaria" },
+          { url: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=1200&q=80", label: "Patio Privado" }
+        ],
         desc: "Excelente distribución con espacios iluminados naturalmente, iluminación LED empotrada, cocina moderna y garaje techado para dos vehículos en una de las zonas residenciales más demandadas de Xela.",
         nearby: [
           "Liceo Guatemala Xela (5 min)",
@@ -1206,6 +1253,13 @@
         lng: -91.6770,
         tag: "Con Piscina",
         img: "https://lh3.googleusercontent.com/aida-public/AB6AXuDJTsM8eCvGrcve326VPDQBc5lMN0u0qwknWdTKIBFQXSs-L21fk3uHx9RdnKJoeGejP7vCYRbqLSFV3aBUJuve8vKuU4V7MqBiz4pvkU5vdxza6GFlAyUu7HXKM86WrVdLigrFI3VT7wqtqds80THrmnUCy888AsbAmpLbso7zWCpYO_rL_gAoQgspNRPcgZxouoUjBMI3qclTQbMjOkgNRaskD874pY5iSWrJxlyk",
+        gallery: [
+          { url: "https://lh3.googleusercontent.com/aida-public/AB6AXuDJTsM8eCvGrcve326VPDQBc5lMN0u0qwknWdTKIBFQXSs-L21fk3uHx9RdnKJoeGejP7vCYRbqLSFV3aBUJuve8vKuU4V7MqBiz4pvkU5vdxza6GFlAyUu7HXKM86WrVdLigrFI3VT7wqtqds80THrmnUCy888AsbAmpLbso7zWCpYO_rL_gAoQgspNRPcgZxouoUjBMI3qclTQbMjOkgNRaskD874pY5iSWrJxlyk", label: "Piscina & Fachada" },
+          { url: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=1200&q=80", label: "Sala Tropical Abierta" },
+          { url: "https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=1200&q=80", label: "Suite con Aire Acondicionado" },
+          { url: "https://images.unsplash.com/photo-1512915922686-57c11dde9b6b?auto=format&fit=crop&w=1200&q=80", label: "Pérgola & Bar Social" },
+          { url: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80", label: "Jardines Exuberantes" }
+        ],
         desc: "Magnífica propiedad campestre en el clima cálido de Retalhuleu. Cuenta con alberca iluminada, pérgola con bar, jardines tropicales, suites con aire acondicionado y estacionamiento para múltiples vehículos.",
         nearby: [
           "Parques Temáticos IRTRA (12 min)",
@@ -1236,6 +1290,13 @@
         lng: -91.5180,
         tag: "Estreno",
         img: "https://lh3.googleusercontent.com/aida-public/AB6AXuDgFQ9jZs66pUx5Nu4G_O6GIyRWQ2IOkh_Q8r5pZGn_cRW-mT27SDivhlR6f17qTp9j5_v4kONPGZaK7jWOmF7VQAOCAZuwcWnV2qLB8Q9PJh_aZuS5Mcr7qhd7FXdmGwYmtCONpB-h1XkgB2w3Iup5T0rjDoNmNEwvwFtXvmbOjS8EoKbWXkm81MB-pw-eQlHzfL_vpF7ILa613jb1DCGKVjiNYBFR7alC-cWKg-tr",
+        gallery: [
+          { url: "https://lh3.googleusercontent.com/aida-public/AB6AXuDgFQ9jZs66pUx5Nu4G_O6GIyRWQ2IOkh_Q8r5pZGn_cRW-mT27SDivhlR6f17qTp9j5_v4kONPGZaK7jWOmF7VQAOCAZuwcWnV2qLB8Q9PJh_aZuS5Mcr7qhd7FXdmGwYmtCONpB-h1XkgB2w3Iup5T0rjDoNmNEwvwFtXvmbOjS8EoKbWXkm81MB-pw-eQlHzfL_vpF7ILa613jb1DCGKVjiNYBFR7alC-cWKg-tr", label: "Cocina & Vista Interior" },
+          { url: "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=1200&q=80", label: "Sala de Estar Moderna" },
+          { url: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=1200&q=80", label: "Dormitorio Principal" },
+          { url: "https://images.unsplash.com/photo-1620626011761-996317b8d101?auto=format&fit=crop&w=1200&q=80", label: "Baño Suite" },
+          { url: "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1200&q=80", label: "Comedor Integrado" }
+        ],
         desc: "Viva en el corazón cultural de Xela con acabados contemporáneos. Balcón con vista a las iglesias históricas, cocina abierta con isla de cuarzo y acceso controlado con tarjeta inteligente.",
         nearby: [
           "Parque Central de Xela (4 min a pie)",
@@ -1266,6 +1327,12 @@
         lng: -91.5190,
         tag: "Inversión",
         img: "https://lh3.googleusercontent.com/aida-public/AB6AXuAajAst6mSt-JCb7kNfyC1J6nxXZutzXVvg87eEO4u87IvOLasKQX9ZAYz-8NwCbaHO8TcfbeVl34mJ1YT8L0wVQyxwUN5qcDj88ZM7fqAw3eyr7_eaWprG11Ddco7rpbovjjOxhZt_MbxVtl18K7HD5lXYHZWqrIHu83mAB8c0RzvzBdrXuTXdifQ4yBIYZ2GqQ_jWrjiQi8Hx2tV7nrUjTHS1XIOzCFxSVaAxnCOl",
+        gallery: [
+          { url: "https://lh3.googleusercontent.com/aida-public/AB6AXuAajAst6mSt-JCb7kNfyC1J6nxXZutzXVvg87eEO4u87IvOLasKQX9ZAYz-8NwCbaHO8TcfbeVl34mJ1YT8L0wVQyxwUN5qcDj88ZM7fqAw3eyr7_eaWprG11Ddco7rpbovjjOxhZt_MbxVtl18K7HD5lXYHZWqrIHu83mAB8c0RzvzBdrXuTXdifQ4yBIYZ2GqQ_jWrjiQi8Hx2tV7nrUjTHS1XIOzCFxSVaAxnCOl", label: "Topografía del Lote" },
+          { url: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=80", label: "Acceso Pavimentado" },
+          { url: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80", label: "Corredor Comercial Las Américas" },
+          { url: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80", label: "Vista Panorámica del Entorno" }
+        ],
         desc: "Excelente terreno totalmente plano listo para edificar residencia de lujo o local comercial. Ubicado en uno de los corredores de mayor plusvalía de Occidente con todos los servicios subterráneos a pie de calle.",
         nearby: [
           "Avenida Las Américas Corredor Financiero (1 min)",
@@ -1296,6 +1363,13 @@
         lng: -91.5230,
         tag: "En Renta",
         img: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80",
+        gallery: [
+          { url: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80", label: "Vista Terraza Penthouse" },
+          { url: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80", label: "Sala Doble Altura" },
+          { url: "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=1200&q=80", label: "Cocina con Acabados Premium" },
+          { url: "https://images.unsplash.com/photo-1616594039964-ae9021a400a0?auto=format&fit=crop&w=1200&q=80", label: "Master Suite con Vista" },
+          { url: "https://images.unsplash.com/photo-1512915922686-57c11dde9b6b?auto=format&fit=crop&w=1200&q=80", label: "Área Lounge Exterior" }
+        ],
         desc: "Penthouse ejecutivo de ensueño completamente amueblado con finos muebles de autor. Terraza de 35 m² con vista directa a las montañas, cocina de alta gama y amenidades completas de torre.",
         nearby: [
           "Centro Médico La Paz (2 min)",
@@ -1326,6 +1400,13 @@
         lng: -91.5450,
         tag: "Disponible",
         img: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80",
+        gallery: [
+          { url: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80", label: "Fachada Estilo Nórdico" },
+          { url: "https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=1200&q=80", label: "Sala Cálida con Chimenea" },
+          { url: "https://images.unsplash.com/photo-1507089947368-19c1da9775ae?auto=format&fit=crop&w=1200&q=80", label: "Cocina Rústica Moderna" },
+          { url: "https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?auto=format&fit=crop&w=1200&q=80", label: "Habitación con Techo de Madera" },
+          { url: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=1200&q=80", label: "Jardín & Pérgola de Horno" }
+        ],
         desc: "Hermosa propiedad campestre dentro de la ciudad, rodeada de pinos y aire puro. Incluye pérgola techada con horno de leña, jardín de 150 m², sistema de calefacción pasiva y cisterna de 10,000 litros.",
         nearby: [
           "Ecoparque Volcán Santa María (5 min)",
@@ -1356,6 +1437,13 @@
         lng: -91.6620,
         tag: "Inversión",
         img: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
+        gallery: [
+          { url: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80", label: "Fachada de la Finca" },
+          { url: "https://images.unsplash.com/photo-1512915922686-57c11dde9b6b?auto=format&fit=crop&w=1200&q=80", label: "Corredores Exteriores" },
+          { url: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=1200&q=80", label: "Sala Familiar de Descanso" },
+          { url: "https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=1200&q=80", label: "Dormitorio con Climatización" },
+          { url: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=80", label: "Terreno con Frutales" }
+        ],
         desc: "Excelente inversión para descanso o desarrollo de ecoturismo. Gran extensión de 1,800 varas cuadradas con casa principal climatizada, casa de guardián independiente, árboles de mango y aguacate en plena producción.",
         nearby: [
           "Autopista Los Altos (2 min)",
@@ -1386,6 +1474,13 @@
         lng: -91.5580,
         tag: "En Renta",
         img: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=80",
+        gallery: [
+          { url: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=80", label: "Fachada Residencial" },
+          { url: "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1200&q=80", label: "Sala de Estar Integrada" },
+          { url: "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=1200&q=80", label: "Cocina con Desayunador" },
+          { url: "https://images.unsplash.com/photo-1524813686514-a57563d77d61?auto=format&fit=crop&w=1200&q=80", label: "Estudio Home Office" },
+          { url: "https://images.unsplash.com/photo-1616594039964-ae9021a400a0?auto=format&fit=crop&w=1200&q=80", label: "Dormitorio Principal" }
+        ],
         desc: "Casa ejecutiva con doble garita de acceso, áreas verdes infantiles y ambiente sumamente tranquilo. Sala con chimenea, estudio para teletrabajo, closets modernos y cocina con alacena independiente.",
         nearby: [
           "Bulevar La Esperanza (2 min)",
@@ -1518,7 +1613,10 @@
       }
     }
 
-    // RENDERIZAR CUADRÍCULA DE 10 PROPIEDADES
+    let currentGalleryPhotos = [];
+    let currentGalleryIndex = 0;
+
+    // RENDERIZAR CUADRÍCULA DE 10 PROPIEDADES (100% VISIBLE SIN BLOQUEOS)
     function renderPropertiesGrid(props) {
       const container = document.getElementById('properties-grid');
       const counterMsg = document.getElementById('properties-count-msg');
@@ -1543,21 +1641,31 @@
 
       props.forEach(p => {
         const card = document.createElement('div');
+        // Totalmente opaco y visible de inmediato sin retrasos de opacidad
         card.className = "bg-surface rounded-2xl border border-surface-container-high overflow-hidden shadow-sm hover:shadow-md transition-shadow group flex flex-col";
+        card.style.opacity = "1";
+        card.style.visibility = "visible";
+
+        const photoCount = (p.gallery && p.gallery.length) ? p.gallery.length : 5;
+
         card.innerHTML = `
           <div class="relative aspect-[4/3] overflow-hidden bg-surface-container cursor-pointer" onclick="openPropertyModal(${p.id})">
             <img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" alt="${p.title}" src="${p.img}" loading="lazy" decoding="async">
             <span class="absolute top-3 left-3 ${p.deal === 'Renta' ? 'bg-amber-600' : 'bg-primary'} text-on-primary text-[10px] font-semibold tracking-wider uppercase px-2.5 py-1 rounded-full shadow">
               ${p.tag}
             </span>
-            <button onclick="event.stopPropagation(); locateOnMapFromCard(${p.id})" class="btn-luxury absolute bottom-3 right-3 bg-black/60 hover:bg-black text-white text-[11px] font-medium px-2.5 py-1 rounded-full backdrop-blur-md flex items-center gap-1 shadow">
+            <span class="absolute top-3 right-3 bg-black/60 text-white text-[10px] font-medium px-2 py-0.5 rounded-full flex items-center gap-1 shadow">
+              <span class="material-symbols-outlined text-[12px]">photo_library</span>
+              ${photoCount} fotos
+            </span>
+            <button onclick="event.stopPropagation(); locateOnMapFromCard(${p.id})" class="btn-luxury absolute bottom-3 right-3 bg-black/75 hover:bg-black text-white text-[11px] font-medium px-2.5 py-1 rounded-full flex items-center gap-1 shadow">
               <span class="material-symbols-outlined text-[13px]">map</span>
               <span>Ver en Mapa</span>
             </button>
           </div>
           <div class="p-5 flex flex-col flex-1">
             <span class="text-xs text-outline uppercase font-medium block mb-1 truncate">${p.zone}</span>
-            <h3 class="text-headline-sm font-headline-sm font-bold text-primary group-hover:text-neutral-700 transition-colors truncate" onclick="openPropertyModal(${p.id})">
+            <h3 class="text-headline-sm font-headline-sm font-bold text-primary group-hover:text-neutral-700 transition-colors truncate cursor-pointer" onclick="openPropertyModal(${p.id})">
               ${p.title}
             </h3>
             
@@ -1595,17 +1703,6 @@
       if (counterMsg) {
         counterMsg.innerText = `Mostrando ${props.length} de 10 propiedades disponibles`;
       }
-
-      // Animación GSAP de entrada escalonada en las tarjetas
-      if (typeof gsap !== 'undefined') {
-        gsap.from("#properties-grid > div", {
-          opacity: 0,
-          y: 20,
-          duration: 0.4,
-          stagger: 0.05,
-          ease: "power2.out"
-        });
-      }
     }
 
     // ACCIÓN "VER EN MAPA" DESDE LA TARJETA
@@ -1613,7 +1710,7 @@
       document.getElementById('mapa').scrollIntoView({ behavior: 'smooth' });
       setTimeout(() => {
         selectPropertyOnMap(propId, true);
-      }, 500);
+      }, 400);
     }
 
     // FILTRADO INTELIGENTE (Ubicación, Tipo, Presupuesto)
@@ -1653,7 +1750,6 @@
 
     // FILTROS DE PESTAÑAS (Todas, Xela, Reu, Venta, Renta)
     function setTabFilter(tabKey) {
-      // Actualizar estilos activos de pestañas
       document.querySelectorAll('.tab-pill').forEach(btn => {
         if (btn.getAttribute('data-tab') === tabKey) {
           btn.className = "tab-pill btn-luxury bg-primary text-on-primary px-4 py-2 rounded-full text-label-sm font-semibold";
@@ -1683,12 +1779,18 @@
       setTabFilter('all');
     }
 
-    // MODAL DE DETALLES DE PROPIEDAD
+    // ABRIR MODAL CON GALERÍA DE FOTOS INTERIORES & EXTERIORES
     function openPropertyModal(propId) {
       const prop = propertiesData.find(p => p.id === propId);
       if (!prop) return;
 
-      document.getElementById('modal-img').src = prop.img;
+      currentActivePropertyId = prop.id;
+      currentGalleryPhotos = (prop.gallery && prop.gallery.length > 0) 
+        ? prop.gallery 
+        : [{ url: prop.img, label: "Fachada Principal" }];
+      currentGalleryIndex = 0;
+
+      // Actualizar datos de texto
       document.getElementById('modal-title').innerText = prop.title;
       document.getElementById('modal-loc').innerText = `${prop.zone} · ${prop.sub}`;
       document.getElementById('modal-price').innerText = prop.price_q;
@@ -1701,6 +1803,23 @@
       document.getElementById('modal-garages').innerText = prop.garages ? `${prop.garages} Espacios` : "Fácil acceso";
       document.getElementById('modal-desc').innerText = prop.desc;
       document.getElementById('modal-tag').innerText = prop.tag;
+
+      // Mostrar foto 0
+      showModalPhoto(0);
+
+      // Renderizar miniaturas
+      const thumbsContainer = document.getElementById('modal-thumbnails-container');
+      thumbsContainer.innerHTML = '';
+      currentGalleryPhotos.forEach((item, idx) => {
+        const thumb = document.createElement('button');
+        thumb.className = `modal-thumb relative flex-shrink-0 w-20 h-14 rounded-xl overflow-hidden border-2 transition-all ${idx === 0 ? 'border-primary ring-2 ring-primary/20 scale-105' : 'border-surface-container-high opacity-70 hover:opacity-100'}`;
+        thumb.onclick = () => showModalPhoto(idx);
+        thumb.innerHTML = `
+          <img src="${item.url}" class="w-full h-full object-cover" alt="${item.label}" loading="lazy">
+          <span class="absolute bottom-0 inset-x-0 bg-black/70 text-white text-[9px] font-medium py-0.5 text-center truncate px-1">${item.label}</span>
+        `;
+        thumbsContainer.appendChild(thumb);
+      });
 
       // Puntos de interés cercanos
       const nearbyContainer = document.getElementById('modal-nearby');
@@ -1722,9 +1841,12 @@
         featContainer.appendChild(el);
       });
 
-      // Botón WhatsApp personalizado
-      const waMsg = encodeURIComponent(`Hola Bienes Raíces Online Guatemala, me interesa conocer más información y agendar una visita para la propiedad: ${prop.title} (${prop.zone}) con precio de ${prop.price_q}. ¿Qué días y horarios tienen disponibles?`);
-      document.getElementById('modal-wa-btn').href = `https://wa.me/50242728393?text=${waMsg}`;
+      // Botón Negro Destacado al final: Agendar cita a WSP
+      const waMsg = encodeURIComponent(`Hola Bienes Raíces Online Guatemala, deseo agendar una cita por WhatsApp para visitar la propiedad: ${prop.title} ubicada en ${prop.zone} (Precio: ${prop.price_q}). ¿Qué horarios tienen disponibles?`);
+      const bottomBtn = document.getElementById('modal-wa-btn-bottom');
+      if (bottomBtn) {
+        bottomBtn.href = `https://wa.me/50242728393?text=${waMsg}`;
+      }
 
       // Botón Ubicar en Mapa
       document.getElementById('modal-locate-btn').onclick = () => {
@@ -1732,37 +1854,53 @@
         locateOnMapFromCard(prop.id);
       };
 
-      // Animación de apertura con GSAP
+      // Apertura limpia del modal
       const modal = document.getElementById('property-modal');
       const content = document.getElementById('property-modal-content');
       modal.classList.remove('opacity-0', 'pointer-events-none');
+      content.classList.remove('scale-95');
+      content.classList.add('scale-100');
+    }
 
-      if (typeof gsap !== 'undefined') {
-        gsap.fromTo(content, 
-          { scale: 0.92, opacity: 0, y: 30 },
-          { scale: 1, opacity: 1, y: 0, duration: 0.35, ease: "back.out(1.2)" }
-        );
+    // MOSTRAR FOTO ESPECÍFICA EN EL MODAL
+    function showModalPhoto(index) {
+      if (!currentGalleryPhotos || currentGalleryPhotos.length === 0) return;
+      if (index < 0) index = currentGalleryPhotos.length - 1;
+      if (index >= currentGalleryPhotos.length) index = 0;
+      currentGalleryIndex = index;
+
+      const photo = currentGalleryPhotos[index];
+      const mainImg = document.getElementById('modal-img');
+      const counterEl = document.getElementById('modal-photo-counter');
+      const labelEl = document.getElementById('modal-photo-label');
+
+      if (mainImg) {
+        mainImg.src = photo.url;
       }
+      if (counterEl) counterEl.innerText = `Foto ${index + 1} de ${currentGalleryPhotos.length}`;
+      if (labelEl) labelEl.innerText = photo.label;
+
+      // Actualizar borde de miniatura activa
+      const thumbs = document.querySelectorAll('.modal-thumb');
+      thumbs.forEach((t, i) => {
+        if (i === index) {
+          t.className = "modal-thumb relative flex-shrink-0 w-20 h-14 rounded-xl overflow-hidden border-2 border-primary ring-2 ring-primary/20 scale-105 transition-all";
+        } else {
+          t.className = "modal-thumb relative flex-shrink-0 w-20 h-14 rounded-xl overflow-hidden border-2 border-surface-container-high opacity-70 hover:opacity-100 transition-all";
+        }
+      });
+    }
+
+    function changeModalPhoto(direction) {
+      showModalPhoto(currentGalleryIndex + direction);
     }
 
     function closePropertyModal() {
       const modal = document.getElementById('property-modal');
       const content = document.getElementById('property-modal-content');
-
-      if (typeof gsap !== 'undefined') {
-        gsap.to(content, {
-          scale: 0.94,
-          opacity: 0,
-          y: 20,
-          duration: 0.2,
-          ease: "power2.in",
-          onComplete: () => {
-            modal.classList.add('opacity-0', 'pointer-events-none');
-          }
-        });
-      } else {
-        modal.classList.add('opacity-0', 'pointer-events-none');
-      }
+      content.classList.remove('scale-100');
+      content.classList.add('scale-95');
+      modal.classList.add('opacity-0', 'pointer-events-none');
     }
 
     // Cerrar modal con tecla ESC o clic en backdrop
