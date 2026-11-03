@@ -143,6 +143,29 @@
       z-index: 20 !important;
     }
 
+    /* Leaflet Layer Control Styling */
+    .leaflet-control-layers {
+      border-radius: 1rem !important;
+      border: 1px solid rgba(0, 0, 0, 0.12) !important;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12) !important;
+      padding: 6px 12px !important;
+      background: #ffffff !important;
+      font-family: inherit !important;
+      font-size: 12px !important;
+      font-weight: 600 !important;
+      color: #1a1c1c !important;
+    }
+    .leaflet-control-layers-expanded {
+      padding: 10px 14px !important;
+    }
+    .leaflet-control-layers label {
+      margin-bottom: 4px !important;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
     /* Custom Leaflet Pin Styling */
     .custom-map-pin {
       background: transparent;
@@ -1556,21 +1579,52 @@
     let markersLayer = null;
     let activeMarkerPin = null;
 
-    // INICIALIZACIÓN DE LEAFLET MAP
+    // INICIALIZACIÓN DE LEAFLET MAP CON FONDO GOOGLE MAPS Y CAPAS ALTERNAS
     function initMap() {
-      // Coordenadas centrales entre Quetzaltenango y Retalhuleu
+      // Coordenadas centrales en Quetzaltenango (Xela)
       map = L.map('property-map', {
         center: [14.8510, -91.5320],
         zoom: 13,
         scrollWheelZoom: false
       });
 
-      // CartoDB Positron - Grayscale Minimalist Aesthetic
-      L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-        attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
-        subdomains: 'abcd',
-        maxZoom: 19
-      }).addTo(map);
+      // Capa Google Maps Calles (Roadmap) - Por defecto (Sin marca de agua de API key)
+      const googleRoad = L.tileLayer('https://mt{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+        subdomains: ['0', '1', '2', '3'],
+        maxZoom: 20,
+        attribution: '&copy; Google Maps'
+      });
+
+      // Capa Google Maps Satélite Híbrido (Imágenes aéreas con calles y nombres)
+      const googleHybrid = L.tileLayer('https://mt{s}.google.com/vt/lyrs=y&x={x}&y={y}&z={z}', {
+        subdomains: ['0', '1', '2', '3'],
+        maxZoom: 20,
+        attribution: '&copy; Google Maps'
+      });
+
+      // Capa OpenStreetMap Estándar
+      const osmMap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; OpenStreetMap contributors'
+      });
+
+      // Capa Esri World Street Map (Alta precisión topográfica)
+      const esriMap = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
+        maxZoom: 19,
+        attribution: '&copy; Esri &mdash; StreetMap'
+      });
+
+      // Agregar Google Maps Calles por defecto
+      googleRoad.addTo(map);
+
+      // Selector de Capas Interactivo
+      const baseMaps = {
+        "🗺️ Google Maps": googleRoad,
+        "🛰️ Satélite Híbrido": googleHybrid,
+        "📍 OpenStreetMap": osmMap,
+        "📐 Esri Calles": esriMap
+      };
+      L.control.layers(baseMaps, null, { position: 'topright' }).addTo(map);
 
       markersLayer = L.layerGroup().addTo(map);
       renderMapPins(propertiesData);
@@ -1589,7 +1643,7 @@
         const customIcon = L.divIcon({
           className: 'custom-map-pin',
           html: `<div class="pin-pill ${p.id === currentActivePropertyId ? 'active-pin' : ''}" id="map-pin-${p.id}">
-                  <span class="w-1.5 h-1.5 rounded-full ${p.deal === 'Renta' ? 'bg-amber-400' : 'bg-emerald-400'}"></span>
+                  <span class="w-1.5 h-1.5 rounded-full ${p.deal === 'Renta' ? 'bg-amber-400' : 'bg-white'}"></span>
                   <span>${shortPrice}</span>
                  </div>`,
           iconSize: [80, 30],
