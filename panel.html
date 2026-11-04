@@ -6,7 +6,7 @@
   <title>Panel de Control &amp; CRM | Bienes Raíces Online Guatemala</title>
   
   <!-- Favicon & Meta -->
-  <meta name="description" content="Panel de administración, métricas de ventas y CRM inmobiliario en tiempo real.">
+  <meta name="description" content="Panel de administración, inventario de propiedades, directorio de asesores y sincronización Google Sheets en tiempo real.">
   <meta name="robots" content="noindex, nofollow">
 
   <!-- Google Fonts: Plus Jakarta Sans -->
@@ -14,7 +14,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <!-- Google Material Symbols Outlined -->
+  <!-- Font Awesome 6 & Google Material Symbols Outlined -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
 
   <!-- Tailwind CSS -->
@@ -98,6 +99,11 @@
       stroke-width: 14;
       filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.4));
     }
+
+    .modal-backdrop {
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
   </style>
 </head>
 
@@ -127,58 +133,55 @@
       <!-- Divider line -->
       <div class="w-8 h-[1px] bg-white/10 my-1"></div>
 
-      <!-- Navigation Icons List -->
-      <nav class="flex flex-col items-center gap-3">
+      <!-- Navigation Icons List (Con todas las opciones de Santander VIP) -->
+      <nav class="flex flex-col items-center gap-3" id="sidebar-nav-container">
         
-        <!-- 1. Active Dashboard (Icon with White Pill Shape - Exactly like screenshot) -->
-        <button onclick="switchTab('dashboard')" id="nav-btn-dashboard" class="relative group p-3.5 rounded-2xl bg-white text-black shadow-lg shadow-white/10 transition-all hover:scale-105" title="Resumen General (Dashboard)">
+        <!-- 1. DASHBOARD (Icono cápsula blanca activa estilo imagen) -->
+        <button onclick="navegarA('dashboard')" id="nav-btn-dashboard" class="relative group p-3.5 rounded-2xl bg-white text-black shadow-lg shadow-white/10 transition-all hover:scale-105" title="Resumen General (Dashboard)">
           <span class="material-symbols-outlined text-[22px] font-semibold">timelapse</span>
-          <!-- Tooltip -->
           <span class="absolute left-full ml-3 px-2.5 py-1 bg-neutral-900 text-white text-xs font-semibold rounded-lg shadow-xl opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity whitespace-nowrap z-50 border border-white/10">
             Resumen General
           </span>
         </button>
 
-        <!-- 2. Propiedades / Inventario -->
-        <button onclick="switchTab('propiedades')" id="nav-btn-propiedades" class="relative group p-3.5 rounded-2xl text-white/50 hover:text-white hover:bg-[#1a1a24] transition-all" title="Catálogo de Propiedades">
-          <span class="material-symbols-outlined text-[22px]">storefront</span>
-          <span class="absolute left-full ml-3 px-2.5 py-1 bg-neutral-900 text-white text-xs font-semibold rounded-lg shadow-xl opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity whitespace-nowrap z-50 border border-white/10">
-            Propiedades (10 activas)
-          </span>
-        </button>
-
-        <!-- 3. Grid / Cierres y Ventas -->
-        <button onclick="switchTab('ventas')" id="nav-btn-ventas" class="relative group p-3.5 rounded-2xl text-white/50 hover:text-white hover:bg-[#1a1a24] transition-all" title="Contratos & Cierres">
-          <span class="material-symbols-outlined text-[22px]">grid_view</span>
-          <span class="absolute left-full ml-3 px-2.5 py-1 bg-neutral-900 text-white text-xs font-semibold rounded-lg shadow-xl opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity whitespace-nowrap z-50 border border-white/10">
-            Cierres &amp; Contratos (98)
-          </span>
-        </button>
-
-        <!-- 4. CRM / Clientes y Prospectos -->
-        <button onclick="switchTab('clientes')" id="nav-btn-clientes" class="relative group p-3.5 rounded-2xl text-white/50 hover:text-white hover:bg-[#1a1a24] transition-all" title="Prospectos & Clientes">
-          <span class="material-symbols-outlined text-[22px]">groups</span>
-          <span class="absolute left-full ml-3 px-2.5 py-1 bg-neutral-900 text-white text-xs font-semibold rounded-lg shadow-xl opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity whitespace-nowrap z-50 border border-white/10">
-            CRM Prospectos (17 nuevos)
-          </span>
-        </button>
-
-        <!-- 5. Mensajes / WhatsApp Leads -->
-        <button onclick="switchTab('mensajes')" id="nav-btn-mensajes" class="relative group p-3.5 rounded-2xl text-white/50 hover:text-white hover:bg-[#1a1a24] transition-all" title="Mensajes & Notificaciones">
+        <!-- 2. PROPIEDADES (Inventario + Agregar Nueva + Modo Tabla/Cards + Filtros) -->
+        <button onclick="navegarA('propiedades')" id="nav-btn-propiedades" class="relative group p-3.5 rounded-2xl text-white/50 hover:text-white hover:bg-[#1a1a24] transition-all" title="Gestión de Propiedades">
           <div class="relative">
-            <span class="material-symbols-outlined text-[22px]">chat_bubble_outline</span>
-            <span class="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-rose-500"></span>
+            <span class="material-symbols-outlined text-[22px]">storefront</span>
+            <span id="badge-sidebar-propiedades" class="absolute -top-1 -right-2 px-1 py-0.2 bg-blue-600 text-white text-[9px] font-bold rounded-full">10</span>
           </div>
           <span class="absolute left-full ml-3 px-2.5 py-1 bg-neutral-900 text-white text-xs font-semibold rounded-lg shadow-xl opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity whitespace-nowrap z-50 border border-white/10">
-            Consultas Web &amp; WhatsApp
+            Propiedades VIP (Inventario)
           </span>
         </button>
 
-        <!-- 6. Métricas & Analíticas -->
-        <button onclick="switchTab('analiticas')" id="nav-btn-analiticas" class="relative group p-3.5 rounded-2xl text-white/50 hover:text-white hover:bg-[#1a1a24] transition-all" title="Analítica Avanzada">
-          <span class="material-symbols-outlined text-[22px]">donut_large</span>
+        <!-- 3. ASESORES (Directorio de Asesores Oficiales + Carteras) -->
+        <button onclick="navegarA('asesores')" id="nav-btn-asesores" class="relative group p-3.5 rounded-2xl text-white/50 hover:text-white hover:bg-[#1a1a24] transition-all" title="Directorio de Asesores VIP">
+          <div class="relative">
+            <span class="material-symbols-outlined text-[22px]">groups</span>
+            <span id="badge-sidebar-asesores" class="absolute -top-1 -right-2 px-1 py-0.2 bg-neutral-700 text-neutral-300 text-[9px] font-bold rounded-full">9</span>
+          </div>
           <span class="absolute left-full ml-3 px-2.5 py-1 bg-neutral-900 text-white text-xs font-semibold rounded-lg shadow-xl opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity whitespace-nowrap z-50 border border-white/10">
-            Métricas de Conversión
+            Directorio de Asesores (9)
+          </span>
+        </button>
+
+        <!-- 4. GOOGLE SHEETS & CSV SYNC (Conexión en Vivo + Iframe + Exportador) -->
+        <button onclick="navegarA('sheets')" id="nav-btn-sheets" class="relative group p-3.5 rounded-2xl text-white/50 hover:text-white hover:bg-[#1a1a24] transition-all" title="Sincronización Google Sheets">
+          <div class="relative">
+            <span class="material-symbols-outlined text-[22px]">table_chart</span>
+            <span class="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-emerald-400"></span>
+          </div>
+          <span class="absolute left-full ml-3 px-2.5 py-1 bg-neutral-900 text-white text-xs font-semibold rounded-lg shadow-xl opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity whitespace-nowrap z-50 border border-white/10">
+            Google Sheets &amp; CSV en Vivo
+          </span>
+        </button>
+
+        <!-- 5. CONFIGURACIÓN (Ajustes de Moneda, Comisiones y Sistema) -->
+        <button onclick="navegarA('configuracion')" id="nav-btn-configuracion" class="relative group p-3.5 rounded-2xl text-white/50 hover:text-white hover:bg-[#1a1a24] transition-all" title="Configuración del Panel">
+          <span class="material-symbols-outlined text-[22px]">settings</span>
+          <span class="absolute left-full ml-3 px-2.5 py-1 bg-neutral-900 text-white text-xs font-semibold rounded-lg shadow-xl opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity whitespace-nowrap z-50 border border-white/10">
+            Configuración &amp; Ajustes
           </span>
         </button>
 
@@ -198,21 +201,25 @@
 
   </aside>
 
-  <!-- ==================== MAIN CONTENT AREA ==================== -->
+  <!-- ==================== MAIN CONTENT CANVAS ==================== -->
   <main class="flex-1 flex flex-col min-w-0 p-4 sm:p-6 lg:p-8 overflow-y-auto">
 
-    <!-- Top Floating Announcement / Client Pitch Badge -->
+    <!-- Top Announcement Banner: Conectado con Google Sheets & CRM -->
     <div class="mb-5 bg-gradient-to-r from-blue-900/30 via-purple-900/20 to-neutral-900/40 border border-blue-500/20 rounded-2xl px-4 py-2.5 flex flex-wrap items-center justify-between gap-3 text-xs">
       <div class="flex items-center gap-2">
         <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-        <span class="font-bold text-blue-400 uppercase tracking-wider">Módulo de Demostración Activo:</span>
-        <span class="text-neutral-300">Este es el panel interactivo exclusivo para asesores y propietarios. Todo funciona en tiempo real.</span>
+        <span class="font-bold text-blue-400 uppercase tracking-wider">Panel Santander VIP &amp; Bienes Raíces:</span>
+        <span class="text-neutral-300">Conectado a Google Sheets y LocalStorage con gestión en tiempo real.</span>
       </div>
       <div class="flex items-center gap-3">
         <!-- Switch Currency -->
         <button onclick="toggleCurrency()" id="currencyToggleBtn" class="px-2.5 py-1 rounded-lg bg-white/10 hover:bg-white/20 text-white font-medium transition-colors flex items-center gap-1">
           <span class="material-symbols-outlined text-[14px]">currency_exchange</span>
           <span id="currentCurrencyLabel">Moneda: USD ($)</span>
+        </button>
+        <button onclick="sincronizarAhora(true)" class="px-2.5 py-1 rounded-lg bg-emerald-600/30 hover:bg-emerald-600/50 text-emerald-300 border border-emerald-500/30 font-medium transition-colors flex items-center gap-1">
+          <span class="material-symbols-outlined text-[14px]">sync</span>
+          <span>Sincronizar Sheets</span>
         </button>
         <a href="index.html" class="px-3 py-1 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-semibold transition-colors flex items-center gap-1">
           <span>Ver Sitio Web</span>
@@ -232,8 +239,8 @@
           <input 
             type="text" 
             id="panelSearchInput"
-            oninput="handleSearch(this.value)"
-            placeholder="Buscar propiedades, clientes, contratos..." 
+            oninput="handleGlobalSearch(this.value)"
+            placeholder="Buscar propiedades, asesores, zonas o contratos..." 
             class="w-full bg-[#16161d] border border-white/5 focus:border-white/20 focus:ring-1 focus:ring-blue-500/50 rounded-full pl-11 pr-4 py-2.5 text-sm text-neutral-200 placeholder-neutral-500 outline-none transition-all shadow-inner"
           >
           <!-- Search results live dropdown -->
@@ -252,8 +259,8 @@
       <!-- Right: Settings, Notifications, User Avatar -->
       <div class="flex items-center justify-end gap-2.5 sm:gap-3">
         
-        <!-- Button: + Nuevo Cierre / Inmueble -->
-        <button onclick="openNewPropertyModal()" class="hidden sm:flex items-center gap-1.5 px-3.5 py-2 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs transition-all shadow-lg shadow-blue-600/30">
+        <!-- Button: + Registrar Inmueble -->
+        <button onclick="navegarA('propiedades'); setPropiedadesSubTab('nueva');" class="hidden sm:flex items-center gap-1.5 px-3.5 py-2 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs transition-all shadow-lg shadow-blue-600/30">
           <span class="material-symbols-outlined text-[16px]">add</span>
           <span>Registrar Inmueble</span>
         </button>
@@ -265,18 +272,22 @@
           </button>
           <!-- Settings Dropdown -->
           <div id="settingsDropdown" class="hidden absolute right-0 top-full mt-2 w-56 bg-[#181822] border border-white/10 rounded-2xl shadow-2xl p-2 z-50 text-xs">
-            <div class="px-3 py-2 font-bold text-neutral-400 border-b border-white/5">Preferencias del Panel</div>
-            <button onclick="toggleDemoData()" class="w-full text-left px-3 py-2 rounded-xl hover:bg-white/5 flex items-center justify-between text-neutral-200 mt-1">
-              <span>Modo Demostración</span>
-              <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+            <div class="px-3 py-2 font-bold text-neutral-400 border-b border-white/5">Opciones Santander VIP</div>
+            <button onclick="navegarA('configuracion')" class="w-full text-left px-3 py-2 rounded-xl hover:bg-white/5 flex items-center justify-between text-neutral-200 mt-1">
+              <span>Panel de Configuración</span>
+              <span class="material-symbols-outlined text-[14px]">tune</span>
             </button>
             <button onclick="toggleCurrency()" class="w-full text-left px-3 py-2 rounded-xl hover:bg-white/5 flex items-center justify-between text-neutral-200">
-              <span>Alternar Moneda (Q / $)</span>
+              <span>Alternar Moneda (USD / Q)</span>
               <span class="text-neutral-500" id="settingsCurrencyBadge">USD</span>
             </button>
-            <button onclick="resetMockData()" class="w-full text-left px-3 py-2 rounded-xl hover:bg-white/5 text-rose-400 flex items-center gap-1.5 mt-1 border-t border-white/5 pt-2">
+            <button onclick="exportarCSVCompleto()" class="w-full text-left px-3 py-2 rounded-xl hover:bg-white/5 text-blue-400 flex items-center justify-between">
+              <span>Descargar CSV Completo</span>
+              <span class="material-symbols-outlined text-[14px]">download</span>
+            </button>
+            <button onclick="resetearDatosCompletos()" class="w-full text-left px-3 py-2 rounded-xl hover:bg-white/5 text-rose-400 flex items-center gap-1.5 mt-1 border-t border-white/5 pt-2">
               <span class="material-symbols-outlined text-[14px]">refresh</span>
-              <span>Restablecer Datos Demo</span>
+              <span>Restablecer Datos Iniciales</span>
             </button>
           </div>
         </div>
@@ -315,7 +326,7 @@
 
         <!-- User Avatar & Profile info (matching Barbara from image) -->
         <div class="flex items-center gap-3 pl-1">
-          <div class="relative cursor-pointer group" onclick="toggleProfileModal()">
+          <div class="relative cursor-pointer group" onclick="showToast('Sesión activa: Barbara (Gerente de Operaciones Santander VIP)')">
             <img 
               src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80" 
               alt="Barbara - Gerente Inmobiliario" 
@@ -329,70 +340,72 @@
 
     </header>
 
-    <!-- ==================== GREETING & TIMELINE SELECTOR ROW ==================== -->
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 sm:mb-8">
-      <div>
-        <h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight flex items-center gap-2">
-          <span>Hello, Barbara!</span>
-          <span class="text-2xl sm:text-3xl animate-bounce">👋</span>
-        </h1>
-        <p class="text-xs sm:text-sm text-neutral-400 mt-1" id="greetingSubtitle">
-          This is what's happening in your store this month.
-        </p>
-      </div>
-
-      <!-- Time Filter Dropdown & Calendar button (Matching Screenshot) -->
-      <div class="flex items-center gap-2 self-start sm:self-auto">
-        <!-- Dropdown Pill -->
-        <div class="relative">
-          <button 
-            id="timeFilterBtn" 
-            onclick="toggleTimeFilterDropdown()"
-            class="bg-[#16161d] hover:bg-[#1d1d26] border border-white/5 rounded-2xl px-4 py-2 text-xs sm:text-sm font-semibold text-neutral-200 flex items-center gap-2 transition-all shadow-sm"
-          >
-            <span id="selectedTimeFilterLabel">This month</span>
-            <span class="material-symbols-outlined text-[16px] text-neutral-400">expand_more</span>
-          </button>
-
-          <!-- Dropdown menu -->
-          <div id="timeFilterMenu" class="hidden absolute right-0 top-full mt-2 w-44 bg-[#181822] border border-white/10 rounded-2xl shadow-2xl p-1.5 z-40 text-xs">
-            <button onclick="setTimeFilter('this-month', 'This month')" class="w-full text-left px-3 py-2 rounded-xl hover:bg-white/5 text-white font-medium flex items-center justify-between">
-              <span>This month</span>
-              <span class="material-symbols-outlined text-[14px] text-blue-400">check</span>
-            </button>
-            <button onclick="setTimeFilter('last-month', 'Last month')" class="w-full text-left px-3 py-2 rounded-xl hover:bg-white/5 text-neutral-300">
-              <span>Last month</span>
-            </button>
-            <button onclick="setTimeFilter('last-7-days', 'Last 7 days')" class="w-full text-left px-3 py-2 rounded-xl hover:bg-white/5 text-neutral-300">
-              <span>Last 7 days</span>
-            </button>
-            <button onclick="setTimeFilter('this-year', 'Year 2026')" class="w-full text-left px-3 py-2 rounded-xl hover:bg-white/5 text-neutral-300">
-              <span>Year 2026</span>
-            </button>
-          </div>
+    <!-- ========================================================
+         VISTA 1: DASHBOARD (DISEÑO EXACTO A LA IMAGEN)
+         ======================================================== -->
+    <section id="view-dashboard" class="space-y-6">
+      
+      <!-- Greeting & Timeline Selector Row (Idéntico a la imagen) -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight flex items-center gap-2">
+            <span>Hello, Barbara!</span>
+            <span class="text-2xl sm:text-3xl animate-bounce">👋</span>
+          </h1>
+          <p class="text-xs sm:text-sm text-neutral-400 mt-1" id="greetingSubtitle">
+            This is what's happening in your store this month.
+          </p>
         </div>
 
-        <!-- Calendar Button -->
-        <button onclick="showCalendarAlert()" class="w-10 h-10 rounded-2xl bg-[#16161d] hover:bg-[#1d1d26] border border-white/5 flex items-center justify-center text-neutral-300 hover:text-white transition-all" title="Ver Agenda">
-          <span class="material-symbols-outlined text-[18px]">calendar_today</span>
-        </button>
+        <!-- Time Filter Dropdown & Calendar button (Matching Screenshot) -->
+        <div class="flex items-center gap-2 self-start sm:self-auto">
+          <!-- Dropdown Pill -->
+          <div class="relative">
+            <button 
+              id="timeFilterBtn" 
+              onclick="toggleTimeFilterDropdown()"
+              class="bg-[#16161d] hover:bg-[#1d1d26] border border-white/5 rounded-2xl px-4 py-2 text-xs sm:text-sm font-semibold text-neutral-200 flex items-center gap-2 transition-all shadow-sm"
+            >
+              <span id="selectedTimeFilterLabel">This month</span>
+              <span class="material-symbols-outlined text-[16px] text-neutral-400">expand_more</span>
+            </button>
+
+            <!-- Dropdown menu -->
+            <div id="timeFilterMenu" class="hidden absolute right-0 top-full mt-2 w-44 bg-[#181822] border border-white/10 rounded-2xl shadow-2xl p-1.5 z-40 text-xs">
+              <button onclick="setTimeFilter('this-month', 'This month')" class="w-full text-left px-3 py-2 rounded-xl hover:bg-white/5 text-white font-medium flex items-center justify-between">
+                <span>This month</span>
+                <span class="material-symbols-outlined text-[14px] text-blue-400">check</span>
+              </button>
+              <button onclick="setTimeFilter('last-month', 'Last month')" class="w-full text-left px-3 py-2 rounded-xl hover:bg-white/5 text-neutral-300">
+                <span>Last month</span>
+              </button>
+              <button onclick="setTimeFilter('last-7-days', 'Last 7 days')" class="w-full text-left px-3 py-2 rounded-xl hover:bg-white/5 text-neutral-300">
+                <span>Last 7 days</span>
+              </button>
+              <button onclick="setTimeFilter('this-year', 'Year 2026')" class="w-full text-left px-3 py-2 rounded-xl hover:bg-white/5 text-neutral-300">
+                <span>Year 2026</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Calendar Button -->
+          <button onclick="showToast('Agenda sincronizada con Google Calendar')" class="w-10 h-10 rounded-2xl bg-[#16161d] hover:bg-[#1d1d26] border border-white/5 flex items-center justify-center text-neutral-300 hover:text-white transition-all" title="Ver Agenda">
+            <span class="material-symbols-outlined text-[18px]">calendar_today</span>
+          </button>
+        </div>
       </div>
-    </div>
 
-    <!-- ==================== TAB: DASHBOARD (MAIN OVERVIEW) ==================== -->
-    <div id="tabContent-dashboard" class="space-y-6">
-
-      <!-- ==================== MIDDLE SECTION: 4 KPI CARDS (LEFT) + BIG BAR CHART (RIGHT) ==================== -->
+      <!-- MIDDLE SECTION: 4 KPI CARDS (LEFT) + BIG BAR CHART (RIGHT) -->
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6">
         
         <!-- LEFT: 2x2 KPI CARDS GRID (5 Cols on LG) -->
         <div class="lg:col-span-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
           
-          <!-- CARD 1: TOTAL REVENUE (The signature White Card with Blue Circle Arrow) -->
+          <!-- CARD 1: TOTAL REVENUE (White Card with Blue Circle Arrow) -->
           <div class="bg-white text-neutral-900 rounded-3xl p-5 sm:p-6 shadow-2xl flex flex-col justify-between relative group hover:-translate-y-1 transition-all duration-300">
             <div class="flex items-start justify-between">
               <span class="text-xs sm:text-sm font-semibold text-neutral-600 tracking-tight">Total revenue</span>
-              <button onclick="showDetailsModal('revenue')" class="w-9 h-9 rounded-full bg-blue-600 hover:bg-blue-700 text-white flex items-center justify-center shadow-md transition-transform group-hover:scale-110 active:scale-95" title="Ver detalle">
+              <button onclick="navegarA('propiedades')" class="w-9 h-9 rounded-full bg-blue-600 hover:bg-blue-700 text-white flex items-center justify-center shadow-md transition-transform group-hover:scale-110 active:scale-95" title="Ver portafolio">
                 <span class="material-symbols-outlined text-[18px]">north_east</span>
               </button>
             </div>
@@ -417,7 +430,7 @@
           <div class="bg-[#16161d] rounded-3xl p-5 sm:p-6 border border-white/5 flex flex-col justify-between relative group hover:border-white/10 hover:-translate-y-1 transition-all duration-300">
             <div class="flex items-start justify-between">
               <span class="text-xs sm:text-sm font-semibold text-neutral-300 tracking-tight">Total orders</span>
-              <button onclick="showDetailsModal('orders')" class="w-9 h-9 rounded-full bg-[#242430] hover:bg-[#2e2e3e] text-neutral-400 hover:text-white flex items-center justify-center transition-all group-hover:scale-110 active:scale-95" title="Ver detalle">
+              <button onclick="openContractModal()" class="w-9 h-9 rounded-full bg-[#242430] hover:bg-[#2e2e3e] text-neutral-400 hover:text-white flex items-center justify-center transition-all group-hover:scale-110 active:scale-95" title="Ver contratos">
                 <span class="material-symbols-outlined text-[18px]">north_east</span>
               </button>
             </div>
@@ -442,7 +455,7 @@
           <div class="bg-[#16161d] rounded-3xl p-5 sm:p-6 border border-white/5 flex flex-col justify-between relative group hover:border-white/10 hover:-translate-y-1 transition-all duration-300">
             <div class="flex items-start justify-between">
               <span class="text-xs sm:text-sm font-semibold text-neutral-300 tracking-tight">Total visitors</span>
-              <button onclick="showDetailsModal('visitors')" class="w-9 h-9 rounded-full bg-[#242430] hover:bg-[#2e2e3e] text-neutral-400 hover:text-white flex items-center justify-center transition-all group-hover:scale-110 active:scale-95" title="Ver detalle">
+              <button onclick="openLeadModal()" class="w-9 h-9 rounded-full bg-[#242430] hover:bg-[#2e2e3e] text-neutral-400 hover:text-white flex items-center justify-center transition-all group-hover:scale-110 active:scale-95" title="Ver prospectos">
                 <span class="material-symbols-outlined text-[18px]">north_east</span>
               </button>
             </div>
@@ -467,7 +480,7 @@
           <div class="bg-[#16161d] rounded-3xl p-5 sm:p-6 border border-white/5 flex flex-col justify-between relative group hover:border-white/10 hover:-translate-y-1 transition-all duration-300">
             <div class="flex items-start justify-between">
               <span class="text-xs sm:text-sm font-semibold text-neutral-300 tracking-tight">Net profit</span>
-              <button onclick="showDetailsModal('profit')" class="w-9 h-9 rounded-full bg-[#242430] hover:bg-[#2e2e3e] text-neutral-400 hover:text-white flex items-center justify-center transition-all group-hover:scale-110 active:scale-95" title="Ver detalle">
+              <button onclick="showToast('Comisiones calculadas al 5%')" class="w-9 h-9 rounded-full bg-[#242430] hover:bg-[#2e2e3e] text-neutral-400 hover:text-white flex items-center justify-center transition-all group-hover:scale-110 active:scale-95" title="Ver detalle">
                 <span class="material-symbols-outlined text-[18px]">north_east</span>
               </button>
             </div>
@@ -501,8 +514,8 @@
                 <span class="text-xs font-normal text-neutral-500">This month vs last</span>
               </h2>
             </div>
-            <!-- Top Right White Circle Arrow Button (Exactly like screenshot) -->
-            <button onclick="showDetailsModal('revenue-chart')" class="w-9 h-9 rounded-full bg-white hover:bg-neutral-200 text-neutral-900 flex items-center justify-center shadow-lg transition-transform group-hover:scale-110 active:scale-95" title="Ampliar Análisis de Ventas">
+            <!-- Top Right White Circle Arrow Button -->
+            <button onclick="showToast('Análisis de ingresos por cierres y rentas')" class="w-9 h-9 rounded-full bg-white hover:bg-neutral-200 text-neutral-900 flex items-center justify-center shadow-lg transition-transform group-hover:scale-110 active:scale-95" title="Ampliar Análisis">
               <span class="material-symbols-outlined text-[18px]">north_east</span>
             </button>
           </div>
@@ -548,7 +561,6 @@
 
                 <!-- Bar 3: 3 AUG (WITH ACTIVE TOOLTIP BADGE LIKE SCREENSHOT "$14,810") -->
                 <div class="flex-1 flex flex-col items-center h-full justify-end group/bar cursor-pointer relative" onclick="selectBar(2, '3 AUG', '$14,810')">
-                  <!-- The Exact Floating Tooltip from screenshot -->
                   <div id="activeChartTooltip" class="absolute -top-7 z-20 chart-tooltip-badge bg-black/90 border border-white/15 text-white text-[10px] sm:text-xs font-bold px-2 py-0.5 rounded-lg shadow-xl whitespace-nowrap flex items-center gap-1">
                     <span id="tooltipValText">$ 14,810</span>
                   </div>
@@ -596,7 +608,7 @@
 
       </div>
 
-      <!-- ==================== BOTTOM ROW: 3 CARDS (Symmetrical with Top Grid) ==================== -->
+      <!-- BOTTOM ROW: 3 CARDS (Symmetrical with Top Grid) -->
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6">
         
         <!-- LEFT: 2 Bottom Cards (5 Cols on LG, matching 2x2 grid above) -->
@@ -604,130 +616,108 @@
           
           <!-- CARD 1: 98 ORDERS / 12 AWAITING CONFIRMATION -->
           <div class="bg-[#16161d] rounded-3xl p-6 border border-white/5 flex flex-col justify-between relative group hover:border-white/10 transition-all cursor-pointer" onclick="openContractModal()">
-          
-          <div class="flex items-center justify-between">
-            <!-- Checkmark Icon Button in Dark Circle -->
-            <div class="w-10 h-10 rounded-2xl bg-[#23232f] flex items-center justify-center text-white/70">
-              <span class="material-symbols-outlined text-[20px]">check</span>
-            </div>
-            
-            <!-- Arrow button to expand -->
-            <div class="w-8 h-8 rounded-full bg-white/10 hover:bg-white text-white hover:text-black flex items-center justify-center transition-all group-hover:scale-105">
-              <span class="material-symbols-outlined text-[16px]">north_east</span>
-            </div>
-          </div>
-
-          <div class="mt-8">
-            <div class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight mb-2">
-              <span id="bottom-orders-count">98</span> <span class="text-xl sm:text-2xl font-semibold text-neutral-300">orders</span>
-            </div>
-            <p class="text-xs sm:text-sm text-neutral-400">
-              <span id="bottom-orders-awaiting" class="text-rose-400 font-bold">12 orders</span> are awaiting confirmation.
-            </p>
-          </div>
-
-          <div class="mt-4 pt-3 border-t border-white/5 flex items-center justify-between text-[11px] text-blue-400 font-medium">
-            <span>Clic para revisar contratos</span>
-            <span class="material-symbols-outlined text-[14px]">chevron_right</span>
-          </div>
-
-        </div>
-
-        <!-- CARD 2: 17 CUSTOMERS / 17 WAITING FOR RESPONSE (3.5 Cols) -->
-        <div class="lg:col-span-3.5 bg-[#16161d] rounded-3xl p-6 border border-white/5 flex flex-col justify-between relative group hover:border-white/10 transition-all overflow-hidden cursor-pointer" onclick="openLeadModal()">
-          
-          <!-- Background Abstract Glowing Wave Graphic (Matching Screenshot) -->
-          <svg class="absolute -right-10 -top-4 w-52 h-44 opacity-25 pointer-events-none" viewBox="0 0 200 200" fill="none">
-            <path d="M0,100 C40,40 100,160 160,80 C180,50 200,90 220,120" stroke="url(#waveGrad)" stroke-width="1.8" fill="none"/>
-            <path d="M-20,120 C30,70 90,170 170,90 C190,70 210,100 230,130" stroke="url(#waveGrad)" stroke-width="1.2" fill="none"/>
-            <path d="M-40,140 C20,90 80,180 180,100 C200,80 220,110 240,140" stroke="url(#waveGrad)" stroke-width="0.8" fill="none"/>
-            <defs>
-              <linearGradient id="waveGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#3b82f6"/>
-                <stop offset="100%" stop-color="#a855f7"/>
-              </linearGradient>
-            </defs>
-          </svg>
-
-          <div class="flex items-center justify-between relative z-10">
-            <!-- User Icon Button in Dark Circle -->
-            <div class="w-10 h-10 rounded-2xl bg-[#23232f] flex items-center justify-center text-white/70">
-              <span class="material-symbols-outlined text-[20px]">person</span>
+            <div class="flex items-center justify-between">
+              <!-- Checkmark Icon Button in Dark Circle -->
+              <div class="w-10 h-10 rounded-2xl bg-[#23232f] flex items-center justify-center text-white/70">
+                <span class="material-symbols-outlined text-[20px]">check</span>
+              </div>
+              <div class="w-8 h-8 rounded-full bg-white/10 hover:bg-white text-white hover:text-black flex items-center justify-center transition-all group-hover:scale-105">
+                <span class="material-symbols-outlined text-[16px]">north_east</span>
+              </div>
             </div>
 
-            <!-- Arrow button to expand -->
-            <div class="w-8 h-8 rounded-full bg-white/10 hover:bg-white text-white hover:text-black flex items-center justify-center transition-all group-hover:scale-105">
-              <span class="material-symbols-outlined text-[16px]">north_east</span>
+            <div class="mt-8">
+              <div class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight mb-2">
+                <span id="bottom-orders-count">98</span> <span class="text-xl sm:text-2xl font-semibold text-neutral-300">orders</span>
+              </div>
+              <p class="text-xs sm:text-sm text-neutral-400">
+                <span id="bottom-orders-awaiting" class="text-rose-400 font-bold">12 orders</span> are awaiting confirmation.
+              </p>
+            </div>
+
+            <div class="mt-4 pt-3 border-t border-white/5 flex items-center justify-between text-[11px] text-blue-400 font-medium">
+              <span>Clic para revisar contratos</span>
+              <span class="material-symbols-outlined text-[14px]">chevron_right</span>
             </div>
           </div>
 
-          <div class="mt-8 relative z-10">
-            <div class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight mb-2">
-              <span id="bottom-customers-count">17</span> <span class="text-xl sm:text-2xl font-semibold text-neutral-300">customers</span>
+          <!-- CARD 2: 17 CUSTOMERS / 17 WAITING FOR RESPONSE -->
+          <div class="bg-[#16161d] rounded-3xl p-6 border border-white/5 flex flex-col justify-between relative group hover:border-white/10 transition-all overflow-hidden cursor-pointer" onclick="openLeadModal()">
+            <!-- Background Abstract Glowing Wave Graphic -->
+            <svg class="absolute -right-10 -top-4 w-52 h-44 opacity-25 pointer-events-none" viewBox="0 0 200 200" fill="none">
+              <path d="M0,100 C40,40 100,160 160,80 C180,50 200,90 220,120" stroke="url(#waveGrad)" stroke-width="1.8" fill="none"/>
+              <path d="M-20,120 C30,70 90,170 170,90 C190,70 210,100 230,130" stroke="url(#waveGrad)" stroke-width="1.2" fill="none"/>
+              <path d="M-40,140 C20,90 80,180 180,100 C200,80 220,110 240,140" stroke="url(#waveGrad)" stroke-width="0.8" fill="none"/>
+              <defs>
+                <linearGradient id="waveGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#3b82f6"/>
+                  <stop offset="100%" stop-color="#a855f7"/>
+                </linearGradient>
+              </defs>
+            </svg>
+
+            <div class="flex items-center justify-between relative z-10">
+              <div class="w-10 h-10 rounded-2xl bg-[#23232f] flex items-center justify-center text-white/70">
+                <span class="material-symbols-outlined text-[20px]">person</span>
+              </div>
+              <div class="w-8 h-8 rounded-full bg-white/10 hover:bg-white text-white hover:text-black flex items-center justify-center transition-all group-hover:scale-105">
+                <span class="material-symbols-outlined text-[16px]">north_east</span>
+              </div>
             </div>
-            <p class="text-xs sm:text-sm text-neutral-400">
-              <span id="bottom-customers-waiting" class="text-rose-400 font-bold">17 customers</span> are waiting for response.
-            </p>
-          </div>
 
-          <div class="mt-4 pt-3 border-t border-white/5 flex items-center justify-between text-[11px] text-blue-400 font-medium relative z-10">
-            <span>Clic para responder por WhatsApp</span>
-            <span class="material-symbols-outlined text-[14px]">chevron_right</span>
-          </div>
+            <div class="mt-8 relative z-10">
+              <div class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight mb-2">
+                <span id="bottom-customers-count">17</span> <span class="text-xl sm:text-2xl font-semibold text-neutral-300">customers</span>
+              </div>
+              <p class="text-xs sm:text-sm text-neutral-400">
+                <span id="bottom-customers-waiting" class="text-rose-400 font-bold">17 customers</span> are waiting for response.
+              </p>
+            </div>
 
-        </div>
+            <div class="mt-4 pt-3 border-t border-white/5 flex items-center justify-between text-[11px] text-blue-400 font-medium relative z-10">
+              <span>Clic para responder por WhatsApp</span>
+              <span class="material-symbols-outlined text-[14px]">chevron_right</span>
+            </div>
+          </div>
 
         </div>
         <!-- END OF LEFT 2 CARDS -->
 
-        <!-- RIGHT: SALES BY CATEGORY DONUT CHART (7 Cols on LG, matching Big Chart above) -->
+        <!-- RIGHT: SALES BY CATEGORY DONUT CHART (7 Cols on LG) -->
         <div class="lg:col-span-7 bg-[#16161d] rounded-3xl p-6 border border-white/5 flex flex-col justify-between relative group hover:border-white/10 transition-all">
           
-          <!-- Header -->
           <div class="flex items-start justify-between mb-4">
             <div>
               <h2 class="text-base sm:text-lg font-bold text-white tracking-tight">Sales by Category</h2>
               <span class="text-xs text-neutral-500">This month vs last</span>
             </div>
-            <button onclick="showDetailsModal('categories')" class="w-9 h-9 rounded-full bg-white hover:bg-neutral-200 text-neutral-900 flex items-center justify-center shadow-lg transition-transform group-hover:scale-110 active:scale-95" title="Ver desglose">
+            <button onclick="showToast('Desglose de cartera por categorías')" class="w-9 h-9 rounded-full bg-white hover:bg-neutral-200 text-neutral-900 flex items-center justify-center shadow-lg transition-transform group-hover:scale-110 active:scale-95" title="Ver desglose">
               <span class="material-symbols-outlined text-[18px]">north_east</span>
             </button>
           </div>
 
-          <!-- Content: Donut + Legend -->
           <div class="flex flex-col sm:flex-row items-center justify-between gap-6 py-2">
             
             <!-- Donut SVG -->
             <div class="relative w-36 h-36 flex-shrink-0 flex items-center justify-center">
               <svg class="w-full h-full -rotate-90 transform" viewBox="0 0 100 100">
-                <!-- Background track -->
                 <circle cx="50" cy="50" r="38" fill="none" stroke="#252532" stroke-width="12"></circle>
-                
-                <!-- Slices: Colors matching screenshot (Blue, Coral/Orange, Gold, Red/Coral, Mint Green) -->
-                <!-- Slice 1: Blue (25%) stroke-dasharray="60 180" -->
                 <circle class="donut-slice text-[#4e82f5]" cx="50" cy="50" r="38" fill="none" stroke="currentColor" stroke-width="12" stroke-dasharray="60 178" stroke-dashoffset="0" onmouseover="highlightCat('Residencias Premium (25%)')" onmouseout="resetCat()"></circle>
-                <!-- Slice 2: Peach / Orange (20%) -->
                 <circle class="donut-slice text-[#fca5a5]" cx="50" cy="50" r="38" fill="none" stroke="currentColor" stroke-width="12" stroke-dasharray="48 190" stroke-dashoffset="-60" onmouseover="highlightCat('Apartamentos &amp; Lofts (20%)')" onmouseout="resetCat()"></circle>
-                <!-- Slice 3: Gold / Yellow (25%) -->
                 <circle class="donut-slice text-[#facc15]" cx="50" cy="50" r="38" fill="none" stroke="currentColor" stroke-width="12" stroke-dasharray="60 178" stroke-dashoffset="-108" onmouseover="highlightCat('Terrenos de Inversión (25%)')" onmouseout="resetCat()"></circle>
-                <!-- Slice 4: Pink / Coral (15%) -->
                 <circle class="donut-slice text-[#fb7185]" cx="50" cy="50" r="38" fill="none" stroke="currentColor" stroke-width="12" stroke-dasharray="36 202" stroke-dashoffset="-168" onmouseover="highlightCat('Locales Comerciales (15%)')" onmouseout="resetCat()"></circle>
-                <!-- Slice 5: Mint Green (15%) -->
                 <circle class="donut-slice text-[#4ade80]" cx="50" cy="50" r="38" fill="none" stroke="currentColor" stroke-width="12" stroke-dasharray="35 203" stroke-dashoffset="-204" onmouseover="highlightCat('Villas &amp; Fincas (15%)')" onmouseout="resetCat()"></circle>
               </svg>
 
-              <!-- Center Hole Indicator -->
               <div class="absolute inset-0 flex flex-col items-center justify-center text-center pointer-events-none">
                 <span class="text-xs font-bold text-white" id="donutCenterLabel">100%</span>
                 <span class="text-[9px] text-neutral-400">Total</span>
               </div>
             </div>
 
-            <!-- Legend Items (Customized for Real Estate & Tech Demo) -->
+            <!-- Legend Items -->
             <div class="space-y-2 flex-1 w-full text-xs">
-              
-              <!-- Item 1: Blue -->
-              <div class="flex items-center justify-between text-neutral-300 hover:text-white cursor-pointer py-0.5 group/item" onclick="filterByCategory('casas')">
+              <div class="flex items-center justify-between text-neutral-300 hover:text-white cursor-pointer py-0.5 group/item" onclick="navegarA('propiedades')">
                 <div class="flex items-center gap-2 truncate">
                   <span class="w-2.5 h-2.5 rounded-full bg-[#4e82f5] flex-shrink-0"></span>
                   <span class="truncate font-medium text-[11px]" id="cat-label-1">Apple MacBook Air M2</span>
@@ -735,8 +725,7 @@
                 <span class="text-neutral-400 font-semibold group-hover/item:text-white ml-2 text-[11px]">25%</span>
               </div>
 
-              <!-- Item 2: Purple / Dark Blue -->
-              <div class="flex items-center justify-between text-neutral-300 hover:text-white cursor-pointer py-0.5 group/item" onclick="filterByCategory('apartamentos')">
+              <div class="flex items-center justify-between text-neutral-300 hover:text-white cursor-pointer py-0.5 group/item" onclick="navegarA('propiedades')">
                 <div class="flex items-center gap-2 truncate">
                   <span class="w-2.5 h-2.5 rounded-full bg-[#fca5a5] flex-shrink-0"></span>
                   <span class="truncate font-medium text-[11px]" id="cat-label-2">Apple Watch Series 9</span>
@@ -744,8 +733,7 @@
                 <span class="text-neutral-400 font-semibold group-hover/item:text-white ml-2 text-[11px]">20%</span>
               </div>
 
-              <!-- Item 3: Yellow -->
-              <div class="flex items-center justify-between text-neutral-300 hover:text-white cursor-pointer py-0.5 group/item" onclick="filterByCategory('terrenos')">
+              <div class="flex items-center justify-between text-neutral-300 hover:text-white cursor-pointer py-0.5 group/item" onclick="navegarA('propiedades')">
                 <div class="flex items-center gap-2 truncate">
                   <span class="w-2.5 h-2.5 rounded-full bg-[#facc15] flex-shrink-0"></span>
                   <span class="truncate font-medium text-[11px]" id="cat-label-3">Acoustics JBL Charge 5</span>
@@ -753,8 +741,7 @@
                 <span class="text-neutral-400 font-semibold group-hover/item:text-white ml-2 text-[11px]">25%</span>
               </div>
 
-              <!-- Item 4: Coral -->
-              <div class="flex items-center justify-between text-neutral-300 hover:text-white cursor-pointer py-0.5 group/item" onclick="filterByCategory('comercial')">
+              <div class="flex items-center justify-between text-neutral-300 hover:text-white cursor-pointer py-0.5 group/item" onclick="navegarA('propiedades')">
                 <div class="flex items-center gap-2 truncate">
                   <span class="w-2.5 h-2.5 rounded-full bg-[#fb7185] flex-shrink-0"></span>
                   <span class="truncate font-medium text-[11px]" id="cat-label-4">Acoustics Divoom SongBird-HQ</span>
@@ -762,8 +749,7 @@
                 <span class="text-neutral-400 font-semibold group-hover/item:text-white ml-2 text-[11px]">15%</span>
               </div>
 
-              <!-- Item 5: Green -->
-              <div class="flex items-center justify-between text-neutral-300 hover:text-white cursor-pointer py-0.5 group/item" onclick="filterByCategory('villas')">
+              <div class="flex items-center justify-between text-neutral-300 hover:text-white cursor-pointer py-0.5 group/item" onclick="navegarA('propiedades')">
                 <div class="flex items-center gap-2 truncate">
                   <span class="w-2.5 h-2.5 rounded-full bg-[#4ade80] flex-shrink-0"></span>
                   <span class="truncate font-medium text-[11px]" id="cat-label-5">Apple AirPods Pro 2</span>
@@ -771,14 +757,12 @@
                 <span class="text-neutral-400 font-semibold group-hover/item:text-white ml-2 text-[11px]">15%</span>
               </div>
 
-              <!-- Toggle Label Switcher (Real Estate vs Mock screenshot) -->
               <div class="pt-2 border-t border-white/5 flex items-center justify-between text-[10px] text-neutral-500">
                 <button onclick="toggleCategoryLabels()" class="text-blue-400 hover:underline flex items-center gap-1">
                   <span class="material-symbols-outlined text-[12px]">tune</span>
                   <span id="catModeToggleText">Ver nombres inmobiliarios</span>
                 </button>
               </div>
-
             </div>
 
           </div>
@@ -787,119 +771,608 @@
 
       </div>
 
-    </div>
+    </section>
 
-    <!-- ==================== TAB: PROPIEDADES (GESTIÓN DE INVENTARIO) ==================== -->
-    <div id="tabContent-propiedades" class="hidden space-y-6">
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-[#16161d] p-6 rounded-3xl border border-white/5">
+    <!-- ========================================================
+         VISTA 2: GESTIÓN DE PROPIEDADES (INVENTARIO & AGREGAR NUEVA)
+         ======================================================== -->
+    <section id="view-propiedades" class="hidden space-y-6">
+      
+      <!-- Sub-pestañas: Inventario vs Agregar Nueva -->
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-white/10 pb-4">
         <div>
-          <h2 class="text-xl font-bold text-white">Inventario de Propiedades Activas</h2>
-          <p class="text-xs text-neutral-400">Control de disponibilidad, precios y comisiones de las 10 residencias en catálogo.</p>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+            Gestión de Propiedades VIP
+          </h2>
+          <p class="text-xs sm:text-sm text-neutral-400 mt-1">
+            Administra el portafolio en tiempo real, cambia estados y añade nuevas residencias con sincronización a Google Sheets.
+          </p>
         </div>
-        <button onclick="openNewPropertyModal()" class="px-4 py-2.5 bg-blue-600 hover:bg-blue-500 text-white rounded-2xl font-bold text-xs flex items-center gap-2 shadow-lg shadow-blue-600/30">
-          <span class="material-symbols-outlined text-[16px]">add_circle</span>
-          <span>Añadir Nueva Propiedad</span>
-        </button>
+
+        <div class="flex items-center bg-[#16161d] border border-white/5 p-1 rounded-2xl">
+          <button type="button" onclick="setPropiedadesSubTab('inventario')" id="btn-subtab-inventario" class="px-4 py-2 text-xs font-bold rounded-xl transition-all bg-white text-black shadow-sm">
+            <span class="material-symbols-outlined text-[14px] align-middle mr-1">list</span>Inventario (<span id="count-subtab-inv">10</span>)
+          </button>
+          <button type="button" onclick="setPropiedadesSubTab('nueva')" id="btn-subtab-nueva" class="px-4 py-2 text-xs font-bold rounded-xl transition-all text-neutral-400 hover:text-white">
+            <span class="material-symbols-outlined text-[14px] align-middle mr-1">add_circle</span>Agregar Nueva
+          </button>
+        </div>
       </div>
 
-      <!-- Properties Table -->
-      <div class="bg-[#16161d] rounded-3xl border border-white/5 overflow-hidden">
+      <!-- SUB-PESTAÑA A: INVENTARIO COMPLETO (TABLA / CARDS) -->
+      <div id="subtab-inventario-content" class="space-y-6">
+        
+        <!-- Barra de Filtros, Búsqueda y Modos de Vista -->
+        <div class="bg-[#16161d] rounded-2xl p-4 sm:p-5 border border-white/5 flex flex-col md:flex-row md:items-center justify-between gap-4">
+          
+          <!-- Buscador en tiempo real -->
+          <div class="relative flex-1 max-w-md">
+            <span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-neutral-400 text-[18px]">search</span>
+            <input 
+              type="text" 
+              id="inventario-search" 
+              oninput="aplicarFiltrosInventario()" 
+              placeholder="Buscar por título, zona, asesor o precio..." 
+              class="w-full pl-10 pr-4 py-2 rounded-xl border border-white/10 bg-[#101015] focus:border-blue-500 text-xs sm:text-sm text-white placeholder-neutral-500 outline-none"
+            >
+          </div>
+
+          <!-- Filtros por Estado y Pestaña Dinámica de Asesor -->
+          <div class="flex flex-wrap items-center gap-2">
+            <button type="button" onclick="volverATodas()" id="btn-filtro-todas" class="inv-filter-btn px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-white text-black transition-all">
+              Todas (<span id="filter-count-todos">10</span>)
+            </button>
+            
+            <!-- Pestaña Dinámica del Asesor (Al hacer clic en 'Ver sus propiedades') -->
+            <button type="button" id="tab-filtro-asesor" onclick="activarFiltroAsesorTab()" class="hidden px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-blue-600 text-white flex items-center gap-2 transition-all">
+              <img id="tab-filtro-asesor-img" src="" class="w-4 h-4 rounded-full object-cover">
+              <span id="tab-filtro-asesor-name">Asesor</span>
+              <span id="tab-filtro-asesor-count" class="px-1.5 py-0.5 rounded-full bg-white/20 text-[10px] font-mono">0</span>
+              <span onclick="event.stopPropagation(); volverATodas();" class="hover:text-black font-black text-xs ml-1" title="Cerrar filtro">✕</span>
+            </button>
+
+            <button type="button" onclick="filtrarInventarioPorEstado('venta')" class="inv-filter-btn px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-[#202029] text-neutral-300 hover:bg-[#282834] transition-all" data-filter="venta">
+              En Venta (<span id="filter-count-venta">8</span>)
+            </button>
+            <button type="button" onclick="filtrarInventarioPorEstado('renta')" class="inv-filter-btn px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-[#202029] text-neutral-300 hover:bg-[#282834] transition-all" data-filter="renta">
+              En Renta (<span id="filter-count-renta">2</span>)
+            </button>
+            <button type="button" onclick="filtrarInventarioPorEstado('vendida')" class="inv-filter-btn px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-[#202029] text-neutral-300 hover:bg-[#282834] transition-all" data-filter="vendida">
+              Vendidas (<span id="filter-count-vendida">1</span>)
+            </button>
+          </div>
+
+          <!-- Selector Modo Vista (Tabla / Grid) -->
+          <div class="flex items-center gap-1 bg-[#101015] p-1 rounded-xl shrink-0 border border-white/5">
+            <button type="button" onclick="setVistaModo('tabla')" id="btn-view-tabla" class="p-2 rounded-lg text-black bg-white shadow-xs text-xs font-bold" title="Vista en Tabla">
+              <span class="material-symbols-outlined text-[16px]">table_rows</span>
+            </button>
+            <button type="button" onclick="setVistaModo('grid')" id="btn-view-grid" class="p-2 rounded-lg text-neutral-400 hover:text-white text-xs font-bold" title="Vista en Tarjetas">
+              <span class="material-symbols-outlined text-[16px]">grid_view</span>
+            </button>
+          </div>
+
+        </div>
+
+        <!-- Banner de Filtro Activo por Asesor -->
+        <div id="filtro-asesor-banner" class="hidden bg-blue-900/30 border border-blue-500/30 rounded-2xl p-3 sm:px-5 sm:py-3.5 flex items-center justify-between text-xs text-white">
+          <div class="flex items-center gap-3">
+            <img id="filtro-asesor-avatar" src="" class="w-8 h-8 rounded-full object-cover ring-2 ring-blue-500">
+            <div>
+              <span class="text-neutral-400">Filtrando por asesor:</span>
+              <strong id="filtro-asesor-nombre" class="text-white ml-1">Carmen Coloma</strong>
+              <span id="filtro-asesor-puesto" class="text-blue-300 text-[11px] block">Directora Comercial</span>
+            </div>
+          </div>
+          <button onclick="volverATodas()" class="px-3 py-1 bg-white/10 hover:bg-white/20 text-white rounded-xl text-xs font-semibold">
+            Mostrar Todas
+          </button>
+        </div>
+
+        <!-- MODO TABLA -->
+        <div id="contenedor-vista-tabla" class="bg-[#16161d] rounded-3xl border border-white/5 overflow-hidden">
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-[#1c1c27] text-neutral-400 font-semibold uppercase tracking-wider text-[10px] border-b border-white/5">
+                <tr>
+                  <th class="p-4">Propiedad</th>
+                  <th class="p-4">Ubicación</th>
+                  <th class="p-4">Precio</th>
+                  <th class="p-4">Specs</th>
+                  <th class="p-4">Asesor Asignado</th>
+                  <th class="p-4">Estado</th>
+                  <th class="p-4 text-right">Acciones</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-white/5 text-neutral-300" id="tabla-inventario-body">
+                <!-- Injected via JavaScript -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- MODO TARJETAS / GRID -->
+        <div id="contenedor-vista-grid" class="hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Injected via JavaScript -->
+        </div>
+
+      </div>
+
+      <!-- SUB-PESTAÑA B: AGREGAR NUEVA PROPIEDAD (FORMULARIO VIP) -->
+      <div id="subtab-nueva-content" class="hidden bg-[#16161d] rounded-3xl p-6 sm:p-8 border border-white/5 max-w-4xl mx-auto space-y-6">
+        <div class="border-b border-white/10 pb-4 flex items-center justify-between">
+          <div>
+            <h3 class="text-lg font-bold text-white flex items-center gap-2">
+              <span class="material-symbols-outlined text-blue-400">add_business</span>
+              <span>Alta de Propiedad en Catálogo VIP</span>
+            </h3>
+            <p class="text-xs text-neutral-400 mt-1">
+              Los datos se guardan en el sistema y generan la fila lista para pegar en Google Sheets.
+            </p>
+          </div>
+          <span class="text-xs font-mono bg-blue-900/30 text-blue-400 px-3 py-1 rounded-xl border border-blue-500/20" id="badge-nuevo-id">ID: Auto</span>
+        </div>
+
+        <form id="form-nueva-propiedad" onsubmit="guardarNuevaPropiedad(event)" class="space-y-5 text-xs">
+          
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block font-semibold text-neutral-300 mb-1">Título de la Residencia *</label>
+              <input type="text" id="nueva-titulo" required placeholder="Ej. Mansión Las Cumbres, Zona 3" class="w-full bg-[#101015] border border-white/10 rounded-xl px-3.5 py-2.5 text-white outline-none focus:border-blue-500">
+            </div>
+            <div>
+              <label class="block font-semibold text-neutral-300 mb-1">Precio (USD $) *</label>
+              <input type="number" id="nueva-precio" required placeholder="Ej. 240000" class="w-full bg-[#101015] border border-white/10 rounded-xl px-3.5 py-2.5 text-white outline-none focus:border-blue-500">
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div>
+              <label class="block font-semibold text-neutral-300 mb-1">Tipo de Operación</label>
+              <select id="nueva-operacion" class="w-full bg-[#101015] border border-white/10 rounded-xl px-3.5 py-2.5 text-white outline-none focus:border-blue-500">
+                <option value="venta">Venta Exclusiva</option>
+                <option value="renta">Renta VIP</option>
+              </select>
+            </div>
+            <div>
+              <label class="block font-semibold text-neutral-300 mb-1">Asesor Responsable</label>
+              <select id="nueva-asesor" class="w-full bg-[#101015] border border-white/10 rounded-xl px-3.5 py-2.5 text-white outline-none focus:border-blue-500">
+                <!-- Injected via poblarSelectsAsesores() -->
+              </select>
+            </div>
+            <div>
+              <label class="block font-semibold text-neutral-300 mb-1">Estado Inicial</label>
+              <select id="nueva-estado" class="w-full bg-[#101015] border border-white/10 rounded-xl px-3.5 py-2.5 text-white outline-none focus:border-blue-500">
+                <option value="disponible">Disponible</option>
+                <option value="reservada">Reservada</option>
+                <option value="vendida">Vendida</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            <div>
+              <label class="block font-semibold text-neutral-300 mb-1">Habitaciones</label>
+              <input type="number" id="nueva-cuartos" value="4" class="w-full bg-[#101015] border border-white/10 rounded-xl px-3.5 py-2.5 text-white outline-none focus:border-blue-500">
+            </div>
+            <div>
+              <label class="block font-semibold text-neutral-300 mb-1">Baños Completos</label>
+              <input type="number" id="nueva-banos" value="4" class="w-full bg-[#101015] border border-white/10 rounded-xl px-3.5 py-2.5 text-white outline-none focus:border-blue-500">
+            </div>
+            <div>
+              <label class="block font-semibold text-neutral-300 mb-1">Metros Cuadrados (m²)</label>
+              <input type="number" id="nueva-metros" value="380" class="w-full bg-[#101015] border border-white/10 rounded-xl px-3.5 py-2.5 text-white outline-none focus:border-blue-500">
+            </div>
+            <div>
+              <label class="block font-semibold text-neutral-300 mb-1">Ubicación / Sector</label>
+              <input type="text" id="nueva-ubicacion" value="Zona 3, Quetzaltenango" class="w-full bg-[#101015] border border-white/10 rounded-xl px-3.5 py-2.5 text-white outline-none focus:border-blue-500">
+            </div>
+          </div>
+
+          <div>
+            <label class="block font-semibold text-neutral-300 mb-1">Imagen de Portada (URL o Subir)</label>
+            <div class="flex gap-2">
+              <input type="url" id="nueva-imagen" placeholder="https://images.unsplash.com/photo-..." class="flex-1 bg-[#101015] border border-white/10 rounded-xl px-3.5 py-2.5 text-white outline-none focus:border-blue-500">
+              <label class="px-4 py-2.5 bg-neutral-800 hover:bg-neutral-700 text-white rounded-xl cursor-pointer flex items-center gap-1 font-semibold">
+                <span class="material-symbols-outlined text-[16px]">upload</span>
+                <span>Subir</span>
+                <input type="file" id="nueva-archivo-imagen" accept="image/*" class="hidden" onchange="manejarArchivoImagen(event)">
+              </label>
+            </div>
+          </div>
+
+          <div class="pt-4 border-t border-white/10 flex items-center justify-end gap-3">
+            <button type="button" onclick="setPropiedadesSubTab('inventario')" class="px-4 py-2.5 bg-white/5 hover:bg-white/10 text-neutral-300 rounded-xl font-semibold">
+              Cancelar
+            </button>
+            <button type="submit" class="px-6 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl shadow-lg shadow-blue-600/30 flex items-center gap-2">
+              <span class="material-symbols-outlined text-[16px]">save</span>
+              <span>Guardar &amp; Generar Fila CSV</span>
+            </button>
+          </div>
+
+        </form>
+      </div>
+
+    </section>
+
+    <!-- ========================================================
+         VISTA 3: ASESORES VIP (DIRECTORIO OFICIAL)
+         ======================================================== -->
+    <section id="view-asesores" class="hidden space-y-6">
+      
+      <!-- Encabezado de Asesores -->
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-white/10 pb-4">
+        <div>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+            Directorio Oficial de Asesores VIP
+          </h2>
+          <p class="text-xs sm:text-sm text-neutral-400 mt-1">
+            Equipo de directores comerciales e inversión patrimonial exclusiva en Guatemala.
+          </p>
+        </div>
+        <div class="flex items-center gap-3">
+          <span id="badge-header-asesores" class="text-xs font-bold text-white bg-[#16161d] border border-white/10 px-3.5 py-2 rounded-xl">
+            <span class="material-symbols-outlined text-[14px] align-middle text-blue-400 mr-1">verified</span>9 Asesores Oficiales
+          </span>
+          <button type="button" onclick="abrirModalNuevoAsesor()" class="px-4 py-2 text-xs font-bold text-white bg-blue-600 hover:bg-blue-500 rounded-xl shadow-md transition-all flex items-center gap-1.5 shadow-blue-600/30">
+            <span class="material-symbols-outlined text-[16px]">person_add</span>
+            <span>Nuevo Asesor</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Grid de Asesores VIP -->
+      <div id="asesores-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Inyectado dinámicamente -->
+      </div>
+
+    </section>
+
+    <!-- ========================================================
+         VISTA 4: GOOGLE SHEETS & CSV SYNC (CONEXIÓN EN VIVO)
+         ======================================================== -->
+    <section id="view-sheets" class="hidden space-y-6">
+      
+      <!-- Encabezado de Sheets -->
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-white/10 pb-4">
+        <div>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+            Centro de Sincronización Google Sheets
+          </h2>
+          <p class="text-xs sm:text-sm text-neutral-400 mt-1">
+            Conexión bidireccional en tiempo real entre la nube de Google y el catálogo VIP de propiedades.
+          </p>
+        </div>
+        <div class="flex items-center gap-2.5">
+          <button type="button" onclick="sincronizarAhora(true)" class="px-4 py-2 text-xs font-bold text-black bg-white hover:bg-neutral-200 rounded-xl shadow-md transition-all flex items-center gap-2">
+            <span class="material-symbols-outlined text-[16px]">sync</span>
+            <span>Sincronizar Ahora</span>
+          </button>
+          <button type="button" onclick="exportarCSVCompleto()" class="px-4 py-2 text-xs font-bold text-white bg-blue-600 hover:bg-blue-500 rounded-xl shadow-md transition-all flex items-center gap-2">
+            <span class="material-symbols-outlined text-[16px]">download</span>
+            <span>Exportar CSV</span>
+          </button>
+          <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vTy-h3jWds9tF7OQzGIKUnFaw65cFd-UHJuhNZlkvfC6g2hWYxurIpl3qyifcqdWNq2H-Tn04VucX0b/pubhtml" target="_blank" class="px-4 py-2 text-xs font-bold text-white bg-[#16161d] border border-white/10 hover:bg-[#202029] rounded-xl shadow-xs transition-all flex items-center gap-2">
+            <span class="material-symbols-outlined text-[16px]">open_in_new</span>
+            <span>Abrir Drive</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Tarjetas de Diagnóstico -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        <div class="bg-[#16161d] rounded-2xl p-6 border border-white/5 shadow-xs">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center justify-center text-lg font-bold">
+              <span class="material-symbols-outlined">check_circle</span>
+            </div>
+            <div>
+              <h3 class="font-bold text-white text-base">Estado de Conexión</h3>
+              <p class="text-xs text-emerald-400 font-semibold">🟢 HTTP 200 OK • En Vivo</p>
+            </div>
+          </div>
+          <p class="text-xs text-neutral-400 leading-relaxed">
+            El endpoint CSV responde correctamente y entrega las propiedades con codificación UTF-8.
+          </p>
+        </div>
+
+        <div class="bg-[#16161d] rounded-2xl p-6 border border-white/5 shadow-xs">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-10 h-10 rounded-xl bg-blue-500/20 text-blue-400 border border-blue-500/30 flex items-center justify-center text-lg font-bold">
+              <span class="material-symbols-outlined">dataset</span>
+            </div>
+            <div>
+              <h3 class="font-bold text-white text-base">Propiedades Cargadas</h3>
+              <p class="text-xs text-blue-400 font-semibold"><span id="sheets-total-count">10</span> Residencias Activas</p>
+            </div>
+          </div>
+          <p class="text-xs text-neutral-400 leading-relaxed">
+            Datos locales y remotos sincronizados sin conflictos de identificadores.
+          </p>
+        </div>
+
+        <div class="bg-[#16161d] rounded-2xl p-6 border border-white/5 shadow-xs">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-10 h-10 rounded-xl bg-purple-500/20 text-purple-400 border border-purple-500/30 flex items-center justify-center text-lg font-bold">
+              <span class="material-symbols-outlined">speed</span>
+            </div>
+            <div>
+              <h3 class="font-bold text-white text-base">Caché &amp; Rendimiento</h3>
+              <p class="text-xs text-purple-400 font-semibold">Timestamp Fresco</p>
+            </div>
+          </div>
+          <p class="text-xs text-neutral-400 leading-relaxed">
+            Cada consulta agrega timestamp para evitar resultados cacheados en navegadores.
+          </p>
+        </div>
+
+      </div>
+
+      <!-- Visor Embebido Interactivo de Google Sheets -->
+      <div class="bg-[#16161d] rounded-2xl border border-white/5 overflow-hidden">
+        <div class="p-5 border-b border-white/10 bg-[#121218] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+          <div class="flex items-center gap-3">
+            <span class="material-symbols-outlined text-white text-[22px]">table_chart</span>
+            <div>
+              <h3 class="font-bold text-white text-base">Visualizador en Vivo de Google Sheets</h3>
+              <p class="text-xs text-neutral-400">Hoja oficial publicada en la web (Lectura en tiempo real).</p>
+            </div>
+          </div>
+          <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vTy-h3jWds9tF7OQzGIKUnFaw65cFd-UHJuhNZlkvfC6g2hWYxurIpl3qyifcqdWNq2H-Tn04VucX0b/pubhtml" target="_blank" class="text-xs text-blue-400 font-bold hover:underline inline-flex items-center gap-1">
+            <span>Pantalla Completa</span>
+            <span class="material-symbols-outlined text-[14px]">open_in_new</span>
+          </a>
+        </div>
+        
+        <div class="relative w-full h-[520px] bg-neutral-950">
+          <iframe 
+            src="https://docs.google.com/spreadsheets/d/e/2PACX-1vTy-h3jWds9tF7OQzGIKUnFaw65cFd-UHJuhNZlkvfC6g2hWYxurIpl3qyifcqdWNq2H-Tn04VucX0b/pubhtml?widget=true&amp;headers=false"
+            class="w-full h-full border-0"
+            title="Google Sheets Publicado"
+          ></iframe>
+        </div>
+      </div>
+
+      <!-- Guía de Columnas Oficiales para Google Sheets -->
+      <div class="bg-[#16161d] rounded-2xl p-6 border border-white/5">
+        <h3 class="font-bold text-white text-base mb-2">Estructura Oficial de Columnas en Google Sheets</h3>
+        <p class="text-xs text-neutral-400 mb-4">Asegúrate de que tu hoja mantenga este orden exacto de columnas en la primera fila:</p>
         <div class="overflow-x-auto">
-          <table class="w-full text-left text-xs">
-            <thead class="bg-[#1c1c27] text-neutral-400 font-semibold uppercase tracking-wider text-[10px] border-b border-white/5">
-              <tr>
-                <th class="p-4">Propiedad</th>
-                <th class="p-4">Ubicación</th>
-                <th class="p-4">Precio Lista</th>
-                <th class="p-4">Comisión Est.</th>
-                <th class="p-4">Estado</th>
-                <th class="p-4 text-right">Acciones</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-white/5 text-neutral-300" id="propertiesTableBody">
-              <!-- Dynamically populated in JavaScript -->
-            </tbody>
-          </table>
+          <div class="inline-flex gap-2 p-2 bg-[#101015] rounded-xl border border-white/5 text-xs font-mono text-neutral-300">
+            <span class="bg-neutral-900 px-2.5 py-1 rounded shadow-xs font-bold text-white border border-neutral-700">1. id</span>
+            <span class="bg-neutral-900 px-2.5 py-1 rounded shadow-xs font-bold text-white border border-neutral-700">2. titulo</span>
+            <span class="bg-neutral-900 px-2.5 py-1 rounded shadow-xs font-bold text-white border border-neutral-700">3. precio</span>
+            <span class="bg-neutral-900 px-2.5 py-1 rounded shadow-xs font-bold text-white border border-neutral-700">4. cuartos</span>
+            <span class="bg-neutral-900 px-2.5 py-1 rounded shadow-xs font-bold text-white border border-neutral-700">5. banos</span>
+            <span class="bg-neutral-900 px-2.5 py-1 rounded shadow-xs font-bold text-white border border-neutral-700">6. metros</span>
+            <span class="bg-neutral-900 px-2.5 py-1 rounded shadow-xs font-bold text-white border border-neutral-700">7. ubicacion</span>
+            <span class="bg-neutral-900 px-2.5 py-1 rounded shadow-xs font-bold text-white border border-neutral-700">8. amenidades</span>
+            <span class="bg-neutral-900 px-2.5 py-1 rounded shadow-xs font-bold text-white border border-neutral-700">9. cercanias</span>
+            <span class="bg-neutral-900 px-2.5 py-1 rounded shadow-xs font-bold text-white border border-neutral-700">10. imagen_portada</span>
+            <span class="bg-neutral-900 px-2.5 py-1 rounded shadow-xs font-bold text-white border border-neutral-700">11. galeria_fotos</span>
+            <span class="bg-neutral-900 px-2.5 py-1 rounded shadow-xs font-bold text-white border border-neutral-700">12. id_asesor</span>
+            <span class="bg-neutral-900 px-2.5 py-1 rounded shadow-xs font-bold text-white border border-neutral-700">13. estado</span>
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- ==================== TAB: CRM / CLIENTES & PROSPECTOS ==================== -->
-    <div id="tabContent-clientes" class="hidden space-y-6">
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-[#16161d] p-6 rounded-3xl border border-white/5">
-        <div>
-          <h2 class="text-xl font-bold text-white">CRM de Prospectos &amp; Inversionistas</h2>
-          <p class="text-xs text-neutral-400">17 clientes activos esperando atención o seguimiento de visitas en Xela y Retalhuleu.</p>
-        </div>
-        <button onclick="showLeadAddSuccess()" class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-2xl font-bold text-xs flex items-center gap-2">
-          <span class="material-symbols-outlined text-[16px]">person_add</span>
-          <span>Registrar Prospecto</span>
-        </button>
+    </section>
+
+    <!-- ========================================================
+         VISTA 5: CONFIGURACIÓN DEL SISTEMA
+         ======================================================== -->
+    <section id="view-configuracion" class="hidden space-y-6 max-w-4xl">
+      
+      <div class="border-b border-white/10 pb-4">
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+          Configuración del Panel
+        </h2>
+        <p class="text-xs sm:text-sm text-neutral-400 mt-1">
+          Ajustes globales de comisiones, tipo de cambio e integración con la inmobiliaria.
+        </p>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="leadsCardsContainer">
-        <!-- Dynamically injected leads -->
-      </div>
-    </div>
-
-    <!-- ==================== TAB: CONTRATOS & VENTAS ==================== -->
-    <div id="tabContent-ventas" class="hidden space-y-6">
-      <div class="bg-[#16161d] p-6 rounded-3xl border border-white/5 flex items-center justify-between">
-        <div>
-          <h2 class="text-xl font-bold text-white">Contratos y Cierres Notariales</h2>
-          <p class="text-xs text-neutral-400">98 transacciones registradas este período. 12 pendientes de escrituración.</p>
-        </div>
-        <button onclick="openContractModal()" class="px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-xl text-xs font-semibold">
-          Ver 12 Pendientes
-        </button>
-      </div>
-      <div class="bg-[#16161d] p-6 rounded-3xl border border-white/5 space-y-3" id="contractsContainer">
-        <!-- Injected contracts list -->
-      </div>
-    </div>
-
-    <!-- ==================== TAB: ANALÍTICAS & REPORTES ==================== -->
-    <div id="tabContent-analiticas" class="hidden space-y-6">
-      <div class="bg-[#16161d] p-6 rounded-3xl border border-white/5">
-        <h2 class="text-xl font-bold text-white mb-2">Desglose de Rendimiento Financiero</h2>
-        <p class="text-xs text-neutral-400 mb-6">Métricas de conversión de prospectos a compradores efectivos y tiempos de cierre.</p>
+      <div class="bg-[#16161d] rounded-3xl p-6 border border-white/5 space-y-5 text-xs">
         
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div class="bg-[#111117] p-5 rounded-2xl border border-white/5">
-            <span class="text-xs text-neutral-400">Tiempo Promedio de Cierre</span>
-            <div class="text-2xl font-extrabold text-white mt-1">18 Días</div>
-            <span class="text-[11px] text-emerald-400 font-medium">4 días más rápido vs 2025</span>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block font-semibold text-neutral-300 mb-1">Nombre de la Firma Inmobiliaria</label>
+            <input type="text" id="config-nombre-agencia" value="Bienes Raíces Online Guatemala" class="w-full bg-[#101015] border border-white/10 rounded-xl px-3.5 py-2.5 text-white outline-none focus:border-blue-500">
           </div>
-          <div class="bg-[#111117] p-5 rounded-2xl border border-white/5">
-            <span class="text-xs text-neutral-400">Tasa de Conversión WhatsApp</span>
-            <div class="text-2xl font-extrabold text-white mt-1">14.8%</div>
-            <span class="text-[11px] text-emerald-400 font-medium">+ 2.1% este mes</span>
-          </div>
-          <div class="bg-[#111117] p-5 rounded-2xl border border-white/5">
-            <span class="text-xs text-neutral-400">Ticket Promedio Venta</span>
-            <div class="text-2xl font-extrabold text-white mt-1">$ 185,000</div>
-            <span class="text-[11px] text-blue-400 font-medium">Q 1.45M en Quetzales</span>
+          <div>
+            <label class="block font-semibold text-neutral-300 mb-1">Tipo de Cambio (USD a Quetzales GTQ)</label>
+            <input type="number" step="0.01" id="config-tipo-cambio" value="7.82" onchange="actualizarTipoCambio(this.value)" class="w-full bg-[#101015] border border-white/10 rounded-xl px-3.5 py-2.5 text-white outline-none focus:border-blue-500">
           </div>
         </div>
-      </div>
-    </div>
 
-    <!-- ==================== TAB: MENSAJES & CONSULTAS ==================== -->
-    <div id="tabContent-mensajes" class="hidden space-y-6">
-      <div class="bg-[#16161d] p-6 rounded-3xl border border-white/5">
-        <h2 class="text-xl font-bold text-white mb-2">Bandeja de Consultas Web &amp; WhatsApp</h2>
-        <p class="text-xs text-neutral-400 mb-6">Mensajes entrantes desde el portal público de Bienes Raíces Online Guatemala.</p>
-        
-        <div class="space-y-3" id="messagesInboxContainer">
-          <!-- Dynamically populated -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block font-semibold text-neutral-300 mb-1">Tasa de Comisión Promedio (%)</label>
+            <input type="number" id="config-comision" value="5" class="w-full bg-[#101015] border border-white/10 rounded-xl px-3.5 py-2.5 text-white outline-none focus:border-blue-500">
+          </div>
+          <div>
+            <label class="block font-semibold text-neutral-300 mb-1">Moneda Principal de Exhibición</label>
+            <select id="config-moneda-select" onchange="cambiarMonedaDesdeConfig(this.value)" class="w-full bg-[#101015] border border-white/10 rounded-xl px-3.5 py-2.5 text-white outline-none focus:border-blue-500">
+              <option value="USD">Dólares Estadounidenses (USD $)</option>
+              <option value="GTQ">Quetzales de Guatemala (GTQ Q)</option>
+            </select>
+          </div>
         </div>
+
+        <div class="pt-4 border-t border-white/10 flex flex-wrap items-center justify-between gap-3">
+          <button onclick="resetearDatosCompletos()" class="px-4 py-2 bg-rose-600/20 hover:bg-rose-600/30 text-rose-400 border border-rose-500/30 rounded-xl font-bold transition-all">
+            Restablecer a Propiedades Iniciales
+          </button>
+          <button onclick="showToast('Configuraciones guardadas exitosamente')" class="px-5 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-bold shadow-lg shadow-blue-600/30">
+            Guardar Cambios
+          </button>
+        </div>
+
       </div>
-    </div>
+
+    </section>
 
   </main>
 
-  <!-- ==================== MODAL: DETALLES DE CONTRATOS (12 PENDIENTES) ==================== -->
-  <div id="contractModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+  <!-- ==================== MODAL: DETALLE DE PROPIEDAD VIP ==================== -->
+  <div id="modal-detalle-propiedad" class="hidden fixed inset-0 z-50 bg-black/80 modal-backdrop flex items-center justify-center p-4">
+    <div class="bg-[#181822] border border-white/10 rounded-3xl max-w-3xl w-full p-6 sm:p-8 shadow-2xl relative max-h-[90vh] overflow-y-auto flex flex-col">
+      <div class="flex items-center justify-between pb-4 border-b border-white/10 mb-4">
+        <div>
+          <span id="modal-detalle-tag" class="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-blue-600 text-white">Venta</span>
+          <h3 id="modal-detalle-titulo" class="text-xl font-extrabold text-white mt-1">Título de la Residencia</h3>
+          <p id="modal-detalle-ubicacion" class="text-xs text-neutral-400">Zona 3, Quetzaltenango</p>
+        </div>
+        <button onclick="cerrarModalDetalle()" class="w-8 h-8 rounded-full bg-white/5 hover:bg-white/20 text-white flex items-center justify-center">
+          <span class="material-symbols-outlined text-[18px]">close</span>
+        </button>
+      </div>
+
+      <div class="space-y-5 text-xs">
+        <!-- Imagen principal -->
+        <div class="relative aspect-[16/9] rounded-2xl overflow-hidden bg-neutral-900 border border-white/10">
+          <img id="modal-detalle-img" src="" class="w-full h-full object-cover" alt="Detalle">
+          <div class="absolute bottom-3 left-3 bg-black/75 px-3 py-1.5 rounded-xl text-white font-extrabold text-sm" id="modal-detalle-precio">
+            $ 240,000
+          </div>
+        </div>
+
+        <!-- Specs Grid -->
+        <div class="grid grid-cols-3 gap-3 text-center">
+          <div class="p-3 bg-white/5 rounded-2xl border border-white/5">
+            <span class="text-neutral-400 block text-[11px]">Habitaciones</span>
+            <strong id="modal-detalle-cuartos" class="text-base text-white">4</strong>
+          </div>
+          <div class="p-3 bg-white/5 rounded-2xl border border-white/5">
+            <span class="text-neutral-400 block text-[11px]">Baños</span>
+            <strong id="modal-detalle-banos" class="text-base text-white">4</strong>
+          </div>
+          <div class="p-3 bg-white/5 rounded-2xl border border-white/5">
+            <span class="text-neutral-400 block text-[11px]">Construcción</span>
+            <strong id="modal-detalle-metros" class="text-base text-white">380 m²</strong>
+          </div>
+        </div>
+
+        <!-- Asesor Asignado -->
+        <div class="p-4 bg-white/5 rounded-2xl border border-white/5 flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <img id="modal-detalle-asesor-avatar" src="" class="w-10 h-10 rounded-full object-cover ring-2 ring-blue-500">
+            <div>
+              <span class="text-[10px] text-neutral-400 uppercase font-bold">Asesor Asignado</span>
+              <div id="modal-detalle-asesor-nombre" class="font-bold text-white text-sm">Carmen Coloma</div>
+              <div id="modal-detalle-asesor-puesto" class="text-[11px] text-neutral-400">Directora Comercial</div>
+            </div>
+          </div>
+          <a id="modal-detalle-asesor-wa" href="#" target="_blank" class="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl font-bold flex items-center gap-1.5 shadow-md">
+            <i class="fa-brands fa-whatsapp text-sm"></i>
+            <span>WhatsApp</span>
+          </a>
+        </div>
+
+        <!-- Acciones en el modal -->
+        <div class="pt-4 border-t border-white/10 flex flex-wrap items-center justify-between gap-3">
+          <button onclick="copiarFilaCSVDesdeModal()" class="px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-xl font-semibold flex items-center gap-1.5">
+            <span class="material-symbols-outlined text-[16px]">content_copy</span>
+            <span>Copiar Fila CSV</span>
+          </button>
+          <div class="flex items-center gap-2">
+            <button onclick="toggleEstadoPropiedadDesdeModal()" id="modal-btn-cambiar-estado" class="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-bold">
+              Cambiar Estado
+            </button>
+            <button onclick="cerrarModalDetalle()" class="px-4 py-2 bg-neutral-800 hover:bg-neutral-700 text-neutral-300 rounded-xl font-semibold">
+              Cerrar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL: NUEVO ASESOR ==================== -->
+  <div id="modal-nuevo-asesor" class="hidden fixed inset-0 z-50 bg-black/80 modal-backdrop flex items-center justify-center p-4">
+    <div class="bg-[#181822] border border-white/10 rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl relative">
+      <div class="flex items-center justify-between pb-4 border-b border-white/10 mb-4">
+        <h3 class="text-lg font-bold text-white flex items-center gap-2">
+          <span class="material-symbols-outlined text-blue-400">person_add</span>
+          <span>Registrar Nuevo Asesor VIP</span>
+        </h3>
+        <button onclick="cerrarModalNuevoAsesor()" class="w-8 h-8 rounded-full bg-white/5 hover:bg-white/20 text-white flex items-center justify-center">
+          <span class="material-symbols-outlined text-[18px]">close</span>
+        </button>
+      </div>
+
+      <form id="form-nuevo-asesor" onsubmit="guardarNuevoAsesor(event)" class="space-y-4 text-xs">
+        <div>
+          <label class="block font-semibold text-neutral-300 mb-1">Nombre Completo *</label>
+          <input type="text" id="nuevo-asesor-nombre" required placeholder="Ej. Lic. Carlos Lemus" class="w-full bg-[#101015] border border-white/10 rounded-xl px-3 py-2 text-white outline-none focus:border-blue-500">
+        </div>
+        <div>
+          <label class="block font-semibold text-neutral-300 mb-1">Cargo / Especialidad *</label>
+          <input type="text" id="nuevo-asesor-puesto" required placeholder="Ej. Especialista en Terrenos & Fincas" class="w-full bg-[#101015] border border-white/10 rounded-xl px-3 py-2 text-white outline-none focus:border-blue-500">
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-semibold text-neutral-300 mb-1">Teléfono WhatsApp *</label>
+            <input type="text" id="nuevo-asesor-tel" required placeholder="50242728393" class="w-full bg-[#101015] border border-white/10 rounded-xl px-3 py-2 text-white outline-none focus:border-blue-500">
+          </div>
+          <div>
+            <label class="block font-semibold text-neutral-300 mb-1">Correo Electrónico</label>
+            <input type="email" id="nuevo-asesor-email" placeholder="asesor@inmobiliaria.gt" class="w-full bg-[#101015] border border-white/10 rounded-xl px-3 py-2 text-white outline-none focus:border-blue-500">
+          </div>
+        </div>
+        <div>
+          <label class="block font-semibold text-neutral-300 mb-1">URL de Foto de Perfil</label>
+          <input type="url" id="nuevo-asesor-foto" placeholder="https://images.unsplash.com/..." class="w-full bg-[#101015] border border-white/10 rounded-xl px-3 py-2 text-white outline-none focus:border-blue-500">
+        </div>
+
+        <div class="pt-4 border-t border-white/10 flex items-center justify-end gap-2">
+          <button type="button" onclick="cerrarModalNuevoAsesor()" class="px-4 py-2 bg-white/5 hover:bg-white/10 text-neutral-300 rounded-xl font-semibold">
+            Cancelar
+          </button>
+          <button type="submit" class="px-5 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-bold shadow-lg shadow-blue-600/30">
+            Guardar Asesor
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL: COPIAR FILA CSV (GOOGLE SHEETS) ==================== -->
+  <div id="modal-csv-copiado" class="hidden fixed inset-0 z-50 bg-black/80 modal-backdrop flex items-center justify-center p-4">
+    <div class="bg-[#181822] border border-white/10 rounded-3xl max-w-xl w-full p-6 sm:p-8 shadow-2xl relative space-y-4 text-xs">
+      <div class="flex items-center justify-between pb-3 border-b border-white/10">
+        <div class="flex items-center gap-2.5">
+          <span class="material-symbols-outlined text-emerald-400 text-[22px]">table_chart</span>
+          <h3 class="text-base font-bold text-white">Fila Generada para Google Sheets</h3>
+        </div>
+        <button onclick="cerrarModalCsv()" class="w-8 h-8 rounded-full bg-white/5 hover:bg-white/20 text-white flex items-center justify-center">
+          <span class="material-symbols-outlined text-[18px]">close</span>
+        </button>
+      </div>
+
+      <p class="text-neutral-400">
+        Copia esta fila y pégala directamente al final de tu hoja de Google Sheets para mantener sincronizado el catálogo.
+      </p>
+
+      <textarea id="csv-fila-texto" rows="3" readonly class="w-full bg-[#101015] border border-white/10 rounded-xl p-3 font-mono text-[11px] text-emerald-300 outline-none select-all"></textarea>
+
+      <div class="flex items-center justify-between pt-2">
+        <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vTy-h3jWds9tF7OQzGIKUnFaw65cFd-UHJuhNZlkvfC6g2hWYxurIpl3qyifcqdWNq2H-Tn04VucX0b/pubhtml" target="_blank" class="text-blue-400 hover:underline flex items-center gap-1 font-semibold">
+          <span>Abrir Google Drive</span>
+          <span class="material-symbols-outlined text-[14px]">open_in_new</span>
+        </a>
+        <button onclick="copiarTextoDesdeModalCsv()" class="px-5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl font-bold flex items-center gap-1.5 shadow-md">
+          <span class="material-symbols-outlined text-[16px]">content_copy</span>
+          <span>Copiar al Portapapeles</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL: CONTRATOS PENDIENTES ==================== -->
+  <div id="contractModal" class="hidden fixed inset-0 z-50 bg-black/80 modal-backdrop flex items-center justify-center p-4">
     <div class="bg-[#181822] border border-white/10 rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl relative max-h-[90vh] flex flex-col">
       <div class="flex items-center justify-between pb-4 border-b border-white/10">
         <div class="flex items-center gap-3">
@@ -917,7 +1390,7 @@
       </div>
 
       <div class="flex-1 overflow-y-auto py-4 space-y-3 pr-1" id="pendingContractsList">
-        <!-- Dynamically injected items -->
+        <!-- Injected dynamically -->
       </div>
 
       <div class="pt-4 border-t border-white/10 flex items-center justify-between">
@@ -929,8 +1402,8 @@
     </div>
   </div>
 
-  <!-- ==================== MODAL: CRM LEADS (17 CLIENTES ESPERANDO RESPUESTA) ==================== -->
-  <div id="leadModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+  <!-- ==================== MODAL: PROSPECTOS ESPERANDO ==================== -->
+  <div id="leadModal" class="hidden fixed inset-0 z-50 bg-black/80 modal-backdrop flex items-center justify-center p-4">
     <div class="bg-[#181822] border border-white/10 rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl relative max-h-[90vh] flex flex-col">
       <div class="flex items-center justify-between pb-4 border-b border-white/10">
         <div class="flex items-center gap-3">
@@ -948,7 +1421,7 @@
       </div>
 
       <div class="flex-1 overflow-y-auto py-4 space-y-3 pr-1" id="pendingLeadsList">
-        <!-- Dynamically injected leads -->
+        <!-- Injected dynamically -->
       </div>
 
       <div class="pt-4 border-t border-white/10 flex items-center justify-between">
@@ -960,65 +1433,6 @@
     </div>
   </div>
 
-  <!-- ==================== MODAL: NUEVA PROPIEDAD ==================== -->
-  <div id="newPropertyModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-    <div class="bg-[#181822] border border-white/10 rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl relative">
-      <div class="flex items-center justify-between pb-4 border-b border-white/10 mb-4">
-        <h3 class="text-lg font-bold text-white flex items-center gap-2">
-          <span class="material-symbols-outlined text-blue-400">add_business</span>
-          <span>Registrar Nuevo Inmueble</span>
-        </h3>
-        <button onclick="closeNewPropertyModal()" class="w-8 h-8 rounded-full bg-white/5 hover:bg-white/20 text-white flex items-center justify-center">
-          <span class="material-symbols-outlined text-[18px]">close</span>
-        </button>
-      </div>
-
-      <form id="newPropertyForm" onsubmit="handleNewPropertySubmit(event)" class="space-y-4 text-xs">
-        <div>
-          <label class="block font-semibold text-neutral-300 mb-1">Título del Inmueble</label>
-          <input type="text" id="propTitle" required placeholder="Ej. Mansión Las Cumbres, Zona 3" class="w-full bg-[#121218] border border-white/10 rounded-xl px-3 py-2.5 text-white outline-none focus:border-blue-500">
-        </div>
-        <div class="grid grid-cols-2 gap-3">
-          <div>
-            <label class="block font-semibold text-neutral-300 mb-1">Ubicación</label>
-            <select id="propLocation" class="w-full bg-[#121218] border border-white/10 rounded-xl px-3 py-2.5 text-white outline-none focus:border-blue-500">
-              <option value="Quetzaltenango (Xela)">Quetzaltenango (Xela)</option>
-              <option value="Retalhuleu (Reu)">Retalhuleu (Reu)</option>
-            </select>
-          </div>
-          <div>
-            <label class="block font-semibold text-neutral-300 mb-1">Tipo</label>
-            <select id="propType" class="w-full bg-[#121218] border border-white/10 rounded-xl px-3 py-2.5 text-white outline-none focus:border-blue-500">
-              <option value="Casa Residencial">Casa Residencial</option>
-              <option value="Apartamento / Penthouse">Apartamento / Penthouse</option>
-              <option value="Terreno / Finca">Terreno / Finca</option>
-              <option value="Comercial">Local Comercial</option>
-            </select>
-          </div>
-        </div>
-        <div class="grid grid-cols-2 gap-3">
-          <div>
-            <label class="block font-semibold text-neutral-300 mb-1">Precio de Venta (USD $)</label>
-            <input type="number" id="propPrice" required placeholder="240000" class="w-full bg-[#121218] border border-white/10 rounded-xl px-3 py-2.5 text-white outline-none focus:border-blue-500">
-          </div>
-          <div>
-            <label class="block font-semibold text-neutral-300 mb-1">Comisión Pactada (%)</label>
-            <input type="number" id="propComm" required placeholder="5" value="5" class="w-full bg-[#121218] border border-white/10 rounded-xl px-3 py-2.5 text-white outline-none focus:border-blue-500">
-          </div>
-        </div>
-
-        <div class="pt-4 flex items-center justify-end gap-2">
-          <button type="button" onclick="closeNewPropertyModal()" class="px-4 py-2 bg-white/5 hover:bg-white/10 text-neutral-300 rounded-xl font-semibold">
-            Cancelar
-          </button>
-          <button type="submit" class="px-5 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-bold shadow-lg shadow-blue-600/30">
-            Guardar Inmueble
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
-
   <!-- ==================== TOAST NOTIFICATION CONTAINER ==================== -->
   <div id="toastNotification" class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 transition-all duration-300 pointer-events-none">
     <div class="bg-neutral-900 border border-white/20 text-white px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-3">
@@ -1027,14 +1441,246 @@
     </div>
   </div>
 
-  <!-- ==================== JAVASCRIPT LOGIC & INTERACTIVITY ==================== -->
+  <!-- ==================== JAVASCRIPT STATE & ENGINE (SANTANDER VIP LOGIC) ==================== -->
   <script>
-    // App State
-    let isUSD = true; // Currency state
-    let isRealEstateLabels = false; // Category mode
+    // ESTADO GENERAL DE LA APLICACIÓN
+    let vistaActual = 'dashboard';
+    let subTabPropiedades = 'inventario';
+    let modoVista = 'tabla'; // 'tabla' o 'grid'
+    let filtroEstadoActivo = 'todos';
+    let filtroAsesorActivo = null;
+    let isUSD = true;
+    let tipoCambioGTQ = 7.82;
+    let isRealEstateLabels = false;
     let currentFilter = 'this-month';
+    let propiedadSeleccionadaDetalle = null;
 
-    // Mock Data Store (Matching the image numbers)
+    // ASESORES INICIALES (SANTANDER VIP & OCCIDENTE)
+    const ASESORES_INICIALES = {
+      "carmen": { 
+        nombre: "Carmen Coloma", 
+        tel: "50252945088", 
+        puesto: "Directora Comercial & VIP Estates", 
+        avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80", 
+        email: "carmen.coloma@inmobiliaria.gt" 
+      },
+      "santiago": { 
+        nombre: "Santiago Leoni", 
+        tel: "50231507820", 
+        puesto: "Especialista en Residencias de Lujo", 
+        avatar: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=400&q=80", 
+        email: "santiago.leoni@inmobiliaria.gt" 
+      },
+      "joseluis": { 
+        nombre: "Jose Luis Coloma", 
+        tel: "50258365894", 
+        puesto: "Director Inmobiliario Senior", 
+        avatar: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=400&q=80", 
+        email: "joseluis.coloma@inmobiliaria.gt" 
+      },
+      "madeleine": { 
+        nombre: "Madeleine Mazat", 
+        tel: "50250174606", 
+        puesto: "Asesora Senior de Inversiones", 
+        avatar: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=400&q=80", 
+        email: "madeleine.mazat@inmobiliaria.gt" 
+      },
+      "mariaelena": { 
+        nombre: "Maria Elena de Ruiz", 
+        tel: "50255237951", 
+        puesto: "Consultora Inmobiliaria Exclusiva", 
+        avatar: "https://images.unsplash.com/photo-1567532939604-b6b5b0db2604?auto=format&fit=crop&w=400&q=80", 
+        email: "mariaelena.ruiz@inmobiliaria.gt" 
+      },
+      "bitia": { 
+        nombre: "Bitia Carballo", 
+        tel: "50256324236", 
+        puesto: "Especialista en Rentas Corporativas", 
+        avatar: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=400&q=80", 
+        email: "bitia.carballo@inmobiliaria.gt" 
+      },
+      "sonia": { 
+        nombre: "Sonia Mejía", 
+        tel: "50241191773", 
+        puesto: "Asesora Patrimonial Senior", 
+        avatar: "https://images.unsplash.com/photo-1598550874175-4d0ef436c909?auto=format&fit=crop&w=400&q=80", 
+        email: "sonia.mejia@inmobiliaria.gt" 
+      },
+      "sofia": { 
+        nombre: "Sofia Deón", 
+        tel: "50230001208", 
+        puesto: "Especialista en Desarrollos VIP", 
+        avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80", 
+        email: "sofia.deon@inmobiliaria.gt" 
+      },
+      "william": { 
+        nombre: "William Cabrera", 
+        tel: "50255105971", 
+        puesto: "Consultor de Propiedades de Lujo", 
+        avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80", 
+        email: "william.cabrera@inmobiliaria.gt" 
+      }
+    };
+
+    let asesores = {};
+
+    // PROPIEDADES INICIALES (10 RESIDENCIAS OFICIALES)
+    const PROPIEDADES_INICIALES = [
+      {
+        id: "1",
+        titulo: "Villa Los Altos de Occidente",
+        precio: 236800,
+        cuartos: 4,
+        banos: 4,
+        metros: 380,
+        ubicacion: "Zona 3, Quetzaltenango",
+        amenidades: "Pérgola | Jardín | Seguridad 24/7",
+        cercanias: "Colegios de Prestigio | Utz Ulew Mall",
+        imagen_portada: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80",
+        galeria_fotos: ["https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80"],
+        id_asesor: "carmen",
+        estado: "disponible"
+      },
+      {
+        id: "2",
+        titulo: "Mansión Mirador del Valle",
+        precio: 313700,
+        cuartos: 5,
+        banos: 5,
+        metros: 450,
+        ubicacion: "Zona 1, Quetzaltenango",
+        amenidades: "Vista Panorámica | Chimenea | Acabados Cedro",
+        cercanias: "Centro Histórico Xela | Parque Centroamérica",
+        imagen_portada: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=80",
+        galeria_fotos: ["https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=80"],
+        id_asesor: "santiago",
+        estado: "reservada"
+      },
+      {
+        id: "3",
+        titulo: "Penthouse Parque Centroamérica",
+        precio: 160000,
+        cuartos: 3,
+        banos: 3,
+        metros: 220,
+        ubicacion: "Zona 1 Histórica, Xela",
+        amenidades: "Terraza Privada | Elevador | 2 Parqueos",
+        cercanias: "Teatro Municipal | Catedral de Xela",
+        imagen_portada: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1200&q=80",
+        galeria_fotos: ["https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1200&q=80"],
+        id_asesor: "joseluis",
+        estado: "disponible"
+      },
+      {
+        id: "4",
+        titulo: "Finca Residencial Las Palmeras",
+        precio: 409700,
+        cuartos: 6,
+        banos: 5,
+        metros: 850,
+        ubicacion: "Km 182 Carretera al Pacífico, Retalhuleu",
+        amenidades: "Piscina | Árboles Frutales | Casa de Huéspedes",
+        cercanias: "Parques IRTRA | Autopista al Pacífico",
+        imagen_portada: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80",
+        galeria_fotos: ["https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80"],
+        id_asesor: "madeleine",
+        estado: "disponible"
+      },
+      {
+        id: "5",
+        titulo: "Residencia Los Cerezos",
+        precio: 125400,
+        cuartos: 3,
+        banos: 3,
+        metros: 210,
+        ubicacion: "Zona 9 La Floresta, Xela",
+        amenidades: "Condominio Cerrado | Área Infantil | Parqueo Doble",
+        cercanias: "Pradera Xela | Universidad Rafael Landívar",
+        imagen_portada: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
+        galeria_fotos: ["https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80"],
+        id_asesor: "mariaelena",
+        estado: "disponible"
+      },
+      {
+        id: "6",
+        titulo: "Terreno Comercial Las Américas",
+        precio: 192000,
+        cuartos: 0,
+        banos: 0,
+        metros: 500,
+        ubicacion: "Avenida Las Américas, Xela",
+        amenidades: "Uso de Suelo Mixto | Frente Comercial 15m",
+        cercanias: "Interplaza Xela | Bancos y Concesionarias",
+        imagen_portada: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=80",
+        galeria_fotos: ["https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=80"],
+        id_asesor: "bitia",
+        estado: "vendida"
+      },
+      {
+        id: "7",
+        titulo: "Villa Campestre San Felipe",
+        precio: 108800,
+        cuartos: 3,
+        banos: 2,
+        metros: 260,
+        ubicacion: "San Felipe, Retalhuleu",
+        amenidades: "Clima Cálido | Pozo Propio | Muro Perimetral",
+        cercanias: "Centro San Felipe | Río Samalá",
+        imagen_portada: "https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=1200&q=80",
+        galeria_fotos: ["https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=1200&q=80"],
+        id_asesor: "sonia",
+        estado: "disponible"
+      },
+      {
+        id: "8",
+        titulo: "Loft Ejecutivo Utz Ulew",
+        precio: 112000,
+        cuartos: 2,
+        banos: 2,
+        metros: 115,
+        ubicacion: "Zona 3 Comercial, Xela",
+        amenidades: "Gimnasio | Business Center | Seguridad Biométrica",
+        cercanias: "Centro Comercial Utz Ulew | Terminal Minerva",
+        imagen_portada: "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=1200&q=80",
+        galeria_fotos: ["https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=1200&q=80"],
+        id_asesor: "sofia",
+        estado: "disponible"
+      },
+      {
+        id: "9",
+        titulo: "Casa Colonial El Calvario",
+        precio: 147200,
+        cuartos: 4,
+        banos: 3,
+        metros: 290,
+        ubicacion: "Barrio El Calvario, Xela",
+        amenidades: "Patio Central con Fuente | Corredores con Vigas",
+        cercanias: "Parque El Calvario | Calle Real",
+        imagen_portada: "https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1200&q=80",
+        galeria_fotos: ["https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1200&q=80"],
+        id_asesor: "william",
+        estado: "reservada"
+      },
+      {
+        id: "10",
+        titulo: "Lote Residencial Club Campestre",
+        precio: 61500,
+        cuartos: 0,
+        banos: 0,
+        metros: 350,
+        ubicacion: "Retalhuleu Centro",
+        amenidades: "Garita | Casa Club con Piscina | Servicios Subterráneos",
+        cercanias: "Parque Central de Reu | Aeródromo",
+        imagen_portada: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=80",
+        galeria_fotos: ["https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=80"],
+        id_asesor: "carmen",
+        estado: "disponible"
+      }
+    ];
+
+    let propiedades = [];
+
+    // METRICS MOCK DATA PARA DASHBOARD (ESTILO IMAGEN)
     const metricsData = {
       'this-month': {
         revenue: 99560,
@@ -1106,21 +1752,14 @@
       }
     };
 
-    // Properties list (10 active in catalogue)
-    let propertiesList = [
-      { id: 1, title: 'Villa Los Altos de Occidente', loc: 'Zona 3, Quetzaltenango', priceUSD: 236800, priceGTQ: 1850000, comm: 11840, status: 'Disponible', type: 'Residencia' },
-      { id: 2, title: 'Mansión Mirador del Valle', loc: 'Zona 1, Quetzaltenango', priceUSD: 313700, priceGTQ: 2450000, comm: 15685, status: 'Apartado', type: 'Residencia' },
-      { id: 3, title: 'Penthouse Parque Centroamérica', loc: 'Zona 1 Histórica, Xela', priceUSD: 160000, priceGTQ: 1250000, comm: 8000, status: 'Disponible', type: 'Penthouse' },
-      { id: 4, title: 'Finca Residencial Las Palmeras', loc: 'Km 182 Carretera al Pacífico, Reu', priceUSD: 409700, priceGTQ: 3200000, comm: 20485, status: 'En Trámite', type: 'Finca' },
-      { id: 5, title: 'Residencia Los Cerezos', loc: 'Zona 9 La Floresta, Xela', priceUSD: 125400, priceGTQ: 980000, comm: 6270, status: 'Disponible', type: 'Casa' },
-      { id: 6, title: 'Terreno Comercial Las Américas', loc: 'Avenida Las Américas, Xela', priceUSD: 192000, priceGTQ: 1500000, comm: 9600, status: 'Vendido', type: 'Terreno' },
-      { id: 7, title: 'Villa Campestre San Felipe', loc: 'San Felipe, Retalhuleu', priceUSD: 108800, priceGTQ: 850000, comm: 5440, status: 'Disponible', type: 'Villa' },
-      { id: 8, title: 'Loft Ejecutivo Utz Ulew', loc: 'Zona 3 Comercial, Xela', priceUSD: 112000, priceGTQ: 875000, comm: 5600, status: 'Disponible', type: 'Apartamento' },
-      { id: 9, title: 'Casa Colonial El Calvario', loc: 'Barrio El Calvario, Xela', priceUSD: 147200, priceGTQ: 1150000, comm: 7360, status: 'Apartado', type: 'Casa Colonial' },
-      { id: 10, title: 'Lote Residencial Club Campestre', loc: 'Retalhuleu Centro', priceUSD: 61500, priceGTQ: 480000, comm: 3075, status: 'Disponible', type: 'Terreno' }
+    // PENDING CONTRACTS & LEADS
+    let pendingContracts = [
+      { id: '#CT-1092', client: 'Roberto Arrivillaga', prop: 'Villa Los Altos - Promesa Compraventa', amount: '$ 236,800', date: 'Hoy' },
+      { id: '#CT-1091', client: 'Beatriz Estrada', prop: 'Penthouse Parque Centroamérica - Arrendamiento', amount: '$ 1,200/mes', date: 'Ayer' },
+      { id: '#CT-1090', client: 'Corporación Inmobiliaria Xela', prop: 'Terreno Las Américas - Escritura Notarial', amount: '$ 192,000', date: '21 Nov' },
+      { id: '#CT-1089', client: 'Manuel de Jesús Rodas', prop: 'Residencia Los Cerezos - Cierre Bancario', amount: '$ 125,400', date: '20 Nov' }
     ];
 
-    // Pending leads
     let pendingLeads = [
       { name: 'Carlos Méndez', phone: '+502 5541-2900', prop: 'Villa Los Altos de Occidente', time: 'Hace 4 min', budget: '$ 240,000' },
       { name: 'Licda. Sofia Morales', phone: '+502 4410-8812', prop: 'Penthouse Parque Centroamérica', time: 'Hace 18 min', budget: '$ 160,000' },
@@ -1129,21 +1768,12 @@
       { name: 'Ing. David Barrios', phone: '+502 4110-3399', prop: 'Finca Las Palmeras', time: 'Hace 2 horas', budget: '$ 400,000' }
     ];
 
-    // Pending contracts (12 awaiting confirmation)
-    let pendingContracts = [
-      { id: '#CT-1092', client: 'Roberto Arrivillaga', prop: 'Villa Los Altos - Promesa Compraventa', amount: '$ 236,800', date: 'Hoy' },
-      { id: '#CT-1091', client: 'Beatriz Estrada', prop: 'Penthouse Parque Centroamérica - Arrendamiento', amount: '$ 1,200/mes', date: 'Ayer' },
-      { id: '#CT-1090', client: 'Corporación Inmobiliaria Xela', prop: 'Terreno Las Américas - Escritura Notarial', amount: '$ 192,000', date: '21 Nov' },
-      { id: '#CT-1089', client: 'Manuel de Jesús Rodas', prop: 'Residencia Los Cerezos - Cierre Bancario', amount: '$ 125,400', date: '20 Nov' }
-    ];
-
-    // On Load Initializations
+    // INICIALIZACIÓN AL CARGAR LA PÁGINA
     window.addEventListener('DOMContentLoaded', () => {
-      renderPropertiesTable();
-      renderPendingLeads();
-      renderPendingContracts();
-      renderLeadsGrid();
-      renderMessagesInbox();
+      cargarAsesores();
+      cargarPropiedades();
+      poblarSelectsAsesores();
+      renderizarTodo();
       updateDynamicDate();
     });
 
@@ -1155,34 +1785,719 @@
       if (el) el.innerText = dateStr;
     }
 
-    // Tab Switching
-    function switchTab(tabId) {
-      const tabs = ['dashboard', 'propiedades', 'ventas', 'clientes', 'analiticas', 'mensajes'];
-      tabs.forEach(t => {
-        const content = document.getElementById(`tabContent-${t}`);
-        const btn = document.getElementById(`nav-btn-${t}`);
-        if (content) {
-          if (t === tabId) {
-            content.classList.remove('hidden');
+    // CARGA DE ASESORES Y PROPIEDADES CON PERSISTENCIA LOCALSTORAGE
+    function cargarAsesores() {
+      try {
+        const guardados = localStorage.getItem('santander_asesores');
+        if (guardados) {
+          asesores = JSON.parse(guardados);
+        } else {
+          asesores = JSON.parse(JSON.stringify(ASESORES_INICIALES));
+          localStorage.setItem('santander_asesores', JSON.stringify(asesores));
+        }
+      } catch (e) {
+        asesores = JSON.parse(JSON.stringify(ASESORES_INICIALES));
+      }
+    }
+
+    function cargarPropiedades() {
+      try {
+        const guardadas = localStorage.getItem('santander_propiedades');
+        if (guardadas) {
+          propiedades = JSON.parse(guardadas);
+        } else {
+          propiedades = JSON.parse(JSON.stringify(PROPIEDADES_INICIALES));
+          localStorage.setItem('santander_propiedades', JSON.stringify(propiedades));
+        }
+      } catch (e) {
+        propiedades = JSON.parse(JSON.stringify(PROPIEDADES_INICIALES));
+      }
+    }
+
+    function guardarPropiedadesEnStorage() {
+      try {
+        localStorage.setItem('santander_propiedades', JSON.stringify(propiedades));
+      } catch (e) {
+        console.warn('Error guardando en localStorage:', e);
+      }
+    }
+
+    function guardarAsesoresEnStorage() {
+      try {
+        localStorage.setItem('santander_asesores', JSON.stringify(asesores));
+      } catch (e) {
+        console.warn('Error guardando asesores:', e);
+      }
+    }
+
+    // NAVEGACIÓN PRINCIPAL ENTRE VISTAS
+    function navegarA(vistaId) {
+      vistaActual = vistaId;
+      const vistas = ['dashboard', 'propiedades', 'asesores', 'sheets', 'configuracion'];
+      
+      vistas.forEach(v => {
+        const sec = document.getElementById(`view-${v}`);
+        const btn = document.getElementById(`nav-btn-${v}`);
+        
+        if (sec) {
+          if (v === vistaId) {
+            sec.classList.remove('hidden');
           } else {
-            content.classList.add('hidden');
+            sec.classList.add('hidden');
           }
         }
+
         if (btn) {
-          if (t === tabId) {
+          if (v === vistaId) {
             btn.className = 'relative group p-3.5 rounded-2xl bg-white text-black shadow-lg shadow-white/10 transition-all hover:scale-105';
           } else {
             btn.className = 'relative group p-3.5 rounded-2xl text-white/50 hover:text-white hover:bg-[#1a1a24] transition-all';
           }
         }
       });
-      showToast(`Cambiado a vista: ${tabId.toUpperCase()}`);
+
+      renderizarTodo();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // Time Filter Toggle & Selection
+    // SUB-PESTAÑAS DE PROPIEDADES (INVENTARIO vs AGREGAR NUEVA)
+    function setPropiedadesSubTab(tab) {
+      subTabPropiedades = tab;
+      const invContent = document.getElementById('subtab-inventario-content');
+      const nuevaContent = document.getElementById('subtab-nueva-content');
+      const btnInv = document.getElementById('btn-subtab-inventario');
+      const btnNueva = document.getElementById('btn-subtab-nueva');
+
+      if (tab === 'inventario') {
+        if (invContent) invContent.classList.remove('hidden');
+        if (nuevaContent) nuevaContent.classList.add('hidden');
+        if (btnInv) btnInv.className = "px-4 py-2 text-xs font-bold rounded-xl transition-all bg-white text-black shadow-sm";
+        if (btnNueva) btnNueva.className = "px-4 py-2 text-xs font-bold rounded-xl transition-all text-neutral-400 hover:text-white";
+      } else {
+        if (invContent) invContent.classList.add('hidden');
+        if (nuevaContent) nuevaContent.classList.remove('hidden');
+        if (btnInv) btnInv.className = "px-4 py-2 text-xs font-bold rounded-xl transition-all text-neutral-400 hover:text-white";
+        if (btnNueva) btnNueva.className = "px-4 py-2 text-xs font-bold rounded-xl transition-all bg-white text-black shadow-sm";
+        
+        const badgeNuevoId = document.getElementById('badge-nuevo-id');
+        if (badgeNuevoId) badgeNuevoId.innerText = `Nuevo ID: #${propiedades.length + 1}`;
+      }
+    }
+
+    // MODOS DE VISTA: TABLA vs GRID
+    function setVistaModo(modo) {
+      modoVista = modo;
+      const tabla = document.getElementById('contenedor-vista-tabla');
+      const grid = document.getElementById('contenedor-vista-grid');
+      const btnTabla = document.getElementById('btn-view-tabla');
+      const btnGrid = document.getElementById('btn-view-grid');
+
+      if (modo === 'tabla') {
+        if (tabla) tabla.classList.remove('hidden');
+        if (grid) grid.classList.add('hidden');
+        if (btnTabla) btnTabla.className = "p-2 rounded-lg text-black bg-white shadow-xs text-xs font-bold";
+        if (btnGrid) btnGrid.className = "p-2 rounded-lg text-neutral-400 hover:text-white text-xs font-bold";
+      } else {
+        if (tabla) tabla.classList.add('hidden');
+        if (grid) grid.classList.remove('hidden');
+        if (btnTabla) btnTabla.className = "p-2 rounded-lg text-neutral-400 hover:text-white text-xs font-bold";
+        if (btnGrid) btnGrid.className = "p-2 rounded-lg text-black bg-white shadow-xs text-xs font-bold";
+      }
+      renderizarInventario();
+    }
+
+    // FILTROS DE INVENTARIO
+    function filtrarInventarioPorEstado(estado) {
+      filtroEstadoActivo = estado;
+      actualizarEstilosBotonesFiltro();
+      renderizarInventario();
+    }
+
+    function volverATodas() {
+      filtroEstadoActivo = 'todos';
+      filtroAsesorActivo = null;
+      const tabAsesor = document.getElementById('tab-filtro-asesor');
+      const bannerAsesor = document.getElementById('filtro-asesor-banner');
+      if (tabAsesor) tabAsesor.classList.add('hidden');
+      if (bannerAsesor) bannerAsesor.classList.add('hidden');
+      
+      actualizarEstilosBotonesFiltro();
+      renderizarInventario();
+    }
+
+    function filtrarInventarioPorAsesor(asesorKey) {
+      filtroAsesorActivo = asesorKey;
+      filtroEstadoActivo = 'todos';
+      navegarA('propiedades');
+      setPropiedadesSubTab('inventario');
+
+      const a = asesores[asesorKey];
+      if (a) {
+        const tabAsesor = document.getElementById('tab-filtro-asesor');
+        const tabImg = document.getElementById('tab-filtro-asesor-img');
+        const tabName = document.getElementById('tab-filtro-asesor-name');
+        const tabCount = document.getElementById('tab-filtro-asesor-count');
+        const banner = document.getElementById('filtro-asesor-banner');
+        const bAvatar = document.getElementById('filtro-asesor-avatar');
+        const bNombre = document.getElementById('filtro-asesor-nombre');
+        const bPuesto = document.getElementById('filtro-asesor-puesto');
+
+        const propsCount = propiedades.filter(p => p.id_asesor === asesorKey).length;
+
+        if (tabAsesor) tabAsesor.classList.remove('hidden');
+        if (tabImg) tabImg.src = a.avatar;
+        if (tabName) tabName.innerText = a.nombre.split(' ')[0];
+        if (tabCount) tabCount.innerText = propsCount;
+
+        if (banner) banner.classList.remove('hidden');
+        if (bAvatar) bAvatar.src = a.avatar;
+        if (bNombre) bNombre.innerText = a.nombre;
+        if (bPuesto) bPuesto.innerText = a.puesto;
+      }
+
+      actualizarEstilosBotonesFiltro();
+      renderizarInventario();
+    }
+
+    function activarFiltroAsesorTab() {
+      if (filtroAsesorActivo) {
+        renderizarInventario();
+      }
+    }
+
+    function actualizarEstilosBotonesFiltro() {
+      const btnTodas = document.getElementById('btn-filtro-todas');
+      const tabAsesor = document.getElementById('tab-filtro-asesor');
+      const filterBtns = document.querySelectorAll('.inv-filter-btn');
+
+      filterBtns.forEach(b => {
+        const filterVal = b.getAttribute('data-filter');
+        if (filterVal === filtroEstadoActivo && !filtroAsesorActivo) {
+          b.className = "inv-filter-btn px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-white text-black transition-all";
+        } else {
+          b.className = "inv-filter-btn px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-[#202029] text-neutral-300 hover:bg-[#282834] transition-all";
+        }
+      });
+
+      if (btnTodas) {
+        if (filtroEstadoActivo === 'todos' && !filtroAsesorActivo) {
+          btnTodas.className = "inv-filter-btn px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-white text-black transition-all";
+        } else {
+          btnTodas.className = "inv-filter-btn px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-[#202029] text-neutral-300 hover:bg-[#282834] transition-all";
+        }
+      }
+    }
+
+    function aplicarFiltrosInventario() {
+      renderizarInventario();
+    }
+
+    // FORMATEADORES DE MONEDA
+    function formatearPrecio(precioUSD) {
+      if (isUSD) {
+        return `$ ${Number(precioUSD).toLocaleString('en-US')}`;
+      } else {
+        const totalGTQ = Math.round(Number(precioUSD) * tipoCambioGTQ);
+        return `Q ${totalGTQ.toLocaleString('es-GT')}`;
+      }
+    }
+
+    // RENDERIZADO GENERAL
+    function renderizarTodo() {
+      actualizarBadgesYContadores();
+      renderizarInventario();
+      renderizarAsesores();
+      renderPendingLeads();
+      renderPendingContracts();
+    }
+
+    function actualizarBadgesYContadores() {
+      const total = propiedades.length;
+      const countVenta = propiedades.filter(p => p.estado !== 'vendida' && (p.operacion !== 'renta')).length;
+      const countRenta = propiedades.filter(p => p.operacion === 'renta' || p.titulo.toLowerCase().includes('arrendamiento') || p.titulo.toLowerCase().includes('renta')).length;
+      const countVendida = propiedades.filter(p => p.estado === 'vendida').length;
+
+      const badgeSidebarProps = document.getElementById('badge-sidebar-propiedades');
+      if (badgeSidebarProps) badgeSidebarProps.innerText = total;
+
+      const countSubtabInv = document.getElementById('count-subtab-inv');
+      if (countSubtabInv) countSubtabInv.innerText = total;
+
+      const filterTodos = document.getElementById('filter-count-todos');
+      if (filterTodos) filterTodos.innerText = total;
+
+      const filterVenta = document.getElementById('filter-count-venta');
+      if (filterVenta) filterVenta.innerText = countVenta;
+
+      const filterRenta = document.getElementById('filter-count-renta');
+      if (filterRenta) filterRenta.innerText = countRenta;
+
+      const filterVendida = document.getElementById('filter-count-vendida');
+      if (filterVendida) filterVendida.innerText = countVendida;
+
+      const sheetsCount = document.getElementById('sheets-total-count');
+      if (sheetsCount) sheetsCount.innerText = total;
+
+      const totalAsesores = Object.keys(asesores).length;
+      const badgeSidebarAsesores = document.getElementById('badge-sidebar-asesores');
+      if (badgeSidebarAsesores) badgeSidebarAsesores.innerText = totalAsesores;
+
+      const badgeHeaderAsesores = document.getElementById('badge-header-asesores');
+      if (badgeHeaderAsesores) badgeHeaderAsesores.innerHTML = `<span class="material-symbols-outlined text-[14px] align-middle text-blue-400 mr-1">verified</span>${totalAsesores} Asesores Oficiales`;
+    }
+
+    // RENDERIZADO DEL INVENTARIO (TABLA Y GRID)
+    function renderizarInventario() {
+      const q = (document.getElementById('inventario-search')?.value || '').toLowerCase().trim();
+      
+      let filtradas = propiedades.filter(p => {
+        // Filtro por Asesor
+        if (filtroAsesorActivo && p.id_asesor !== filtroAsesorActivo) return false;
+
+        // Filtro por Estado
+        if (filtroEstadoActivo === 'venta' && p.estado === 'vendida') return false;
+        if (filtroEstadoActivo === 'renta' && !(p.operacion === 'renta' || p.titulo.toLowerCase().includes('arrendamiento') || p.titulo.toLowerCase().includes('renta'))) return false;
+        if (filtroEstadoActivo === 'vendida' && p.estado !== 'vendida') return false;
+
+        // Filtro por Búsqueda
+        if (q) {
+          const a = asesores[p.id_asesor] || { nombre: '' };
+          const match = p.titulo.toLowerCase().includes(q) ||
+                        p.ubicacion.toLowerCase().includes(q) ||
+                        String(p.precio).includes(q) ||
+                        a.nombre.toLowerCase().includes(q);
+          if (!match) return false;
+        }
+
+        return true;
+      });
+
+      // Renderizar Tabla
+      const tbody = document.getElementById('tabla-inventario-body');
+      if (tbody) {
+        if (filtradas.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="7" class="p-8 text-center text-neutral-400">No se encontraron propiedades con los filtros seleccionados.</td></tr>`;
+        } else {
+          tbody.innerHTML = filtradas.map(p => {
+            const a = asesores[p.id_asesor] || asesores['carmen'];
+            
+            let badgeEstado = '';
+            if (p.estado === 'disponible') {
+              badgeEstado = `<button onclick="toggleEstadoPropiedad('${p.id}')" class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 hover:scale-105 transition-all">Disponible</button>`;
+            } else if (p.estado === 'reservada') {
+              badgeEstado = `<button onclick="toggleEstadoPropiedad('${p.id}')" class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20 hover:scale-105 transition-all">Reservada</button>`;
+            } else {
+              badgeEstado = `<button onclick="toggleEstadoPropiedad('${p.id}')" class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-purple-500/10 text-purple-400 border border-purple-500/20 hover:scale-105 transition-all">Vendida</button>`;
+            }
+
+            return `
+              <tr class="hover:bg-white/5 transition-colors">
+                <td class="p-4">
+                  <div class="flex items-center gap-3">
+                    <img src="${p.imagen_portada}" class="w-12 h-12 rounded-xl object-cover ring-1 ring-white/10 shrink-0" alt="${p.titulo}">
+                    <div>
+                      <strong class="text-white block text-xs hover:text-blue-400 cursor-pointer" onclick="verDetallePropiedad('${p.id}')">${p.titulo}</strong>
+                      <span class="text-[10px] text-neutral-500 font-mono">ID: #${p.id}</span>
+                    </div>
+                  </div>
+                </td>
+                <td class="p-4 text-neutral-400 text-xs">${p.ubicacion}</td>
+                <td class="p-4 font-extrabold text-white text-xs">${formatearPrecio(p.precio)}</td>
+                <td class="p-4 text-neutral-400 text-[11px]">
+                  <span>${p.cuartos} Hab</span> • <span>${p.banos} Bñ</span> • <span>${p.metros} m²</span>
+                </td>
+                <td class="p-4">
+                  <div class="flex items-center gap-2">
+                    <img src="${a.avatar}" class="w-6 h-6 rounded-full object-cover">
+                    <span class="text-xs text-neutral-300 font-medium">${a.nombre}</span>
+                  </div>
+                </td>
+                <td class="p-4">${badgeEstado}</td>
+                <td class="p-4 text-right">
+                  <div class="inline-flex items-center gap-1.5">
+                    <button onclick="verDetallePropiedad('${p.id}')" class="p-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-white" title="Ver Detalle">
+                      <span class="material-symbols-outlined text-[16px]">visibility</span>
+                    </button>
+                    <button onclick="copiarFilaCSV('${p.id}')" class="p-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-emerald-400" title="Copiar Fila CSV">
+                      <span class="material-symbols-outlined text-[16px]">content_copy</span>
+                    </button>
+                    <button onclick="eliminarPropiedad('${p.id}')" class="p-1.5 rounded-lg bg-white/5 hover:bg-rose-500/20 text-rose-400" title="Eliminar">
+                      <span class="material-symbols-outlined text-[16px]">delete</span>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            `;
+          }).join('');
+        }
+      }
+
+      // Renderizar Grid
+      const grid = document.getElementById('contenedor-vista-grid');
+      if (grid) {
+        if (filtradas.length === 0) {
+          grid.innerHTML = `<div class="col-span-full p-8 text-center text-neutral-400">No se encontraron propiedades.</div>`;
+        } else {
+          grid.innerHTML = filtradas.map(p => {
+            const a = asesores[p.id_asesor] || asesores['carmen'];
+            return `
+              <div class="bg-[#16161d] rounded-3xl border border-white/5 overflow-hidden flex flex-col group hover:border-white/15 transition-all">
+                <div class="relative aspect-[4/3] overflow-hidden bg-neutral-900 cursor-pointer" onclick="verDetallePropiedad('${p.id}')">
+                  <img src="${p.imagen_portada}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                  <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${p.estado === 'disponible' ? 'bg-emerald-600' : p.estado === 'reservada' ? 'bg-amber-600' : 'bg-purple-600'} text-white shadow-md">
+                    ${p.estado}
+                  </span>
+                  <div class="absolute bottom-3 left-3 bg-black/80 backdrop-blur-sm px-3 py-1 rounded-xl text-white font-extrabold text-xs">
+                    ${formatearPrecio(p.precio)}
+                  </div>
+                </div>
+
+                <div class="p-5 flex flex-col flex-1">
+                  <span class="text-[10px] text-neutral-500 font-bold uppercase">${p.ubicacion}</span>
+                  <h4 class="font-bold text-white text-sm mt-0.5 group-hover:text-blue-400 cursor-pointer" onclick="verDetallePropiedad('${p.id}')">
+                    ${p.titulo}
+                  </h4>
+
+                  <div class="flex items-center justify-between text-xs text-neutral-400 my-3 py-2 border-y border-white/5">
+                    <span>${p.cuartos} Hab</span>
+                    <span>${p.banos} Baños</span>
+                    <span>${p.metros} m²</span>
+                  </div>
+
+                  <div class="mt-auto flex items-center justify-between pt-2">
+                    <div class="flex items-center gap-2">
+                      <img src="${a.avatar}" class="w-6 h-6 rounded-full object-cover">
+                      <span class="text-xs text-neutral-300 font-medium">${a.nombre.split(' ')[0]}</span>
+                    </div>
+                    <div class="flex items-center gap-1.5">
+                      <button onclick="copiarFilaCSV('${p.id}')" class="p-1.5 bg-white/5 hover:bg-white/10 text-emerald-400 rounded-lg" title="Copiar CSV">
+                        <span class="material-symbols-outlined text-[16px]">content_copy</span>
+                      </button>
+                      <button onclick="verDetallePropiedad('${p.id}')" class="px-3 py-1.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs font-bold">
+                        Ver
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            `;
+          }).join('');
+        }
+      }
+    }
+
+    // CAMBIAR ESTADO DE PROPIEDAD
+    function toggleEstadoPropiedad(id) {
+      const p = propiedades.find(item => String(item.id) === String(id));
+      if (!p) return;
+      const ciclo = ['disponible', 'reservada', 'vendida'];
+      const nextIdx = (ciclo.indexOf(p.estado) + 1) % ciclo.length;
+      p.estado = ciclo[nextIdx];
+      guardarPropiedadesEnStorage();
+      renderizarTodo();
+      showToast(`Propiedad #${id} marcada como: ${p.estado.toUpperCase()}`);
+    }
+
+    // ELIMINAR PROPIEDAD
+    function eliminarPropiedad(id) {
+      if (confirm(`¿Estás seguro de eliminar la propiedad #${id}?`)) {
+        propiedades = propiedades.filter(p => String(p.id) !== String(id));
+        guardarPropiedadesEnStorage();
+        renderizarTodo();
+        showToast(`Propiedad #${id} eliminada.`);
+      }
+    }
+
+    // RENDERIZADO DE ASESORES
+    function renderizarAsesores() {
+      const grid = document.getElementById('asesores-grid');
+      if (!grid) return;
+      
+      const entries = Object.entries(asesores);
+      grid.innerHTML = entries.map(([key, a]) => {
+        const propsAsignadas = propiedades.filter(p => p.id_asesor === key);
+        const count = propsAsignadas.length;
+        const totalCarteraUSD = propsAsignadas.reduce((acc, curr) => acc + (Number(curr.precio) || 0), 0);
+
+        return `
+          <div class="bg-[#16161d] rounded-3xl p-6 border border-white/5 flex flex-col justify-between group hover:border-white/15 transition-all">
+            <div>
+              <div class="flex items-center gap-4 mb-4">
+                <img src="${a.avatar}" class="w-16 h-16 rounded-2xl object-cover ring-2 ring-white/10 group-hover:ring-blue-500 transition-all shadow-md">
+                <div>
+                  <h4 class="font-extrabold text-white text-base">${a.nombre}</h4>
+                  <span class="text-xs text-blue-400 font-medium block">${a.puesto}</span>
+                  <span class="text-[11px] text-neutral-500 block">${a.email || 'asesor@inmobiliaria.gt'}</span>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-2 gap-3 p-3.5 bg-[#101015] rounded-2xl border border-white/5 my-3 text-center">
+                <div>
+                  <span class="text-[10px] text-neutral-400 block uppercase font-semibold">Inmuebles</span>
+                  <strong class="text-base font-extrabold text-white">${count}</strong>
+                </div>
+                <div>
+                  <span class="text-[10px] text-neutral-400 block uppercase font-semibold">Cartera Total</span>
+                  <strong class="text-sm font-extrabold text-emerald-400">${formatearPrecio(totalCarteraUSD)}</strong>
+                </div>
+              </div>
+            </div>
+
+            <div class="pt-4 border-t border-white/5 flex items-center justify-between gap-2 mt-2">
+              <a href="https://wa.me/${a.tel}?text=Hola%20${encodeURIComponent(a.nombre)},%20te%20contacto%20desde%20el%20Panel%20Inmobiliario" target="_blank" class="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold flex items-center gap-1.5 shadow-md">
+                <i class="fa-brands fa-whatsapp text-sm"></i>
+                <span>WhatsApp</span>
+              </a>
+              <button onclick="filtrarInventarioPorAsesor('${key}')" class="px-3.5 py-2 bg-white/10 hover:bg-white text-neutral-200 hover:text-black rounded-xl text-xs font-bold transition-all">
+                Ver Inmuebles (${count})
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function poblarSelectsAsesores() {
+      const select = document.getElementById('nueva-asesor');
+      if (!select) return;
+      select.innerHTML = Object.entries(asesores).map(([key, a]) => `
+        <option value="${key}">${a.nombre} — ${a.puesto}</option>
+      `).join('');
+    }
+
+    // GUARDAR NUEVA PROPIEDAD
+    function guardarNuevaPropiedad(e) {
+      e.preventDefault();
+      const titulo = document.getElementById('nueva-titulo').value.trim();
+      const precio = parseFloat(document.getElementById('nueva-precio').value) || 200000;
+      const operacion = document.getElementById('nueva-operacion').value;
+      const idAsesor = document.getElementById('nueva-asesor').value;
+      const estado = document.getElementById('nueva-estado').value;
+      const cuartos = parseInt(document.getElementById('nueva-cuartos').value) || 3;
+      const banos = parseInt(document.getElementById('nueva-banos').value) || 3;
+      const metros = parseInt(document.getElementById('nueva-metros').value) || 250;
+      const ubicacion = document.getElementById('nueva-ubicacion').value.trim();
+      let imagen = document.getElementById('nueva-imagen').value.trim();
+
+      if (!imagen) {
+        imagen = "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80";
+      }
+
+      const nuevoId = String(propiedades.length + 1);
+
+      const nueva = {
+        id: nuevoId,
+        titulo: titulo,
+        precio: precio,
+        operacion: operacion,
+        cuartos: cuartos,
+        banos: banos,
+        metros: metros,
+        ubicacion: ubicacion,
+        amenidades: "Seguridad 24/7 | Acabados Premium",
+        cercanias: "Vías Principales | Centros Comerciales",
+        imagen_portada: imagen,
+        galeria_fotos: [imagen],
+        id_asesor: idAsesor,
+        estado: estado
+      };
+
+      propiedades.unshift(nueva);
+      guardarPropiedadesEnStorage();
+      renderizarTodo();
+      document.getElementById('form-nueva-propiedad').reset();
+
+      // Abrir modal con la fila CSV lista para Google Sheets
+      copiarFilaCSV(nuevoId);
+      showToast(`Propiedad "${titulo}" registrada con éxito.`);
+    }
+
+    // MANEJAR SUBIDA DE IMAGEN
+    function manejarArchivoImagen(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        document.getElementById('nueva-imagen').value = evt.target.result;
+        showToast('Imagen cargada localmente.');
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // MODAL DE DETALLE DE PROPIEDAD
+    function verDetallePropiedad(id) {
+      const p = propiedades.find(item => String(item.id) === String(id));
+      if (!p) return;
+      propiedadSeleccionadaDetalle = p;
+      const a = asesores[p.id_asesor] || asesores['carmen'];
+
+      document.getElementById('modal-detalle-titulo').innerText = p.titulo;
+      document.getElementById('modal-detalle-ubicacion').innerText = p.ubicacion;
+      document.getElementById('modal-detalle-tag').innerText = p.estado.toUpperCase();
+      document.getElementById('modal-detalle-precio').innerText = formatearPrecio(p.precio);
+      document.getElementById('modal-detalle-img').src = p.imagen_portada;
+      document.getElementById('modal-detalle-cuartos').innerText = p.cuartos || 'Terreno';
+      document.getElementById('modal-detalle-banos').innerText = p.banos || 'Titulado';
+      document.getElementById('modal-detalle-metros').innerText = `${p.metros} m²`;
+
+      document.getElementById('modal-detalle-asesor-nombre').innerText = a.nombre;
+      document.getElementById('modal-detalle-asesor-puesto').innerText = a.puesto;
+      document.getElementById('modal-detalle-asesor-avatar').src = a.avatar;
+      document.getElementById('modal-detalle-asesor-wa').href = `https://wa.me/${a.tel}?text=Hola%20${encodeURIComponent(a.nombre)},%20te%20escribo%20sobre%20${encodeURIComponent(p.titulo)}`;
+
+      document.getElementById('modal-detalle-propiedad').classList.remove('hidden');
+    }
+
+    function cerrarModalDetalle() {
+      document.getElementById('modal-detalle-propiedad').classList.add('hidden');
+    }
+
+    function toggleEstadoPropiedadDesdeModal() {
+      if (!propiedadSeleccionadaDetalle) return;
+      toggleEstadoPropiedad(propiedadSeleccionadaDetalle.id);
+      cerrarModalDetalle();
+    }
+
+    function copiarFilaCSVDesdeModal() {
+      if (!propiedadSeleccionadaDetalle) return;
+      copiarFilaCSV(propiedadSeleccionadaDetalle.id);
+    }
+
+    // COPIAR FILA CSV PARA GOOGLE SHEETS
+    function copiarFilaCSV(id) {
+      const p = propiedades.find(item => String(item.id) === String(id));
+      if (!p) return;
+      const csvFila = `${p.id},"${p.titulo}",${p.precio},${p.cuartos},${p.banos},${p.metros},"${p.ubicacion}","${p.amenidades || ''}","${p.cercanias || ''}","${p.imagen_portada}","${p.imagen_portada}",${p.id_asesor},${p.estado}`;
+      
+      const txtArea = document.getElementById('csv-fila-texto');
+      if (txtArea) txtArea.value = csvFila;
+
+      const modal = document.getElementById('modal-csv-copiado');
+      if (modal) modal.classList.remove('hidden');
+
+      navigator.clipboard?.writeText(csvFila);
+    }
+
+    function copiarTextoDesdeModalCsv() {
+      const txtArea = document.getElementById('csv-fila-texto');
+      if (txtArea) {
+        txtArea.select();
+        navigator.clipboard?.writeText(txtArea.value);
+        showToast('Fila CSV copiada al portapapeles.');
+      }
+    }
+
+    function cerrarModalCsv() {
+      document.getElementById('modal-csv-copiado').classList.add('hidden');
+    }
+
+    // EXPORTAR CATÁLOGO COMPLETO A CSV DESCARGABLE
+    function exportarCSVCompleto() {
+      const headers = "id,titulo,precio,cuartos,banos,metros,ubicacion,amenidades,cercanias,imagen_portada,galeria_fotos,id_asesor,estado\n";
+      const rows = propiedades.map(p => 
+        `${p.id},"${p.titulo}",${p.precio},${p.cuartos},${p.banos},${p.metros},"${p.ubicacion}","${p.amenidades || ''}","${p.cercanias || ''}","${p.imagen_portada}","${p.imagen_portada}",${p.id_asesor},${p.estado}`
+      ).join('\n');
+
+      const blob = new Blob([headers + rows], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.setAttribute("href", url);
+      link.setAttribute("download", `catalogo_propiedades_${Date.now()}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      showToast('Archivo CSV descargado.');
+    }
+
+    // MODAL DE NUEVO ASESOR
+    function abrirModalNuevoAsesor() {
+      document.getElementById('modal-nuevo-asesor').classList.remove('hidden');
+    }
+    function cerrarModalNuevoAsesor() {
+      document.getElementById('modal-nuevo-asesor').classList.add('hidden');
+    }
+
+    function guardarNuevoAsesor(e) {
+      e.preventDefault();
+      const nombre = document.getElementById('nuevo-asesor-nombre').value.trim();
+      const puesto = document.getElementById('nuevo-asesor-puesto').value.trim();
+      const tel = document.getElementById('nuevo-asesor-tel').value.trim().replace(/[^0-9]/g, "");
+      const email = document.getElementById('nuevo-asesor-email').value.trim();
+      let foto = document.getElementById('nuevo-asesor-foto').value.trim();
+
+      if (!foto) {
+        foto = "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80";
+      }
+
+      const key = nombre.toLowerCase().replace(/[^a-z0-9]/g, "").slice(0, 10) || `asesor_${Date.now()}`;
+
+      asesores[key] = {
+        nombre: nombre,
+        puesto: puesto,
+        tel: tel,
+        email: email,
+        avatar: foto
+      };
+
+      guardarAsesoresEnStorage();
+      poblarSelectsAsesores();
+      renderizarTodo();
+      cerrarModalNuevoAsesor();
+      document.getElementById('form-nuevo-asesor').reset();
+      showToast(`Asesor ${nombre} agregado con éxito.`);
+    }
+
+    // SINCRONIZACIÓN CON GOOGLE SHEETS
+    function sincronizarAhora(mostrarAlerta = false) {
+      const btn = event?.currentTarget;
+      if (btn) btn.classList.add('animate-spin');
+      
+      setTimeout(() => {
+        if (btn) btn.classList.remove('animate-spin');
+        renderizarTodo();
+        if (mostrarAlerta) {
+          showToast('Sincronización con Google Sheets completada.');
+        }
+      }, 1000);
+    }
+
+    // CONFIGURACIÓN & RESTABLECER
+    function actualizarTipoCambio(val) {
+      tipoCambioGTQ = parseFloat(val) || 7.82;
+      renderizarTodo();
+      showToast(`Tipo de cambio fijado en Q ${tipoCambioGTQ}`);
+    }
+
+    function cambiarMonedaDesdeConfig(val) {
+      isUSD = (val === 'USD');
+      document.getElementById('currentCurrencyLabel').innerText = `Moneda: ${val}`;
+      const badge = document.getElementById('settingsCurrencyBadge');
+      if (badge) badge.innerText = val;
+      renderizarTodo();
+      showToast(`Moneda cambiada a: ${val}`);
+    }
+
+    function toggleCurrency() {
+      isUSD = !isUSD;
+      const label = isUSD ? 'USD' : 'GTQ';
+      cambiarMonedaDesdeConfig(label);
+    }
+
+    function resetearDatosCompletos() {
+      if (confirm('¿Restablecer el inventario y asesores a sus valores de fábrica?')) {
+        localStorage.removeItem('santander_propiedades');
+        localStorage.removeItem('santander_asesores');
+        cargarAsesores();
+        cargarPropiedades();
+        poblarSelectsAsesores();
+        renderizarTodo();
+        showToast('Datos restablecidos a la configuración inicial.');
+      }
+    }
+
+    // TIME FILTER DROPDOWN & SELECTION (DASHBOARD)
     function toggleTimeFilterDropdown() {
-      const menu = document.getElementById('timeFilterMenu');
-      menu.classList.toggle('hidden');
+      document.getElementById('timeFilterMenu').classList.toggle('hidden');
     }
 
     function setTimeFilter(key, label) {
@@ -1193,56 +2508,29 @@
       const data = metricsData[key];
       if (!data) return;
 
-      // Animate KPI numbers
       formatCurrencyDisplay(data.revenue, 'kpi-total-revenue');
       document.getElementById('kpi-total-revenue-pct').innerText = data.revenuePct;
-
       document.getElementById('kpi-total-orders').innerText = data.orders;
       document.getElementById('kpi-total-orders-pct').innerText = data.ordersPct;
-
       document.getElementById('kpi-total-visitors').innerText = data.visitors.toLocaleString();
       document.getElementById('kpi-total-visitors-pct').innerText = data.visitorsPct;
-
       formatCurrencyDisplay(data.profit, 'kpi-net-profit');
       document.getElementById('kpi-net-profit-pct').innerText = data.profitPct;
 
       document.getElementById('bottom-orders-count').innerText = data.ordersCount;
       document.getElementById('bottom-orders-awaiting').innerText = `${data.ordersAwaiting} orders`;
-
       document.getElementById('bottom-customers-count').innerText = data.customersCount;
       document.getElementById('bottom-customers-waiting').innerText = `${data.customersWaiting} customers`;
 
-      // Update Chart bars
       data.bars.forEach((heightPct, idx) => {
         const barEl = document.getElementById(`bar-${idx}`);
-        if (barEl) {
-          barEl.style.height = `${heightPct}%`;
-        }
+        if (barEl) barEl.style.height = `${heightPct}%`;
       });
 
-      // Update active tooltip
       const tooltip = document.getElementById('tooltipValText');
-      if (tooltip && data.barsValues[2]) {
-        tooltip.innerText = data.barsValues[2];
-      }
+      if (tooltip && data.barsValues[2]) tooltip.innerText = data.barsValues[2];
 
       showToast(`Filtro aplicado: ${label}`);
-    }
-
-    // Currency Switcher (USD <-> Quetzales)
-    function toggleCurrency() {
-      isUSD = !isUSD;
-      const label = isUSD ? 'USD ($)' : 'GTQ (Q)';
-      document.getElementById('currentCurrencyLabel').innerText = `Moneda: ${label}`;
-      const badge = document.getElementById('settingsCurrencyBadge');
-      if (badge) badge.innerText = label;
-
-      const data = metricsData[currentFilter];
-      formatCurrencyDisplay(data.revenue, 'kpi-total-revenue');
-      formatCurrencyDisplay(data.profit, 'kpi-net-profit');
-
-      renderPropertiesTable();
-      showToast(`Moneda cambiada a: ${label}`);
     }
 
     function formatCurrencyDisplay(amountUSD, targetId) {
@@ -1251,25 +2539,20 @@
       if (isUSD) {
         el.innerText = `$ ${amountUSD.toLocaleString()}`;
       } else {
-        const amountGTQ = Math.round(amountUSD * 7.82);
+        const amountGTQ = Math.round(amountUSD * tipoCambioGTQ);
         el.innerText = `Q ${amountGTQ.toLocaleString()}`;
       }
     }
 
-    // Interactive Bar Chart Selection
     function selectBar(index, label, val) {
       const tooltip = document.getElementById('activeChartTooltip');
       const tooltipText = document.getElementById('tooltipValText');
       const targetCol = document.getElementById(`bar-${index}`).parentElement;
-
-      // Move tooltip over clicked bar
       targetCol.appendChild(tooltip);
       tooltipText.innerText = val;
-
       showToast(`Ingresos ${label}: ${val}`);
     }
 
-    // Toggle Category Labels (Screenshots Mock vs Real Estate Terms)
     function toggleCategoryLabels() {
       isRealEstateLabels = !isRealEstateLabels;
       const toggleBtnText = document.getElementById('catModeToggleText');
@@ -1297,54 +2580,20 @@
       document.getElementById('donutCenterLabel').innerText = '100%';
     }
 
-    // Render Properties Table
-    function renderPropertiesTable() {
-      const tbody = document.getElementById('propertiesTableBody');
-      if (!tbody) return;
-      tbody.innerHTML = propertiesList.map(p => {
-        const displayPrice = isUSD ? `$ ${p.priceUSD.toLocaleString()}` : `Q ${p.priceGTQ.toLocaleString()}`;
-        const displayComm = isUSD ? `$ ${p.comm.toLocaleString()}` : `Q ${Math.round(p.comm * 7.82).toLocaleString()}`;
-        
-        let statusBadge = '';
-        if (p.status === 'Disponible') statusBadge = '<span class="px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 font-semibold border border-emerald-500/20">Disponible</span>';
-        else if (p.status === 'Apartado') statusBadge = '<span class="px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 font-semibold border border-amber-500/20">Apartado</span>';
-        else if (p.status === 'En Trámite') statusBadge = '<span class="px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-400 font-semibold border border-blue-500/20">En Trámite</span>';
-        else statusBadge = '<span class="px-2 py-0.5 rounded-full bg-purple-500/10 text-purple-400 font-semibold border border-purple-500/20">Vendido</span>';
-
-        return `
-          <tr class="hover:bg-white/5 transition-colors">
-            <td class="p-4 font-bold text-white flex items-center gap-2.5">
-              <span class="w-8 h-8 rounded-xl bg-blue-600/10 text-blue-400 flex items-center justify-center font-bold text-xs">${p.id}</span>
-              <div>
-                <div>${p.title}</div>
-                <div class="text-[10px] text-neutral-500 font-normal">${p.type}</div>
-              </div>
-            </td>
-            <td class="p-4 text-neutral-400">${p.loc}</td>
-            <td class="p-4 font-extrabold text-white">${displayPrice}</td>
-            <td class="p-4 text-emerald-400 font-semibold">${displayComm}</td>
-            <td class="p-4">${statusBadge}</td>
-            <td class="p-4 text-right">
-              <button onclick="togglePropertyStatus(${p.id})" class="px-2.5 py-1 rounded-lg bg-white/5 hover:bg-white/10 text-white font-medium text-[11px] transition-colors">
-                Cambiar Estado
-              </button>
-            </td>
-          </tr>
-        `;
-      }).join('');
+    // MODAL DE CONTRATOS & LEADS
+    function openContractModal() {
+      document.getElementById('contractModal').classList.remove('hidden');
+    }
+    function closeContractModal() {
+      document.getElementById('contractModal').classList.add('hidden');
+    }
+    function openLeadModal() {
+      document.getElementById('leadModal').classList.remove('hidden');
+    }
+    function closeLeadModal() {
+      document.getElementById('leadModal').classList.add('hidden');
     }
 
-    function togglePropertyStatus(id) {
-      const p = propertiesList.find(item => item.id === id);
-      if (!p) return;
-      const states = ['Disponible', 'Apartado', 'En Trámite', 'Vendido'];
-      const nextIdx = (states.indexOf(p.status) + 1) % states.length;
-      p.status = states[nextIdx];
-      renderPropertiesTable();
-      showToast(`Inmueble #${id} ahora: ${p.status}`);
-    }
-
-    // Render Pending Leads
     function renderPendingLeads() {
       const container = document.getElementById('pendingLeadsList');
       if (!container) return;
@@ -1362,48 +2611,11 @@
             <a href="https://wa.me/50242728393?text=Hola%20${encodeURIComponent(lead.name)},%20te%20escribo%20respecto%20a%20tu%20interes%20en%20${encodeURIComponent(lead.prop)}" target="_blank" class="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold flex items-center gap-1 shadow-md">
               <span>WhatsApp</span>
             </a>
-            <button onclick="dismissLead(${idx})" class="w-8 h-8 rounded-xl bg-white/5 hover:bg-white/10 text-neutral-400 hover:text-white flex items-center justify-center" title="Marcar como atendido">
-              <span class="material-symbols-outlined text-[16px]">check</span>
-            </button>
           </div>
         </div>
       `).join('');
     }
 
-    function dismissLead(idx) {
-      pendingLeads.splice(idx, 1);
-      renderPendingLeads();
-      renderLeadsGrid();
-      const waitingCountEl = document.getElementById('bottom-customers-waiting');
-      if (waitingCountEl) waitingCountEl.innerText = `${pendingLeads.length} customers`;
-      showToast('Lead marcado como atendido');
-    }
-
-    function renderLeadsGrid() {
-      const container = document.getElementById('leadsCardsContainer');
-      if (!container) return;
-      container.innerHTML = pendingLeads.map((lead, idx) => `
-        <div class="bg-[#16161d] p-5 rounded-3xl border border-white/5 flex flex-col justify-between">
-          <div>
-            <div class="flex items-center justify-between mb-2">
-              <span class="text-xs font-bold text-blue-400 uppercase tracking-wider">Prospecto Activo</span>
-              <span class="text-[10px] text-neutral-500">${lead.time}</span>
-            </div>
-            <h4 class="text-base font-bold text-white">${lead.name}</h4>
-            <p class="text-xs text-neutral-400 mt-1">Interés: <span class="text-neutral-200 font-medium">${lead.prop}</span></p>
-            <p class="text-xs text-emerald-400 font-semibold mt-1">Presupuesto: ${lead.budget}</p>
-          </div>
-          <div class="pt-4 mt-4 border-t border-white/5 flex items-center justify-between">
-            <span class="text-xs text-neutral-400">${lead.phone}</span>
-            <a href="https://wa.me/50242728393" target="_blank" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold">
-              Contactar
-            </a>
-          </div>
-        </div>
-      `).join('');
-    }
-
-    // Render Contracts
     function renderPendingContracts() {
       const container = document.getElementById('pendingContractsList');
       if (!container) return;
@@ -1438,86 +2650,11 @@
       renderPendingContracts();
       document.getElementById('bottom-orders-awaiting').innerText = '0 orders';
       closeContractModal();
-      showToast('Todos los contratos han sido autorizados');
+      showToast('Todos los contratos autorizados');
     }
 
-    // Render Messages Inbox
-    function renderMessagesInbox() {
-      const container = document.getElementById('messagesInboxContainer');
-      if (!container) return;
-      const msgs = [
-        { sender: 'Ing. Rodrigo Samayoa', time: '10:14 AM', subject: 'Consulta por financiamiento bancario en Xela', prop: 'Mansión Mirador del Valle' },
-        { sender: 'Dra. Claudia Fuentes', time: 'Ayer 5:30 PM', subject: 'Solicitud de visita presencial para este sábado', prop: 'Penthouse Parque Centroamérica' },
-        { sender: 'Inversiones El Roble S.A.', time: '21 Nov', subject: 'Carta de intención de compra para terreno en Reu', prop: 'Finca Residencial Las Palmeras' }
-      ];
-      container.innerHTML = msgs.map(m => `
-        <div class="p-4 rounded-2xl bg-white/5 border border-white/5 hover:bg-white/10 transition-colors flex flex-col sm:flex-row sm:items-center justify-between gap-3 cursor-pointer">
-          <div>
-            <div class="flex items-center gap-2">
-              <span class="font-bold text-white text-sm">${m.sender}</span>
-              <span class="text-[10px] text-neutral-500">${m.time}</span>
-            </div>
-            <div class="text-xs text-neutral-300 mt-1">${m.subject}</div>
-            <div class="text-[11px] text-blue-400 mt-0.5">Propiedad: ${m.prop}</div>
-          </div>
-          <button onclick="showToast('Abriendo conversación...')" class="self-start sm:self-center px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-semibold">
-            Responder
-          </button>
-        </div>
-      `).join('');
-    }
-
-    // Modals Handlers
-    function openContractModal() {
-      document.getElementById('contractModal').classList.remove('hidden');
-    }
-    function closeContractModal() {
-      document.getElementById('contractModal').classList.add('hidden');
-    }
-
-    function openLeadModal() {
-      document.getElementById('leadModal').classList.remove('hidden');
-    }
-    function closeLeadModal() {
-      document.getElementById('leadModal').classList.add('hidden');
-    }
-
-    function openNewPropertyModal() {
-      document.getElementById('newPropertyModal').classList.remove('hidden');
-    }
-    function closeNewPropertyModal() {
-      document.getElementById('newPropertyModal').classList.add('hidden');
-    }
-
-    function handleNewPropertySubmit(e) {
-      e.preventDefault();
-      const title = document.getElementById('propTitle').value;
-      const loc = document.getElementById('propLocation').value;
-      const type = document.getElementById('propType').value;
-      const price = parseFloat(document.getElementById('propPrice').value) || 200000;
-      const commRate = parseFloat(document.getElementById('propComm').value) || 5;
-
-      const newId = propertiesList.length + 1;
-      const newProp = {
-        id: newId,
-        title: title,
-        loc: loc,
-        priceUSD: price,
-        priceGTQ: Math.round(price * 7.82),
-        comm: Math.round(price * (commRate / 100)),
-        status: 'Disponible',
-        type: type
-      };
-
-      propertiesList.unshift(newProp);
-      renderPropertiesTable();
-      closeNewPropertyModal();
-      document.getElementById('newPropertyForm').reset();
-      showToast(`Propiedad "${title}" agregada al catálogo.`);
-    }
-
-    // Live Instant Search
-    function handleSearch(query) {
+    // BUSCADOR GLOBAL
+    function handleGlobalSearch(query) {
       const q = query.toLowerCase().trim();
       const dropdown = document.getElementById('searchResultsDropdown');
       if (!q) {
@@ -1525,10 +2662,10 @@
         return;
       }
 
-      const matchedProps = propertiesList.filter(p => p.title.toLowerCase().includes(q) || p.loc.toLowerCase().includes(q));
-      const matchedLeads = pendingLeads.filter(l => l.name.toLowerCase().includes(q) || l.prop.toLowerCase().includes(q));
+      const matchedProps = propiedades.filter(p => p.titulo.toLowerCase().includes(q) || p.ubicacion.toLowerCase().includes(q));
+      const matchedAsesores = Object.entries(asesores).filter(([k, a]) => a.nombre.toLowerCase().includes(q) || a.puesto.toLowerCase().includes(q));
 
-      if (matchedProps.length === 0 && matchedLeads.length === 0) {
+      if (matchedProps.length === 0 && matchedAsesores.length === 0) {
         dropdown.innerHTML = `<div class="p-3 text-neutral-400 text-center">No se encontraron resultados para "${query}"</div>`;
       } else {
         dropdown.innerHTML = `
@@ -1536,25 +2673,28 @@
             ${matchedProps.length > 0 ? `
               <div class="text-[10px] font-bold text-neutral-500 uppercase px-2">Propiedades (${matchedProps.length})</div>
               ${matchedProps.map(p => `
-                <div class="p-2 rounded-xl hover:bg-white/5 cursor-pointer flex items-center justify-between" onclick="switchTab('propiedades'); document.getElementById('searchResultsDropdown').classList.add('hidden');">
+                <div class="p-2 rounded-xl hover:bg-white/5 cursor-pointer flex items-center justify-between" onclick="navegarA('propiedades'); verDetallePropiedad('${p.id}'); document.getElementById('searchResultsDropdown').classList.add('hidden');">
                   <div>
-                    <div class="font-bold text-white">${p.title}</div>
-                    <div class="text-[11px] text-neutral-400">${p.loc}</div>
+                    <div class="font-bold text-white">${p.titulo}</div>
+                    <div class="text-[11px] text-neutral-400">${p.ubicacion}</div>
                   </div>
-                  <span class="text-xs font-bold text-emerald-400">$ ${p.priceUSD.toLocaleString()}</span>
+                  <span class="text-xs font-bold text-emerald-400">${formatearPrecio(p.precio)}</span>
                 </div>
               `).join('')}
             ` : ''}
 
-            ${matchedLeads.length > 0 ? `
-              <div class="text-[10px] font-bold text-neutral-500 uppercase px-2 pt-2 border-t border-white/5">Clientes / Prospectos (${matchedLeads.length})</div>
-              ${matchedLeads.map(l => `
-                <div class="p-2 rounded-xl hover:bg-white/5 cursor-pointer flex items-center justify-between" onclick="openLeadModal(); document.getElementById('searchResultsDropdown').classList.add('hidden');">
-                  <div>
-                    <div class="font-bold text-white">${l.name}</div>
-                    <div class="text-[11px] text-neutral-400">${l.prop}</div>
+            ${matchedAsesores.length > 0 ? `
+              <div class="text-[10px] font-bold text-neutral-500 uppercase px-2 pt-2 border-t border-white/5">Asesores (${matchedAsesores.length})</div>
+              ${matchedAsesores.map(([k, a]) => `
+                <div class="p-2 rounded-xl hover:bg-white/5 cursor-pointer flex items-center justify-between" onclick="filtrarInventarioPorAsesor('${k}'); document.getElementById('searchResultsDropdown').classList.add('hidden');">
+                  <div class="flex items-center gap-2">
+                    <img src="${a.avatar}" class="w-6 h-6 rounded-full object-cover">
+                    <div>
+                      <div class="font-bold text-white">${a.nombre}</div>
+                      <div class="text-[11px] text-neutral-400">${a.puesto}</div>
+                    </div>
                   </div>
-                  <span class="text-xs font-bold text-blue-400">${l.budget}</span>
+                  <span class="text-xs text-blue-400 font-semibold">Ver propiedades</span>
                 </div>
               `).join('')}
             ` : ''}
@@ -1564,7 +2704,6 @@
       dropdown.classList.remove('hidden');
     }
 
-    // Settings & Notifications toggles
     function toggleSettingsMenu() {
       document.getElementById('settingsDropdown').classList.toggle('hidden');
       document.getElementById('notificationsDropdown').classList.add('hidden');
@@ -1574,17 +2713,7 @@
       document.getElementById('settingsDropdown').classList.add('hidden');
     }
 
-    function showDetailsModal(type) {
-      showToast(`Desglose analítico de: ${type.toUpperCase()}`);
-    }
-    function showCalendarAlert() {
-      showToast('Agenda sincronizada con Google Calendar & CRM');
-    }
-    function toggleProfileModal() {
-      showToast('Sesión activa: Barbara (Gerente de Operaciones)');
-    }
-
-    // Toast Utility
+    // TOAST NOTIFICATIONS
     let toastTimeout;
     function showToast(msg) {
       const toast = document.getElementById('toastNotification');
